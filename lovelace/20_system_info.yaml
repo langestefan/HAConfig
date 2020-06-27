@@ -24,8 +24,9 @@ cards:
             entities: 
               - sensor.last_boot
 
-          
+          #######
           - break
+          #######
 
           - type: vertical-stack
             cards:
@@ -70,7 +71,9 @@ cards:
                 line_color: "#0000FF"
                 line_width: 4
 
+          #######
           - break
+          #######
 
           - type: vertical-stack
             show_name: false
@@ -87,16 +90,16 @@ cards:
                 name: ROUTER packets
                 icon: mdi:server
                 entities:
-                  - sensor.r7000_gateway_packets_sent
-                  - sensor.r7000_gateway_packets_received
+                  - sensor.rt_ax58u_4d40_packets_sent
+                  - sensor.rt_ax58u_4d40_packets_received
                 hours_to_show: 24
                 points_per_hour: 1
               - type: custom:mini-graph-card
                 name: ROUTER packets/s
                 icon: mdi:server
                 entities:
-                  - sensor.r7000_gateway_packets_sec_received
-                  - sensor.r7000_gateway_packets_sec_sent
+                  - sensor.rt_ax58u_4d40_packets_s_received
+                  - sensor.rt_ax58u_4d40_packets_s_sent
                 hours_to_show: 1
                 points_per_hour: 20
             - type: horizontal-stack

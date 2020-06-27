@@ -34,22 +34,6 @@ resources:
   - url: /hacsfiles/fan-control-entity-row/fan-control-entity-row.js
     type: module
 
-#  - url: /hacsfiles/lovelace-postnl-card/postnl-card.js
-#    type: module
-#  - url: /hacsfiles/atomic_calendar/atomic_calendar.js
-#    type: module
-
-# DEPRECATED
-#  - url: https://cdn.jsdelivr.net/gh/bramkragten/custom-ui@master/weather-card/weather-card.min.js
-#    type: module
-#  - type: js
-#    url: /local/custom-lovelace/custom-fan-card.js
-#  - type: module
-#    url: >-
-#      https://cdn.jsdelivr.net/gh/custom-cards/spotify-card@1.8/dist/spotify-card.umd.js
-#  - url: /local/custom-lovelace/card-tools.js?track=true
-#    type: js
-
 # Templating
 button_card_templates:
   !include lovelace/button_card_templates/button_card_templates.yaml

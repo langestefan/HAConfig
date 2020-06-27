@@ -37,6 +37,7 @@ withings/
 homebridge/
 /appdaemon/appdaemon.yaml
 .*
+!.travis.yml
 !/.gitignore
 coreappdaemon/appdaemon.yaml
 core

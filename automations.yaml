@@ -1,0 +1,46 @@
+- alias: Motion Sensor Lights On
+  trigger:
+    platform: state
+    entity_id: binary_sensor.voordeur_sensor
+  condition:
+    condition: state
+    entity_id: sun.sun
+    state: below_horizon
+  action:
+    service: homeassistant.turn_on
+    entity_id: light.lamp_voordeur
+    data:
+      transition: 1
+      brightness: 200
+      color_name: wheat
+  id: 7db7f9c4ffe145f7afbf804e0c523344
+- id: '1592952081853'
+  alias: Turn on light when kitchen switch is pressed
+  description: ''
+  trigger:
+  - device_id: 244e64ce923a46e986c183f5923b01e5
+    domain: hue
+    platform: device
+    subtype: turn_on
+    type: remote_button_short_release
+  condition: []
+  action:
+  - device_id: 50024ea994de40a0a9d153b25a061783
+    domain: switch
+    entity_id: switch.switch
+    type: turn_on
+- id: '1592952171677'
+  alias: Turn off light when kitchen swith is pressed
+  description: ''
+  trigger:
+  - device_id: 244e64ce923a46e986c183f5923b01e5
+    domain: hue
+    platform: device
+    subtype: turn_off
+    type: remote_button_short_release
+  condition: []
+  action:
+  - device_id: 50024ea994de40a0a9d153b25a061783
+    domain: switch
+    entity_id: switch.switch
+    type: turn_off

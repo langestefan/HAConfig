@@ -1,0 +1,137 @@
+# ########################################
+# ###             GENERAL              ###
+# ########################################
+homeassistant:
+  name: Home
+  latitude: !secret lat_coord
+  longitude: !secret long_coord
+  elevation: 0
+  unit_system: metric
+  time_zone: !secret time_zone
+  customize: !include customize.yaml
+
+config:
+hassio:
+system_health:
+ssdp:
+zeroconf:
+updater:
+discovery:
+cloud:
+
+# ########################################
+# ###             MOBILE               ###
+# ########################################
+mobile_app:
+
+# ########################################
+# ###                GUI               ###
+# ########################################
+lovelace:
+  mode: yaml
+
+customizer:
+  custom_ui: hosted
+
+map:
+
+frontend:
+  themes: !include_dir_named themes
+  extra_html_url:
+    - /local/hass-bha-icons.html  
+      
+# ########################################
+# ###              LOGGING             ###
+# ########################################
+
+recorder: !include logging/recorder.yaml
+history: !include logging/history.yaml
+logbook: !include logging/logbook.yaml
+logger: !include logging/logger.yaml
+
+# ########################################
+# ###              ENTITIES            ###
+# ########################################
+person:
+
+# device tracker
+# device_tracker:
+#- platform: netgear
+#  host: !secret host
+#  username: !secret router_username
+#  password: !secret router_password
+#  interval_seconds: 10
+#  #consider_home: 180
+#  new_device_defaults:
+#    track_new_devices: true
+
+# - platform: huesensor
+
+# remote:
+#  - platform: huesensor
+
+# ########################################
+# ###             SERVICES             ###
+# ########################################
+sun:
+shopping_list:
+#notify: !include notify/notify.yaml
+
+#python_script:
+ 
+tts:
+  - platform: google_translate
+
+#ffmpeg:
+
+
+# ########################################
+# ###          INTEGRATIONS            ###
+# ########################################
+
+# camera 
+camera: !include camera.yaml
+
+# Speedtest.net
+speedtestdotnet:
+  scan_interval:
+    hours: 4
+  monitored_conditions:
+    - ping
+    - download
+    - upload
+
+# octopi
+octoprint:
+  host: !secret octopi_ip
+  api_key: !secret octopi_api_key
+  bed: true
+  number_of_tools: 1
+
+# mqtt
+mqtt:
+  broker: a0d7b954-mqtt
+  username: !secret mqtt_username
+  password: !secret mqtt_password
+  client_id: home-assistant
+
+shell_command: !include shell.yaml
+
+# influxdb
+influxdb:
+  host: 192.168.50.11 
+
+# buienradar
+weather:
+  - platform: buienradar
+
+# ########################################
+# ###          PLATFORMS               ###
+# ########################################
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+sensor: !include sensor.yaml
+binary_sensor: !include binary_sensor.yaml
+light: !include light.yaml

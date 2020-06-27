@@ -1,0 +1,128 @@
+# P1 port
+- platform: dsmr
+  port: /dev/ttyUSB0
+  dsmr_version: 4
+
+# Post NL
+#- platform: postnl
+#  username: !secret POSTNL_USERNAME
+#  password: !secret POSTNL_PASSWORD
+
+# sys
+- platform: systemmonitor
+  resources:
+#    - type: disk_use_percent
+#      arg: /home
+#    - type: memory_free
+#    - type: processor_use
+    - type: last_boot
+#    - type: load_15m
+
+#- platform: cpuspeed
+#  name: CPU speed
+
+- platform: template
+  sensors:
+    octoprint_time_elapsed_friendly:
+      friendly_name: "Octoprint time elapsed"
+      value_template: "{{ states('sensor.octoprint_time_elapsed') | int | timestamp_custom('%H:%M:%S', 0) }}"
+    octoprint_time_remaining_friendly:
+      friendly_name: "Octoprint time remaining"    
+      value_template: >-
+        {% set etime = states.sensor.octoprint_time_remaining.state | int %}
+        {% set seconds = etime % 60 %}
+        {% set minutes = ((etime % 3600) / 60) | int %}
+        {% set hours = ((etime % 86400) / 3600) | int %}
+        {% set days = (etime / 86400) | int %}
+        {%- if days > 0 -%}
+          {%- if days == 1 -%}
+            1 day
+          {%- else -%}
+            {{ days }} days
+          {%- endif -%}
+          {{ ', ' }}
+        {%- endif -%}
+        {%- if hours > 0 -%}
+          {%- if hours == 1 -%}
+            1 hour
+          {%- else -%}
+            {{ hours }} hours
+          {%- endif -%}
+          {{ ', ' }}
+        {%- endif -%}
+        {%- if minutes > 0 -%}
+          {%- if minutes == 1 -%}
+            1 minute
+          {%- else -%}
+            {{ minutes }} minutes
+          {%- endif -%}
+        {%- endif -%}
+
+# time/date
+- platform: time_date
+  display_options:
+    - 'time'
+    - 'date'
+    - 'date_time'
+    - 'date_time_iso'
+    - 'time_date'
+    - 'time_utc'
+    - 'beat'
+
+# Weather prediction
+- platform: buienradar
+  monitored_conditions:
+    # current condition:
+    - condition
+    - conditioncode
+    - conditiondetailed
+    - conditionexact
+    - symbol
+    # conditions for forecasted data:
+    - symbol_1d
+    - symbol_2d
+    - symbol_3d
+    - symbol_4d
+    - symbol_5d
+    - temperature_1d
+    - temperature_2d
+    - temperature_3d
+    - temperature_4d
+    - temperature_5d
+    - mintemp_1d
+    - rainchance_1d
+    - rainchance_2d
+    - sunchance_1d
+    - sunchance_2d
+    - rain_1d
+    - rain_2d
+    - minrain_1d
+    - maxrain_1d
+    - windforce_1d
+    - windforce_2d
+    - windspeed_1d
+    - windspeed_2d
+    - winddirection_1d
+    - winddirection_2d
+    - windazimuth_1d
+    - windazimuth_2d
+    - stationname
+    - barometerfc
+    - barometerfcname
+    - feeltemperature
+    - humidity
+    - temperature
+    - groundtemperature
+    - windspeed
+    - windforce
+    - winddirection
+    - windazimuth
+    - pressure
+    - visibility
+    - windgust
+    - precipitation
+    - irradiance
+    - precipitation_forecast_average
+    - precipitation_forecast_total
+    - rainlast24hour
+    - rainlasthour

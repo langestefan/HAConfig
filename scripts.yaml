@@ -1,0 +1,6 @@
+stefanpc_turnoff:
+    sequence:
+     - service: hassio.addon_stdin
+       data:
+         addon: core_rpc_shutdown
+         input: DESKTOP-QJ08OAI

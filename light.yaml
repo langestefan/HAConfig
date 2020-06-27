@@ -1,0 +1,16 @@
+# keuken
+- platform: group
+  name: kitchen_lights
+  entities:
+    - light.diner_table_lamp_1
+    - light.diner_table_lamp_2
+    - light.diner_table_lamp_3
+    - light.diner_table_lamp_4
+
+# kamer stefan
+- platform: group
+  name: room_stefan
+  entities:
+    - light.stefan_bureaulamp
+    - light.stefan_s_kamerlamp
+    - light.stefan_s_leeslicht

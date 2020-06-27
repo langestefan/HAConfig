@@ -1,0 +1,12 @@
+
+# Hue motion sensor
+- platform: mqtt
+  state_topic: 'sensors/gang/motion'
+#  value_template: '{{ value }}'
+  name: 'voordeur_sensor'
+  qos: 0
+  payload_on: "true"
+  payload_off: "false"
+  device_class: 'motion'
+
+# - platform: huesensor

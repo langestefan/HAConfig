@@ -1,0 +1,57 @@
+# Lovelace UI
+
+title: De Lange
+views:
+  - !include lovelace/00_home_view.yaml
+#  - !include lovelace/10_hub_cast.yaml
+  - !include lovelace/20_system_info.yaml
+  - !include lovelace/30_octo_pi.yaml
+  - !include lovelace/40_nas_dashboard.yaml
+  - !include lovelace/50_lighting.yaml
+
+# Additional resources
+resources:
+  - url: /hacsfiles/bar-card/bar-card.js
+    type: js
+  - url: /hacsfiles/lovelace-layout-card/layout-card.js
+    type: module
+  - url: /hacsfiles/button-card/button-card.js
+    type: module
+  - url: /hacsfiles/button-card/button-card.js
+    type: module
+  - url: /hacsfiles/lovelace-card-mod/card-mod.js
+    type: module
+  - url: /hacsfiles/rgb-light-card/card.js
+    type: js
+  - url: /hacsfiles/lovelace-slider-entity-row/slider-entity-row.js
+    type: module
+  - url: /hacsfiles/lovelace-fold-entity-row/fold-entity-row.js
+    type: module
+  - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
+    type: module
+  - url: /hacsfiles/weather-card/weather-card.js
+    type: module
+  - url: /hacsfiles/fan-control-entity-row/fan-control-entity-row.js
+    type: module
+
+#  - url: /hacsfiles/lovelace-postnl-card/postnl-card.js
+#    type: module
+#  - url: /hacsfiles/atomic_calendar/atomic_calendar.js
+#    type: module
+
+# DEPRECATED
+#  - url: https://cdn.jsdelivr.net/gh/bramkragten/custom-ui@master/weather-card/weather-card.min.js
+#    type: module
+#  - type: js
+#    url: /local/custom-lovelace/custom-fan-card.js
+#  - type: module
+#    url: >-
+#      https://cdn.jsdelivr.net/gh/custom-cards/spotify-card@1.8/dist/spotify-card.umd.js
+#  - url: /local/custom-lovelace/card-tools.js?track=true
+#    type: js
+
+# Templating
+button_card_templates:
+  !include lovelace/button_card_templates/button_card_templates.yaml
+
+# ...

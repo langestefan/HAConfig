@@ -30,8 +30,8 @@ mobile_app:
 lovelace:
   mode: yaml
 
-customizer:
-  custom_ui: hosted
+#customizer:
+#  custom_ui: hosted
 
 map:
 

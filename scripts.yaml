@@ -3,4 +3,4 @@ stefanpc_turnoff:
      - service: hassio.addon_stdin
        data:
          addon: core_rpc_shutdown
-         input: DESKTOP-QJ08OAI
+         input: !secret pc_name

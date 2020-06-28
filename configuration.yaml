@@ -19,6 +19,11 @@ updater:
 discovery:
 cloud:
 
+# to fix custom cards in home assistant cast
+http:
+  cors_allowed_origins:
+    - https://cast.home-assistant.io
+
 # ########################################
 # ###             MOBILE               ###
 # ########################################
@@ -29,6 +34,9 @@ mobile_app:
 # ########################################
 lovelace:
   mode: yaml
+
+  # Additional resources
+  resources: !include lovelace/resources.yaml
 
 map:
 

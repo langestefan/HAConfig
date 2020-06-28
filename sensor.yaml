@@ -15,7 +15,7 @@
 
 # travis CI
 - platform: travisci
-  api_key: travis_api_key
+  api_key: !secret travis_api_key
 
 # template for octopi
 - platform: template

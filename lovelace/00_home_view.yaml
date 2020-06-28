@@ -213,4 +213,14 @@ cards:
             name: Fan
             sendStateWithSpeed: true
             customTheme: true
-
+      - type: entities
+        title: Hub cast
+        entities:
+          - type: cast
+            name: hub
+            view: hub
+            hide_if_unavailable: false
+          - type: cast
+            name: nas-dashboard
+            view: nas-dashboard
+            hide_if_unavailable: false

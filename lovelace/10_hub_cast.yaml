@@ -11,7 +11,7 @@ cards:
         cards:
           - type: weather-forecast
             entity: weather.br_unknown_station 
-            title: Weer in Kampen
+            title: Weer
             show_header_toggle: false
           - type: picture-glance
             title: Buienradar

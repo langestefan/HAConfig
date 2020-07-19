@@ -59,22 +59,6 @@ logger: !include logging/logger.yaml
 # ########################################
 person:
 
-# device tracker
-# device_tracker:
-#- platform: netgear
-#  host: !secret host
-#  username: !secret router_username
-#  password: !secret router_password
-#  interval_seconds: 10
-#  #consider_home: 180
-#  new_device_defaults:
-#    track_new_devices: true
-
-# - platform: huesensor
-
-# remote:
-#  - platform: huesensor
-
 # ########################################
 # ###             SERVICES             ###
 # ########################################
@@ -86,9 +70,6 @@ shopping_list:
  
 tts:
   - platform: google_translate
-
-#ffmpeg:
-
 
 # ########################################
 # ###          INTEGRATIONS            ###

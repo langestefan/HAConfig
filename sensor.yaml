@@ -123,3 +123,12 @@
     - precipitation_forecast_total
     - rainlast24hour
     - rainlasthour
+
+
+# difference between outside and inside temperature
+- platform: template
+  sensors:
+    d_in_out_temp:
+      friendly_name: "Difference in temperature between outside and inside"
+      unit_of_measurement: '°C'
+      value_template: "{{ ((states('sensor.br_temperature')| float) - (states('sensor.bedroom_stefan_temperature')| float)) | round(1) }}"

@@ -1,1 +1,1 @@
-rsync_backup_nas: ssh -i /config/.ssh/id_rsa -o "StrictHostKeyChecking=no" langestefan@192.168.50.184 -p 23 "rsync -avz -e 'ssh -v -ax -o "StrictHostKeyChecking=no"' /root/backup/ langestefan@192.168.50.11:/volume1/homes/langestefan/hassiobackups/"
+rsync_backup_nas: ssh -i /config/.ssh/id_rsa -o "StrictHostKeyChecking=no" langestefan@192.168.50.184 -p 23 "rsync -avz -e 'ssh -p 35 -v -ax -o "StrictHostKeyChecking=no"' /root/backup/ langestefan@192.168.50.11:/volume1/homes/langestefan/hassiobackups/"

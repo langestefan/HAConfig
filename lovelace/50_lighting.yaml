@@ -111,6 +111,12 @@ cards:
                   - color_name: 'crimson'
                     icon_color: 'crimson'  
 
+      - type: entities
+        title: Sonoff SC RGB
+        show_header_toggle: false
+        entities:
+          - light.sc_led_ring
+
       #######        
       - break
       #######

@@ -79,11 +79,22 @@ cards:
             - -moz-box-shadow: none
 #            - box-shadow: none
             - text-align: top
+      - type: custom:power-wheel-card
+        title: "Power"
+        solar_power_entity: sensor.power_production
+        grid_power_entity: sensor.power_consumption
+        power_decimals: 3
+        solar_icon: mdi:weather-sunny
+        grid_icon: mdi:transmission-tower
+        home_icon: mdi:home
+        color_icons: true
+        production_is_positive: false
+        debug: false
       - type: entities
         title: Weer in Kampen
         show_header_toggle: false
         entities:
-          - entity: weather.br_unknown_station 
+          - entity: weather.br_unknown_station
             type: 'custom:weather-card'
             title: Weer
             style: |
@@ -224,3 +235,4 @@ cards:
             name: nas-dashboard
             view: nas-dashboard
             hide_if_unavailable: false
+

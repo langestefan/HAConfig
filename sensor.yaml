@@ -124,7 +124,6 @@
     - rainlast24hour
     - rainlasthour
 
-
 # difference between outside and inside temperature
 - platform: template
   sensors:
@@ -132,3 +131,18 @@
       friendly_name: "Difference in temperature between outside and inside"
       unit_of_measurement: '°C'
       value_template: "{{ ((states('sensor.br_temperature')| float) - (states('sensor.bedroom_stefan_temperature')| float)) | round(1) }}"
+    solaredge_current_power_kw:
+      value_template: "{{ (states('sensor.solaredge_current_power') | float / 1000) | round(2) }}"
+      unit_of_measurement: 'kW'
+    solaredge_energy_today_kwh:
+      value_template: "{{ (states('sensor.solaredge_energy_today') | float / 1000) | round(2) }}"
+      unit_of_measurement: 'kWh'
+    solaredge_lifetime_energy_kwh:
+      value_template: "{{ (states('sensor.solaredge_lifetime_energy') | float / 1000) | round(2) }}"
+      unit_of_measurement: 'kWh'
+    solaredge_energy_this_year_kwh:
+      value_template: "{{ (states('sensor.solaredge_energy_this_year') | float / 1000) | round(2) }}"
+      unit_of_measurement: 'kWh'
+    solaredge_energy_this_month_kwh:
+      value_template: "{{ (states('sensor.solaredge_energy_this_month') | float / 1000) | round(2) }}"
+      unit_of_measurement: 'kWh'

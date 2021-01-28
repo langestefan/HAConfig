@@ -32,7 +32,7 @@ cards:
         cards:
           - type: custom:button-card
             template: nest_battery_button
-            entity: sensor.battery_level_3
+            entity: sensor.oneplus_a5000_batterijniveau
           - type: custom:button-card
             template: nest_battery_button
             entity: sensor.battery_level_2
@@ -79,17 +79,6 @@ cards:
             - -moz-box-shadow: none
 #            - box-shadow: none
             - text-align: top
-      - type: custom:power-wheel-card
-        title: "Power"
-        solar_power_entity: sensor.power_production
-        grid_power_entity: sensor.power_consumption
-        power_decimals: 3
-        solar_icon: mdi:weather-sunny
-        grid_icon: mdi:transmission-tower
-        home_icon: mdi:home
-        color_icons: true
-        production_is_positive: false
-        debug: false
       - type: entities
         title: Weer in Kampen
         show_header_toggle: false
@@ -114,6 +103,49 @@ cards:
       - break
       #######
 
+      - type: custom:mini-graph-card
+        name: Temperatuur
+        entities:
+          - entity: sensor.atc_74724e_temperature
+            name: Woonkamer
+          - entity: sensor.atc_729785_temperature
+            name: Kamer Stefan
+          - entity: sensor.atc_a0d802_temperature
+            name: Kamer Miriam
+          - entity: sensor.atc_d1a6b7_temperature
+            name: Kamer Mama en Papa
+        font_size: 80
+        #line_color: "#0000FF"
+        line_width: 2
+        hours_to_show: 6
+        points_per_hour: 12
+        smoothing: true
+        show:
+          labels: true
+          labels_secondary: true
+          icon: true
+      - type: custom:mini-graph-card
+        name: Luchtvochtigheid
+        entities:
+          - entity: sensor.atc_74724e_humidity
+            name: Woonkamer
+          - entity: sensor.atc_729785_humidity
+            name: Kamer Stefan
+          - entity: sensor.atc_a0d802_humidity
+            name: Kamer Miriam
+          - entity: sensor.atc_d1a6b7_humidity
+            name: Kamer Mama en Papa
+        font_size: 80
+        #line_color: "#0000FF"
+        line_width: 2
+        hours_to_show: 6
+        points_per_hour: 12
+        smoothing: true
+        show:
+          labels: true
+          labels_secondary: true
+          icon: true
+      # Camera + control
       - type: picture-elements
         entity: camera.foscam
         camera_image: camera.foscam
@@ -215,6 +247,7 @@ cards:
               service_data:
                 entity_id: camera.foscam
                 movement: bottom_right
+      # Fan
       - type: entities
         title: Fan
         show_header_toggle: false

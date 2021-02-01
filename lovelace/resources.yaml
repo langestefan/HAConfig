@@ -22,3 +22,5 @@
   type: module
 - url: /hacsfiles/power-wheel-card/power-wheel-card.js
   type: module
+- url: /hacsfiles/vertical-stack-in-card/vertical-stack-in-card.js
+  type: module

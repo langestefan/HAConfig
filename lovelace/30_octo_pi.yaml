@@ -34,8 +34,9 @@ cards:
                 show_header_toggle: false
                 entity: sensor.octoprint_job_percentage 
 
-
+          #######
           - break
+          #######
 
           - type: vertical-stack
             cards:
@@ -71,11 +72,3 @@ cards:
                 hours_to_show: 1
                 points_per_hour: 60
                 smoothing: false
-
-#          - type: entities
-#            title: Huidige print
-#            show_header_toggle: false
-#            cards:
-#            - type: custom:bar-card
-#              - type: entities
-#                entity: sensor.octoprint_job_percentage 

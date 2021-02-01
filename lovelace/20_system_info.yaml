@@ -11,30 +11,65 @@ cards:
       - type: custom:layout-card
         layout: vertical
         cards:
-          - type: entities 
+          - type: vertical-stack
             title: Home Assistant
-            show_header_toggle: false
-            entities: 
-              - device_tracker.philips_hue
-              - sensor.hacs
-              - binary_sensor.remote_ui
-          - type: entities 
-            title: Uptime
-            show_header_toggle: false
-            entities: 
-              - sensor.last_boot
+            cards: 
+              - type: entities             
+                show_header_toggle: false
+                entities: 
+                  - sensor.hacs
+                  - binary_sensor.remote_ui
+              - type: entities 
+                title: Uptime
+                show_header_toggle: false
+                entities: 
+                  - sensor.last_boot
 
           #######
           - break
           #######
 
           - type: vertical-stack
+            title: Host OS info
             cards:
-              - type: entities 
-                title: Host system info
-                show_header_toggle: false
-                entities:   
-                  - device_tracker.ubuntuvm    
+              - type: custom:vertical-stack-in-card
+                cards:
+                  - type: horizontal-stack
+                    cards:
+                      - type: custom:mini-graph-card
+                        entities:
+                          - sensor.processor_use
+                        name: CPU
+                        line_color: '#2980b9'
+                        line_width: 2
+                        hours_to_show: 24
+                      - type: custom:mini-graph-card
+                        entities:
+                          - sensor.ds918plus_drive_1_temperature
+                        name: Temp
+                        line_color: '#2980b9'
+                        line_width: 2
+                        hours_to_show: 24
+                  - type: custom:bar-card
+                    entity: sensor.disk_use_percent_home
+                    positions:
+                      icon: inside
+                      indicator: 'off'
+                      name: inside
+                    align: split
+                    show_icon: true
+                    color: '#00ba6a'
+                  - type: custom:bar-card
+                    entity: sensor.ds918plus_memory_usage_real
+                    positions:
+                      icon: inside
+                      indicator: 'off'
+                      name: inside
+                    align: split
+                    show_icon: true
+                  - type: entities
+                    entities:
+                      - sensor.last_boot
               - type: custom:mini-graph-card
                 show:
                   icon: false
@@ -76,50 +111,41 @@ cards:
           #######
 
           - type: vertical-stack
-            show_name: false
+            title: Netwerk
             cards:
-            - type: entities
-              title: Netwerk
-              show_header_toggle: false
-              entities:   
-                - device_tracker.ds918plus_2        
-
             - type: horizontal-stack
               cards:
               - type: custom:mini-graph-card
-                name: ROUTER packets
-                icon: mdi:server
-                entities:
-                  - sensor.rt_ax58u_4d40_packets_sent
-                  - sensor.rt_ax58u_4d40_packets_received
-                hours_to_show: 24
-                points_per_hour: 1
-              - type: custom:mini-graph-card
-                name: ROUTER packets/s
-                icon: mdi:server
-                entities:
-                  - sensor.rt_ax58u_4d40_packets_s_received
-                  - sensor.rt_ax58u_4d40_packets_s_sent
-                hours_to_show: 1
-                points_per_hour: 20
-            - type: horizontal-stack
-              cards:
-              - type: custom:mini-graph-card
-                name: NAS downloadsnelheid
+                name: Download speed
                 icon: mdi:server
                 entities:
                   - sensor.speedtest_download
+                hours_to_show: 24
+                points_per_hour: 1
+                font_size: 80
+                line_color: "#2980b9"
+                line_width: 2
+            - type: horizontal-stack
+              cards:
+              - type: custom:mini-graph-card
+                name: Upload speed
+                icon: mdi:server
+                entities:
                   - sensor.speedtest_upload
                 hours_to_show: 24
                 points_per_hour: 1
+                font_size: 80
+                line_color: "#0000FF"
+                line_width: 2
+            - type: horizontal-stack
+              cards:
               - type: custom:mini-graph-card
-                name: NAS ping
+                name: Latency
                 icon: mdi:server
                 entities:
                   - sensor.speedtest_ping
                 hours_to_show: 24
                 points_per_hour: 1
-
-
-
-
+                font_size: 80
+                line_color: "#389638"
+                line_width: 2

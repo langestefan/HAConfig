@@ -4,7 +4,7 @@ title: De Lange
 views:
   - !include lovelace/00_home_view.yaml
 #  - !include lovelace/10_hub_cast.yaml
-#  - !include lovelace/20_system_info.yaml
+  - !include lovelace/20_system_info.yaml
   - !include lovelace/30_octo_pi.yaml
 #  - !include lovelace/40_nas_dashboard.yaml
   - !include lovelace/50_lighting.yaml

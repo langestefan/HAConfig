@@ -42,8 +42,6 @@ map:
 
 frontend:
   themes: !include_dir_named themes
-  extra_html_url:
-    - /local/hass-bha-icons.html  
       
 # ########################################
 # ###              LOGGING             ###

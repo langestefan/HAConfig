@@ -139,13 +139,15 @@
     - rainlast24hour
     - rainlasthour
 
-# difference between outside and inside temperature
+# template
 - platform: template
   sensors:
+    # difference between outside and inside temperature
     d_in_out_temp:
       friendly_name: "Difference in temperature between outside and inside"
       unit_of_measurement: '°C'
       value_template: "{{ ((states('sensor.br_temperature')| float) - (states('sensor.bedroom_stefan_temperature')| float)) | round(1) }}"
+    # solar edge unit conversion templates
     solaredge_current_power_kw:
       value_template: "{{ (states('sensor.solaredge_current_power') | float / 1000) | round(2) }}"
       unit_of_measurement: 'kW'
@@ -161,3 +163,36 @@
     solaredge_energy_this_month_kwh:
       value_template: "{{ (states('sensor.solaredge_energy_this_month') | float / 1000) | round(2) }}"
       unit_of_measurement: 'kWh'
+    solaredgemb_ac_power_kw:
+      value_template: "{{ (states('sensor.solaredgemb_ac_power') | float / 1000) | round(2) }}"
+      unit_of_measurement: 'kW'      
+    # meter templates
+    daily_energy:
+      friendly_name: Daily Energy
+      unit_of_measurement: kWh
+      value_template: "{{ states('sensor.daily_energy_offpeak')|float + states('sensor.daily_energy_peak')|float }}"
+    monthly_energy:
+      friendly_name: Monthly Energy
+      unit_of_measurement: kWh
+      value_template: "{{ states('sensor.monthly_energy_offpeak')|float + states('sensor.monthly_energy_peak')|float }}"
+    # solar angle sensor template
+    solar_elevation:
+      friendly_name: "Sun elevation"
+      unit_of_measurement: "degrees"
+      value_template: "{{ state_attr('sun.sun', 'elevation') }}"
+    solar_azimuth:
+      friendly_name: "Sun azimuth"
+      unit_of_measurement: "degrees"
+      value_template: "{{ state_attr('sun.sun', 'azimuth') }}"
+    # solar edge state converter
+    solaredgemb_status_verbose:
+      friendly_name: "Verbose Solar Edge state"
+      value_template: "{{ state_attr('sensor.solaredgemb_status', 'status_description') }}"
+    # solar edge installation date
+    solaredgemb_installation_date:
+      friendly_name: "Verbose Solar Edge state"
+      value_template: "{{ state_attr('sensor.solaredge_site_details', 'installation_date') }}"
+    # solar edge last update time
+    solaredgemb_last_update_time:
+      friendly_name: "Verbose Solar Edge state"
+      value_template: "{{ state_attr('sensor.solaredge_site_details', 'last_update_time') }}"

@@ -9,51 +9,269 @@ cards:
   - type: custom:layout-card
     layout: vertical
     cards:
+
       - type: entities
-        title: Energie
+        title: Huidig vermogen
         show_header_toggle: true
         entities:
-          - entity: sensor.daily_energy
-            name: Energie van net verbruikt vandaag
-          - entity: sensor.solaredge_energy_today_kwh
-            name: Energie geproduceert door zonnepanelen vandaag
+          - entity: sensor.power_consumption
+            name: Vermogen afnemen net
+            icon: mdi:transmission-tower
+          - entity: sensor.power_production
+            name: Vermogen terugleveren net
+            icon: mdi:solar-power
       - type: custom:mini-graph-card
-        title: Vermogen
         show_header_toggle: true
-        show:
-          icon: false
-          graph: "line"
-        name: Productie/consumptie
+        name: Afnemen net
         entities:
           - sensor.power_consumption
-          - sensor.power_production
         line_color: "#FF0000"
         line_width: 2
-        hours_to_show: 24
+        hours_to_show: 12
         points_per_hour: 60
+        show:
+          labels: true
+          labels_secondary: true
+          icon: false
+          name: true
+      - type: custom:mini-graph-card
+        show_header_toggle: true
+        name: Terugleveren net
+        entities:
+          - sensor.power_production
+        line_color: "#FFA500"
+        line_width: 2
+        hours_to_show: 12
+        points_per_hour: 60
+        show:
+          labels: true
+          labels_secondary: true
+          icon: false
+          name: true
 
       #######        
       - break
       #######
-
       - type: entities
-        title: Vermogen
+        title: Zonnepanelen (vermogen)
         show_header_toggle: true
         entities:
-          - entity: sensor.power_consumption
-            name: Verbruik
-          - entity: sensor.power_production
-            name: Productie
+          - entity: sensor.solaredgemb_status_verbose
+            name: Status
+            icon: mdi:solar-power
+#          - entity: sensor.energy_production_tarif_1
+#            name: Terug geleverd vandaag
+#            icon: mdi:weather-sunset-up
       - type: custom:mini-graph-card
-        title: Zonnepanelen laatste 24 uur
+        title: Zonnepanelen laatste 12 uur
         show_header_toggle: true
-        show:
-          icon: false
-          graph: "line"
-        name: Zonnepanelen
+        name: Vermogen zonnepanelen
         entities:
-          - sensor.solaredge_current_power_kw
+          - sensor.solaredgemb_ac_power_kw
         line_color: "#339933"
         line_width: 2
-        hours_to_show: 24
+        hours_to_show: 12
+        points_per_hour: 120
+        show:
+          labels: true
+          labels_secondary: true
+          icon: true
+      - type: custom:mini-graph-card
+        show_header_toggle: true
+        name: Verticale hoek zon (horizon)
+        entities:
+          - sensor.solar_elevation
+        line_color: "#FFA500"
+        line_width: 2
+        hours_to_show: 12
         points_per_hour: 4
+        lower_bound: 0
+        show:
+          labels: true
+          labels_secondary: true
+          icon: true
+      - type: custom:mini-graph-card
+        show_header_toggle: true
+        name: Horizontale hoek zon (azimuth)
+        entities:
+          - sensor.solar_azimuth
+        line_color: "#BB0000"
+        line_width: 2
+        hours_to_show: 12
+        points_per_hour: 4
+        show:
+          labels: true
+          labels_secondary: true
+          icon: true
+
+      #######        
+      - break 
+      #######
+      
+      - type: entities
+        title: Zonnepanelen (energie)
+        show_header_toggle: true
+        entities:
+          - entity: sensor.solaredge_energy_today_kwh
+            name: Productie vandaag
+            icon: mdi:solar-power
+          - entity: sensor.solaredge_energy_this_month_kwh
+            name: Productie deze maand
+            icon: mdi:solar-power
+          - entity: sensor.solaredge_energy_this_year_kwh
+            name: Productie dit jaar
+            icon: mdi:solar-power
+          - entity: sensor.solaredge_lifetime_energy_kwh
+            name: Productie levensduur
+            icon: mdi:solar-power
+      - type: custom:mini-graph-card
+        entities:
+          - entity: sensor.solaredge_energy_today_kwh
+        name: kWh per dag
+        hours_to_show: 168
+        aggregate_func: max
+        group_by: date
+        hour24: true
+        show:
+          graph: bar
+          labels: true
+          labels_secondary: true
+          icon: true
+          points: true
+          legend: false
+        color_thresholds:
+          - value: 0
+            color: '#000000'
+          - value: 2
+            color: '#CC0000'
+          - value: 4
+            color: '#FF4500'
+          - value: 6
+            color: '#006400'
+          - value: 8
+            color: '#82D305'
+      - type: custom:mini-graph-card
+        show_header_toggle: true
+        name: Powerfactor
+        entities:
+          - sensor.solaredgemb_ac_pf
+        line_color: "#FF0099"
+        line_width: 2
+        hours_to_show: 12
+        points_per_hour: 120
+        show:
+          labels: true
+          labels_secondary: true
+          icon: true
+
+      #######        
+      - break 
+      #######
+      
+      - type: entities
+        title: Zonnepanelen (meer info)
+        show_header_toggle: true
+        entities:
+          - entity: sensor.solaredgemb_last_update_time
+            name: Laatste update
+            icon: mdi:update
+          - entity: sensor.solaredgemb_installation_date
+            name: Installatie datum
+            icon: mdi:wrench
+      - type: custom:mini-graph-card
+        show_header_toggle: true
+        name: Netfrequentie
+        entities:
+          - sensor.solaredgemb_ac_frequency
+        line_color: "#339933"
+        line_width: 2
+        hours_to_show: 12
+        points_per_hour: 120
+        show:
+          labels: true
+          labels_secondary: true
+          icon: true
+      - type: custom:mini-graph-card
+        show_header_toggle: true
+        name: AC voltage
+        entities:
+          - sensor.solaredgemb_ac_voltage_ab
+        line_color: "#1111FF"
+        line_width: 2
+        hours_to_show: 12
+        points_per_hour: 120
+        show:
+          labels: true
+          labels_secondary: true
+          icon: true
+      - type: custom:mini-graph-card
+        show_header_toggle: true
+        name: DC voltage
+        entities:
+          - sensor.solaredgemb_dc_voltage
+        line_color: "#1111FF"
+        line_width: 2
+        hours_to_show: 12
+        points_per_hour: 120
+        show:
+          labels: true
+          labels_secondary: true
+          icon: true
+
+      #######        
+      - break 
+      #######
+
+      - type: custom:mini-graph-card
+        show_header_toggle: true
+        name: Temperatuur omvormer
+        entities:
+          - sensor.solaredgemb_temp_sink
+        line_color: "#CC0000"
+        line_width: 2
+        hours_to_show: 12
+        points_per_hour: 120
+        show:
+          labels: true
+          labels_secondary: true
+          icon: true
+      - type: custom:mini-graph-card
+        show_header_toggle: true
+        name: AC stroom
+        entities:
+          - sensor.solaredgemb_ac_current
+        line_color: "#ffff00"
+        line_width: 2
+        hours_to_show: 12
+        points_per_hour: 120
+        show:
+          labels: true
+          labels_secondary: true
+          icon: true
+      - type: custom:mini-graph-card
+        show_header_toggle: true
+        name: DC stroom
+        entities:
+          - sensor.solaredgemb_dc_current
+        line_color: "#ffff00"
+        line_width: 2
+        hours_to_show: 12
+        points_per_hour: 120
+        show:
+          labels: true
+          labels_secondary: true
+          icon: true
+      - type: custom:mini-graph-card
+        show_header_toggle: true
+        name: Reel, schijn, reactief vermogen
+        entities:
+          - sensor.solaredgemb_ac_power
+          - sensor.solaredgemb_ac_va
+          - sensor.solaredgemb_ac_var
+        hours_to_show: 12
+        points_per_hour: 120
+        line_width: 2
+        show:
+          labels: true
+          labels_secondary: true
+          icon: true

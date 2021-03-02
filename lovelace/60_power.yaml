@@ -9,6 +9,82 @@ cards:
   - type: custom:layout-card
     layout: vertical
     cards:
+      
+      - type: entities
+        title: Zonnepanelen (energie)
+        show_header_toggle: true
+        entities:
+          - type: custom:template-entity-row
+            name: Productie vandaag
+            state: "{{states('sensor.solaredge_energy_today_kwh')|round(1)}} kWh"
+            icon: mdi:solar-power
+          - type: custom:template-entity-row
+            name: Productie deze maand
+            state: "{{states('sensor.solaredge_energy_this_month_kwh')|round(1)}} kWh"
+            icon: mdi:solar-power
+          - type: custom:template-entity-row
+            name: Productie dit jaar
+            state: "{{states('sensor.solaredge_energy_this_year_kwh')|round(0)}} kWh"
+            icon: mdi:solar-power
+          - type: custom:template-entity-row
+            name: Productie levensduur
+            state: "{{states('sensor.solaredge_lifetime_energy_kwh')|round(0)}} kWh"
+            icon: mdi:solar-power
+      - type: custom:mini-graph-card
+        entities:
+          - entity: sensor.solaredge_energy_today_kwh
+        name: Productie vandaag (grafiek laatste 7 dagen)
+        hours_to_show: 168
+        aggregate_func: max
+        group_by: date
+        hour24: true
+        lower_bound: 0
+        show:
+          graph: bar
+          labels: true
+          labels_secondary: true
+          icon: true
+          points: true
+          legend: false
+        color_thresholds:
+          - value: 0
+            color: '#000000'
+          - value: 2
+            color: '#CC0000'
+          - value: 4
+            color: '#FFA500'
+          - value: 6
+            color: '#006400'
+          - value: 8
+            color: '#82D305'
+      - type: entities
+        title: Teruglevering
+        show_header_toggle: true
+        entities:
+          - type: custom:template-entity-row
+            name: "Teruggeleverd vandaag"
+            state: "{{states('sensor.daily_energy_returned')|round(1)}} kWh"
+            icon: mdi:solar-power
+          - type: custom:template-entity-row
+            name: "Teruggeleverd deze maand"
+            state: "{{states('sensor.monthly_energy_returned')|round(1)}} kWh"
+            icon: mdi:solar-power
+      - type: entities
+        title: Verbruik van net
+        show_header_toggle: true
+        entities:
+          - type: custom:template-entity-row
+            name: "Verbruik vandaag"
+            state: "{{states('sensor.daily_energy_2')|round(1)}} kWh"
+            icon: mdi:transmission-tower
+          - type: custom:template-entity-row
+            name: "Verbruik deze maand"
+            state: "{{states('sensor.monthly_energy')|round(1)}} kWh"
+            icon: mdi:transmission-tower
+
+      #######        
+      - break 
+      #######
 
       - type: entities
         title: Huidig vermogen
@@ -48,10 +124,26 @@ cards:
           labels_secondary: true
           icon: false
           name: true
+      - type: custom:mini-graph-card
+        show_header_toggle: true
+        name: Netto consumptie hele huis
+        entities:
+          - sensor.netto_consumption
+        line_color: "#FF1100"
+        line_width: 2
+        hours_to_show: 12
+        points_per_hour: 60
+        lower_bound: 0
+        show:
+          labels: true
+          labels_secondary: true
+          icon: false
+          name: true
 
       #######        
       - break
       #######
+
       - type: entities
         title: Zonnepanelen (vermogen)
         show_header_toggle: true
@@ -59,9 +151,9 @@ cards:
           - entity: sensor.solaredgemb_status_verbose
             name: Status
             icon: mdi:solar-power
-#          - entity: sensor.energy_production_tarif_1
-#            name: Terug geleverd vandaag
-#            icon: mdi:weather-sunset-up
+          - entity: sensor.solaredgemb_temp_sink
+            name: Huidige temperatuur
+            icon: hass:thermometer
       - type: custom:mini-graph-card
         title: Zonnepanelen laatste 12 uur
         show_header_toggle: true
@@ -99,66 +191,6 @@ cards:
         line_width: 2
         hours_to_show: 12
         points_per_hour: 4
-        show:
-          labels: true
-          labels_secondary: true
-          icon: true
-
-      #######        
-      - break 
-      #######
-      
-      - type: entities
-        title: Zonnepanelen (energie)
-        show_header_toggle: true
-        entities:
-          - entity: sensor.solaredge_energy_today_kwh
-            name: Productie vandaag
-            icon: mdi:solar-power
-          - entity: sensor.solaredge_energy_this_month_kwh
-            name: Productie deze maand
-            icon: mdi:solar-power
-          - entity: sensor.solaredge_energy_this_year_kwh
-            name: Productie dit jaar
-            icon: mdi:solar-power
-          - entity: sensor.solaredge_lifetime_energy_kwh
-            name: Productie levensduur
-            icon: mdi:solar-power
-      - type: custom:mini-graph-card
-        entities:
-          - entity: sensor.solaredge_energy_today_kwh
-        name: kWh per dag
-        hours_to_show: 168
-        aggregate_func: max
-        group_by: date
-        hour24: true
-        show:
-          graph: bar
-          labels: true
-          labels_secondary: true
-          icon: true
-          points: true
-          legend: false
-        color_thresholds:
-          - value: 0
-            color: '#000000'
-          - value: 2
-            color: '#CC0000'
-          - value: 4
-            color: '#FF4500'
-          - value: 6
-            color: '#006400'
-          - value: 8
-            color: '#82D305'
-      - type: custom:mini-graph-card
-        show_header_toggle: true
-        name: Powerfactor
-        entities:
-          - sensor.solaredgemb_ac_pf
-        line_color: "#FF0099"
-        line_width: 2
-        hours_to_show: 12
-        points_per_hour: 120
         show:
           labels: true
           labels_secondary: true
@@ -240,7 +272,7 @@ cards:
         name: AC stroom
         entities:
           - sensor.solaredgemb_ac_current
-        line_color: "#ffff00"
+        line_color: "#FFA500"
         line_width: 2
         hours_to_show: 12
         points_per_hour: 120
@@ -253,7 +285,7 @@ cards:
         name: DC stroom
         entities:
           - sensor.solaredgemb_dc_current
-        line_color: "#ffff00"
+        line_color: "#FFA500"
         line_width: 2
         hours_to_show: 12
         points_per_hour: 120
@@ -265,12 +297,28 @@ cards:
         show_header_toggle: true
         name: Reel, schijn, reactief vermogen
         entities:
-          - sensor.solaredgemb_ac_power
-          - sensor.solaredgemb_ac_va
-          - sensor.solaredgemb_ac_var
+          - entity: sensor.solaredgemb_ac_power
+            name: Reel (W)
+          - entity: sensor.solaredgemb_ac_va
+            name: Schijn (VA)
+          - entity: sensor.solaredgemb_ac_var
+            name: Reactief (VAR)
         hours_to_show: 12
         points_per_hour: 120
         line_width: 2
+        show:
+          labels: true
+          labels_secondary: true
+          icon: true
+      - type: custom:mini-graph-card
+        show_header_toggle: true
+        name: Powerfactor
+        entities:
+          - sensor.solaredgemb_ac_pf
+        line_color: "#FF0099"
+        line_width: 2
+        hours_to_show: 12
+        points_per_hour: 120
         show:
           labels: true
           labels_secondary: true

@@ -170,11 +170,11 @@
     daily_energy:
       friendly_name: Daily Energy
       unit_of_measurement: kWh
-      value_template: "{{ states('sensor.daily_energy_offpeak')|float + states('sensor.daily_energy_peak')|float }}"
+      value_template: "{{ (states('sensor.daily_energy_offpeak')|float + states('sensor.daily_energy_peak')|float) | round(2) }}"
     monthly_energy:
       friendly_name: Monthly Energy
       unit_of_measurement: kWh
-      value_template: "{{ states('sensor.monthly_energy_offpeak')|float + states('sensor.monthly_energy_peak')|float }}"
+      value_template: "{{ (states('sensor.monthly_energy_offpeak')|float + states('sensor.monthly_energy_peak')|float) | round(2) }}"
     # solar angle sensor template
     solar_elevation:
       friendly_name: "Sun elevation"
@@ -196,3 +196,18 @@
     solaredgemb_last_update_time:
       friendly_name: "Verbose Solar Edge state"
       value_template: "{{ state_attr('sensor.solaredge_site_details', 'last_update_time') }}"
+    # netto consumption = solar_yield - solar_returned + grid_consumption
+    netto_consumption:
+      friendly_name: "Netto consumption"
+      unit_of_measurement: 'kW'
+      value_template: "{{ ((states('sensor.solaredgemb_ac_power_kw')| float) - (states('sensor.power_production')| float) + (states('sensor.power_consumption')| float)) | round(2) }}"
+    # solar energy consumed
+    solar_consumption:
+      friendly_name: "Solar energy consumption"
+      unit_of_measurement: 'kW'
+      value_template: "{{ ((states('sensor.solaredgemb_ac_power_kw')| float) - (states('sensor.power_production')| float)) | round(2) }}"
+
+# integration for grid feed energy sensor
+- platform: integration
+  source: sensor.power_production
+  name: energy_returned

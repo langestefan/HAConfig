@@ -129,6 +129,12 @@ utility_meter:
   monthly_gas:
     source: sensor.gas_consumption
     cycle: monthly
+  daily_energy_returned:
+    source: sensor.energy_returned
+    cycle: daily
+  monthly_energy_returned:
+    source: sensor.energy_returned
+    cycle: monthly
 
 # ########################################
 # ###          PLATFORMS               ###

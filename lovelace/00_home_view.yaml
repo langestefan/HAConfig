@@ -268,4 +268,19 @@ cards:
             name: nas-dashboard
             view: nas-dashboard
             hide_if_unavailable: false
+                  
+      #######        
+      - break
+      #######
+      
+      - type: markdown
+        content: >
+          ### Energie overzicht
+      - type: custom:tesla-style-solar-power-card
+        solar_yield_entity: sensor.solaredgemb_ac_power
+        solar_consumption_entity: sensor.solar_consumption
+        house_consumption_entity: sensor.netto_consumption
+        grid_consumption_entity: sensor.power_consumption
+        grid_feed_in_entity: sensor.power_production
+
 

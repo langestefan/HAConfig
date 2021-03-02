@@ -24,3 +24,9 @@
   type: module
 - url: /hacsfiles/vertical-stack-in-card/vertical-stack-in-card.js
   type: module
+- url: /hacsfiles/tesla-style-solar-power-card/tesla-style-solar-power-card.js
+  type: module
+- url: /hacsfiles/config-template-card/config-template-card.js
+  type: module
+- url: /hacsfiles/lovelace-template-entity-row/template-entity-row.js
+  type: module

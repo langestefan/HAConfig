@@ -18,6 +18,7 @@ zeroconf:
 updater:
 discovery:
 cloud:
+my:
 
 # to fix custom cards in home assistant cast
 http:

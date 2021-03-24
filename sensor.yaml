@@ -32,6 +32,24 @@
 - platform: travisci
   api_key: !secret travis_api_key
 
+# afval info
+- platform: afvalinfo
+  resources:
+    - gft
+    - kerstboom
+    - pbd
+    - papier
+    - restafval
+    - textiel
+    - trash_type_today
+    - trash_type_tomorrow
+  location: !secret mycity
+  postcode: !secret mypostcode
+  streetnumber: !secret mystreetnumber
+  dateformat: "%d-%m-%Y"
+  locale: "nl"
+  timespanindays: 365
+
 # template for octopi
 - platform: template
   sensors:
@@ -69,6 +87,24 @@
             {{ minutes }} minutes
           {%- endif -%}
         {%- endif -%}
+    afvalinfo_next_trash_type_and_date:
+      value_template: >
+        {% set ns = namespace(minimum=365) %}
+        {% set list = ['gft', 'kerstboom', 'papier', 'pbd', 'restafval','textiel'] %}
+        {%- for l in list %}
+        {%- set days = state_attr('sensor.afvalinfo_' ~l, 'days_until_collection_date')%}
+        {%- if days != None and days < ns.minimum %}
+        {%- set ns.minimum = days %}
+        {%- endif %}
+        {%- endfor %}
+        {%- for l in list %}
+        {%- set days = state_attr('sensor.afvalinfo_' ~l, 'days_until_collection_date')%}
+        {%- if days == ns.minimum %}
+        {{l}} · {{ states('sensor.afvalinfo_' ~l) }}
+        {%- endif %}
+        {%- endfor %}
+    paper_days_until_collection:
+      value_template: "{{ state_attr('sensor.afvalinfo_papier', 'days_until_collection_date') }}"
 
 # time/date
 - platform: time_date
@@ -206,7 +242,20 @@
       friendly_name: "Solar energy consumption"
       unit_of_measurement: 'kW'
       value_template: "{{ ((states('sensor.solaredgemb_ac_power_kw')| float) - (states('sensor.power_production')| float)) | round(2) }}"
-
+    # afvalinfo yyyy-mm-dd format
+    afvalinfo_pbd_ymd:
+      friendly_name: "Afvalinfo pbd yyyy-mm-dd"
+      value_template: "{{ state_attr('sensor.afvalinfo_pbd', 'year_month_day_date') }}"
+    afvalinfo_gft_ymd:
+      friendly_name: "Afvalinfo gft yyyy-mm-dd"
+      value_template: "{{ state_attr('sensor.afvalinfo_gft', 'year_month_day_date') }}"
+    afvalinfo_papier_ymd:
+      friendly_name: "Afvalinfo papier yyyy-mm-dd"
+      value_template: "{{ state_attr('sensor.afvalinfo_papier', 'year_month_day_date') }}"
+    afvalinfo_restafval_ymd:
+      friendly_name: "Afvalinfo restafval yyyy-mm-dd"
+      value_template: "{{ state_attr('sensor.afvalinfo_restafval', 'year_month_day_date') }}"
+    
 # integration for grid feed energy sensor
 - platform: integration
   source: sensor.power_production

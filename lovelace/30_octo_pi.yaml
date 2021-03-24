@@ -33,6 +33,7 @@ cards:
                 title: Print progress
                 show_header_toggle: false
                 entity: sensor.octoprint_job_percentage 
+                color: "green"
 
           #######
           - break
@@ -40,12 +41,11 @@ cards:
 
           - type: vertical-stack
             cards:
-              - type: entities
-                title: 3D printer tools
-                show_header_toggle: false
-                entities:
-                  - entity: camera.octoprint
-                    title: Live feed
+              - type: picture-glance
+                title: Octoprint
+                entities: 
+                  - camera.octoprint
+                camera_image: camera.octoprint
               - type: custom:mini-graph-card
                 show:
                   icon: false

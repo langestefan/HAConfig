@@ -9,27 +9,6 @@ cards:
   - type: custom:layout-card
     layout: vertical
     cards:
-      
-      - type: entities
-        title: Zonnepanelen (energie)
-        show_header_toggle: true
-        entities:
-          - type: custom:template-entity-row
-            name: Productie vandaag
-            state: "{{states('sensor.solaredge_energy_today_kwh')|round(1)}} kWh"
-            icon: mdi:solar-power
-          - type: custom:template-entity-row
-            name: Productie deze maand
-            state: "{{states('sensor.solaredge_energy_this_month_kwh')|round(1)}} kWh"
-            icon: mdi:solar-power
-          - type: custom:template-entity-row
-            name: Productie dit jaar
-            state: "{{states('sensor.solaredge_energy_this_year_kwh')|round(0)}} kWh"
-            icon: mdi:solar-power
-          - type: custom:template-entity-row
-            name: Productie levensduur
-            state: "{{states('sensor.solaredge_lifetime_energy_kwh')|round(0)}} kWh"
-            icon: mdi:solar-power
       - type: custom:mini-graph-card
         entities:
           - entity: sensor.solaredge_energy_today_kwh
@@ -57,6 +36,42 @@ cards:
             color: '#006400'
           - value: 8
             color: '#82D305'
+      - type: custom:mini-graph-card
+        title: Zonnepanelen laatste 12 uur
+        show_header_toggle: true
+        name: Vermogen zonnepanelen
+        entities:
+          - sensor.solaredgemb_ac_power_kw
+        line_color: "#339933"
+        line_width: 2
+        hours_to_show: 12
+        points_per_hour: 120
+        icon: mdi:lightning-bolt
+        show:
+          labels: true
+          labels_secondary: true
+          icon: true
+      - type: entities
+        title: Zonnepanelen (energie)
+        show_header_toggle: true
+        entities:
+          - type: custom:template-entity-row
+            name: Productie vandaag
+            state: "{{states('sensor.solaredge_energy_today_kwh')|round(1)}} kWh"
+            icon: mdi:solar-power
+          - type: custom:template-entity-row
+            name: Productie deze maand
+            state: "{{states('sensor.solaredge_energy_this_month_kwh')|round(1)}} kWh"
+            icon: mdi:solar-power
+          - type: custom:template-entity-row
+            name: Productie dit jaar
+            state: "{{states('sensor.solaredge_energy_this_year_kwh')|round(0)}} kWh"
+            icon: mdi:solar-power
+          - type: custom:template-entity-row
+            name: Productie levensduur
+            state: "{{states('sensor.solaredge_lifetime_energy_kwh')|round(0)}} kWh"
+            icon: mdi:solar-power
+
       - type: entities
         title: Teruglevering
         show_header_toggle: true
@@ -148,26 +163,14 @@ cards:
         title: Zonnepanelen (vermogen)
         show_header_toggle: true
         entities:
-          - entity: sensor.solaredgemb_status_verbose
+          - type: custom:template-entity-row
             name: Status
-            icon: mdi:solar-power
+            state: "{{states('sensor.solaredgemb_status_verbose')}}"
+            icon: mdi:solar-power         
+            active: "{{ is_state('sensor.solaredgemb_status_verbose', 'Inverter is ON and producing power')}}"
           - entity: sensor.solaredgemb_temp_sink
             name: Huidige temperatuur
             icon: hass:thermometer
-      - type: custom:mini-graph-card
-        title: Zonnepanelen laatste 12 uur
-        show_header_toggle: true
-        name: Vermogen zonnepanelen
-        entities:
-          - sensor.solaredgemb_ac_power_kw
-        line_color: "#339933"
-        line_width: 2
-        hours_to_show: 12
-        points_per_hour: 120
-        show:
-          labels: true
-          labels_secondary: true
-          icon: true
       - type: custom:mini-graph-card
         show_header_toggle: true
         name: Verticale hoek zon (horizon)

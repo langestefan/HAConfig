@@ -136,6 +136,12 @@ utility_meter:
   monthly_energy_returned:
     source: sensor.energy_returned
     cycle: monthly
+  pc_energy_consumption_daily:
+    source: sensor.energy_pc_setup
+    cycle: daily
+  pc_energy_consumption_monthly:
+    source: sensor.energy_pc_setup
+    cycle: monthly
 
 # ########################################
 # ###          PLATFORMS               ###
@@ -147,3 +153,4 @@ scene: !include scenes.yaml
 sensor: !include sensor.yaml
 binary_sensor: !include binary_sensor.yaml
 light: !include light.yaml
+input_select: !include input_select.yaml

@@ -26,7 +26,7 @@ cards:
                   - sensor.last_boot
 
           #######
-          - break
+          - type: custom:layout-break
           #######
 
           - type: vertical-stack
@@ -107,7 +107,7 @@ cards:
                 line_width: 4
 
           #######
-          - break
+          - type: custom:layout-break
           #######
 
           - type: vertical-stack

@@ -51,6 +51,7 @@ cards:
           labels: true
           labels_secondary: true
           icon: true
+          extrema: true
       - type: entities
         title: Zonnepanelen (energie)
         show_header_toggle: true
@@ -98,7 +99,7 @@ cards:
             icon: mdi:transmission-tower
 
       #######        
-      - break 
+      - type: custom:layout-break 
       #######
 
       - type: entities
@@ -156,7 +157,7 @@ cards:
           name: true
 
       #######        
-      - break
+      - type: custom:layout-break
       #######
 
       - type: entities
@@ -200,7 +201,7 @@ cards:
           icon: true
 
       #######        
-      - break 
+      - type: custom:layout-break 
       #######
       
       - type: entities
@@ -254,7 +255,7 @@ cards:
           icon: true
 
       #######        
-      - break 
+      - type: custom:layout-break 
       #######
 
       - type: custom:mini-graph-card

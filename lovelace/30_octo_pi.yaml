@@ -24,51 +24,88 @@ cards:
                   - entity: binary_sensor.octoprint_printing_error
                     icon: mdi:printer-3d-nozzle-alert
                   - entity: device_tracker.octopi
-              - type: entities
-                show_header_toggle: false
-                entities:
-                  - entity: sensor.octoprint_time_elapsed_friendly
-                  - entity: sensor.octoprint_time_remaining_friendly
-              - type: custom:bar-card
-                title: Print progress
-                show_header_toggle: false
-                entity: sensor.octoprint_job_percentage 
-                color: "green"
-
-          #######
-          - break
-          #######
-
-          - type: vertical-stack
-            cards:
               - type: picture-glance
                 title: Octoprint
                 entities: 
                   - camera.octoprint
                 camera_image: camera.octoprint
+
+          #######
+          - type: custom:layout-break
+          #######
+
+          - type: vertical-stack
+            cards:
+              - type: custom:bar-card
+                title: Print progress
+                show_header_toggle: false
+                entity: sensor.octoprint_job_percentage 
+                color: "green"
+              - type: entities
+                show_header_toggle: false
+                entities:
+                  - entity: sensor.octoprint_current_filename                  
+                    icon: mdi:rename-box
+                  - entity: sensor.octoprint_time_elapsed_friendly
+                  - entity: sensor.octoprint_time_remaining_friendly
+              - type: conditional
+                conditions:
+                  - entity: binary_sensor.octoprint_printing
+                    state: "on"
+                card:
+                  type: picture-glance
+                  title: Octoprint
+                  entities: []
+                  camera_image: camera.octoprint_preview
+              - type: entities
+                entities:
+                - entity: switch.switch_2
+                  name: Printer on/off
+                - entity: sensor.power_2
+                  name: Printer power
+
+
+
+          #######
+          - type: custom:layout-break
+          #######
+
+          - type: vertical-stack
+            cards:
               - type: custom:mini-graph-card
                 show:
-                  icon: false
+                  labels: true
+                  labels_secondary: true
+                  icon: true
                 name: Tool temperature
                 entities:
-                  - sensor.octoprint_actual_tool0_temp
-                  - sensor.octoprint_target_tool0_temp
-                font_size: 50
+                  - entity: sensor.octoprint_actual_tool0_temp
+                    name: Current nozzle temp
+                  - entity: sensor.octoprint_target_tool0_temp
+                    name: Target nozzle temp
+                font_size: 80
                 line_color: "#FF0000"
                 line_width: 2
                 hours_to_show: 1
                 points_per_hour: 60
                 smoothing: false
+                lower_bound: 0
               - type: custom:mini-graph-card
                 show:
-                  icon: false
+                  labels: true
+                  labels_secondary: true
+                  icon: true
                 name: Bed temperature
                 entities:
-                  - sensor.octoprint_actual_bed_temp
-                  - sensor.octoprint_target_bed_temp
-                font_size: 50
+                  - entity: sensor.octoprint_actual_bed_temp
+                    name: Current bed temp
+                  - entity: sensor.octoprint_target_bed_temp
+                    name: Target bed temp
+                font_size: 80
                 line_color: "#0000FF"
                 line_width: 2
                 hours_to_show: 1
                 points_per_hour: 60
                 smoothing: false
+                lower_bound: 0
+

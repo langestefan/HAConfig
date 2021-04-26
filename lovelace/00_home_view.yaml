@@ -38,14 +38,13 @@ cards:
             entity: sensor.battery_level_2
           - type: custom:button-card
             template: nest_battery_button
-            entity: sensor.battery_level_4 # verander naar battery level van mama
+            entity: sensor.battery_level_4 
           - type: custom:button-card
             template: nest_battery_button
             entity: sensor.battery_level
 
       - type: custom:button-card
         entity: sensor.time
-#        scale: 100px
         show_state: true
         show_name: false
         show_label: false
@@ -54,17 +53,14 @@ cards:
           card:
             - background-color: 'rgba(0, 0, 0, 0)'
             - font-size: 100px
-#            - margin-top: 0px
             - margin-bottom: 0px
             - font-size: '300%'
             - -webkit-box-shadow: none
             - -moz-box-shadow: none
             - box-shadow: none
-#            - text-align: bottom
 
       - type: custom:button-card
         entity: sensor.date
-#        scale: 100px
         show_state: true
         show_name: false
         show_label: false
@@ -73,11 +69,9 @@ cards:
           card:
             - background-color: 'rgba(0, 0, 0, 0)'
             - font-size: 100px
-#            - margin-top: 0px
             - font-size: '200%'
             - -webkit-box-shadow: none
             - -moz-box-shadow: none
-#            - box-shadow: none
             - text-align: top
       - type: entities
         title: Weer in Kampen
@@ -100,7 +94,7 @@ cards:
 
                   
       #######        
-      - break
+      #- type: custom:layout-break
       #######
 
       - type: custom:mini-graph-card
@@ -115,7 +109,6 @@ cards:
           - entity: sensor.atc_d1a6b7_temperature
             name: Kamer Mama en Papa
         font_size: 80
-        #line_color: "#0000FF"
         line_width: 2
         hours_to_show: 6
         points_per_hour: 12
@@ -136,7 +129,6 @@ cards:
           - entity: sensor.atc_d1a6b7_humidity
             name: Kamer Mama en Papa
         font_size: 80
-        #line_color: "#0000FF"
         line_width: 2
         hours_to_show: 6
         points_per_hour: 12
@@ -268,19 +260,5 @@ cards:
             name: nas-dashboard
             view: nas-dashboard
             hide_if_unavailable: false
-                  
-      #######        
-      - break
-      #######
-      
-      - type: markdown
-        content: >
-          ### Energie overzicht
-      - type: custom:tesla-style-solar-power-card
-        solar_yield_entity: sensor.solaredgemb_ac_power
-        solar_consumption_entity: sensor.solar_consumption
-        house_consumption_entity: sensor.netto_consumption
-        grid_consumption_entity: sensor.power_consumption
-        grid_feed_in_entity: sensor.power_production
 
 

@@ -183,6 +183,7 @@
       friendly_name: "Difference in temperature between outside and inside"
       unit_of_measurement: '°C'
       value_template: "{{ ((states('sensor.br_temperature')| float) - (states('sensor.bedroom_stefan_temperature')| float)) | round(1) }}"
+    
     # solar edge unit conversion templates
     solaredge_current_power_kw:
       value_template: "{{ (states('sensor.solaredge_current_power') | float / 1000) | round(2) }}"
@@ -202,6 +203,15 @@
     solaredgemb_ac_power_kw:
       value_template: "{{ (states('sensor.solaredgemb_ac_power') | float / 1000) | round(2) }}"
       unit_of_measurement: 'kW'      
+
+    # pc energy unit conversion templates    
+    pc_energy_consumption_daily_kwh:
+      value_template: "{{ (states('sensor.pc_energy_consumption_daily') | float / 1000) | round(2) }}"
+      unit_of_measurement: 'kWh'
+    pc_energy_consumption_monthly_kwh:
+      value_template: "{{ (states('sensor.pc_energy_consumption_monthly') | float / 1000) | round(2) }}"
+      unit_of_measurement: 'kWh'
+
     # meter templates
     daily_energy:
       friendly_name: Daily Energy
@@ -211,6 +221,7 @@
       friendly_name: Monthly Energy
       unit_of_measurement: kWh
       value_template: "{{ (states('sensor.monthly_energy_offpeak')|float + states('sensor.monthly_energy_peak')|float) | round(2) }}"
+    
     # solar angle sensor template
     solar_elevation:
       friendly_name: "Sun elevation"
@@ -220,43 +231,144 @@
       friendly_name: "Sun azimuth"
       unit_of_measurement: "degrees"
       value_template: "{{ state_attr('sun.sun', 'azimuth') }}"
+    
     # solar edge state converter
     solaredgemb_status_verbose:
       friendly_name: "Verbose Solar Edge state"
       value_template: "{{ state_attr('sensor.solaredgemb_status', 'status_description') }}"
+    
     # solar edge installation date
     solaredgemb_installation_date:
       friendly_name: "Verbose Solar Edge state"
       value_template: "{{ state_attr('sensor.solaredge_site_details', 'installation_date') }}"
+    
     # solar edge last update time
     solaredgemb_last_update_time:
       friendly_name: "Verbose Solar Edge state"
       value_template: "{{ state_attr('sensor.solaredge_site_details', 'last_update_time') }}"
+    
     # netto consumption = solar_yield - solar_returned + grid_consumption
     netto_consumption:
       friendly_name: "Netto consumption"
       unit_of_measurement: 'kW'
       value_template: "{{ ((states('sensor.solaredgemb_ac_power_kw')| float) - (states('sensor.power_production')| float) + (states('sensor.power_consumption')| float)) | round(2) }}"
+    
     # solar energy consumed
     solar_consumption:
       friendly_name: "Solar energy consumption"
       unit_of_measurement: 'kW'
       value_template: "{{ ((states('sensor.solaredgemb_ac_power_kw')| float) - (states('sensor.power_production')| float)) | round(2) }}"
+    
     # afvalinfo yyyy-mm-dd format
     afvalinfo_pbd_ymd:
-      friendly_name: "Afvalinfo pbd yyyy-mm-dd"
+      friendly_name: "PBD"
       value_template: "{{ state_attr('sensor.afvalinfo_pbd', 'year_month_day_date') }}"
     afvalinfo_gft_ymd:
-      friendly_name: "Afvalinfo gft yyyy-mm-dd"
+      friendly_name: "GFT"
       value_template: "{{ state_attr('sensor.afvalinfo_gft', 'year_month_day_date') }}"
     afvalinfo_papier_ymd:
-      friendly_name: "Afvalinfo papier yyyy-mm-dd"
+      friendly_name: "Papier"
       value_template: "{{ state_attr('sensor.afvalinfo_papier', 'year_month_day_date') }}"
     afvalinfo_restafval_ymd:
-      friendly_name: "Afvalinfo restafval yyyy-mm-dd"
+      friendly_name: "Restafval"
       value_template: "{{ state_attr('sensor.afvalinfo_restafval', 'year_month_day_date') }}"
-    
+   
+    # expected solar energy
+    expected_solar_energy:
+      friendly_name: "Expected solar output per month"
+      value_template: "{{ states('input_select.expected_solar_energy_month') | int }}"    
+    expected_solar_energy_percentage:
+      friendly_name: "Solar output as percentage of monthly expected"
+      value_template: "{{ ((states('sensor.solaredge_energy_this_month_kwh') | int) / (states('input_select.expected_solar_energy_month') | int)*100 )|round(1)}}"  
+      unit_of_measurement: '%'
+
+    # octoprint time ready ETA
+    octoprint_time_ready:
+      friendly_name: 'ETA'
+      value_template: >-
+        {% if is_state('binary_sensor.octoprint_printing', 'on') %}
+          {%- set date = as_timestamp(now()) + states('sensor.octoprint_time_remaining')|float -%}
+          {{ date|timestamp_local }} 
+        {% else %}
+        {{"N/A"}}
+        {% endif %}
+
 # integration for grid feed energy sensor
 - platform: integration
   source: sensor.power_production
   name: energy_returned
+
+# integration for PC energy usage sensor
+- platform: integration
+  source: sensor.bw_shp10_2_energy_power_2
+  name: energy_pc_setup
+
+# Octoprint Current Filename
+- platform: rest
+  name: OctoPrint Current Filename
+  resource: http://192.168.50.118/api/job
+  headers:
+    X-Api-Key: !secret octopi_api_key
+  value_template: '{{ value_json.job.file.path }}'
+
+# unavailable entities
+- platform: template
+  sensors:
+    unavailable_entities:
+      friendly_name: Unavailable Entities
+      unit_of_measurement: entities
+      icon_template: "{{ 'mdi:check-circle' if is_state('sensor.unavailable_entities','0') else 'mdi:alert-circle' }}"
+      value_template: >
+        {{ states|selectattr('state','in',['unavailable'])|rejectattr('domain','eq','group')
+          |rejectattr('entity_id','in',state_attr('group.ignored_entities','entity_id'))|list|count }}
+#      value_template: > 
+#        {{ states|selectattr('state','in',['unavailable','unknown','none'])|rejectattr('domain','eq','group')
+#          |rejectattr('entity_id','in',state_attr('group.ignored_entities','entity_id'))|list|count }}
+#      attribute_templates:
+#        entities: >
+#          {{ states|selectattr('state','in',['unavailable','unknown','none'])|rejectattr('domain','eq','group')
+#              |rejectattr('entity_id','in',state_attr('group.ignored_entities','entity_id'))|map(attribute='entity_id')|list }}
+      attribute_templates:
+              entities: >
+                {{ states|selectattr('state','in',['unavailable'])|rejectattr('domain','eq','group')
+                    |rejectattr('entity_id','in',state_attr('group.ignored_entities','entity_id'))|map(attribute='entity_id')|list }}
+
+# statistics feel temperature
+- platform: statistics
+  name: br_feel_stats
+  entity_id: sensor.br_feel_temperature
+  sampling_size: 99999999999
+  max_age:
+    hours: 24
+
+# waze travel time
+- platform: waze_travel_time
+  name: work_d
+  origin: !secret mylocale
+  destination: !secret workdestination_d
+  region: "EU"
+- platform: waze_travel_time
+  name: work_m
+  origin: !secret mylocale
+  destination: !secret workdestination_m
+  region: "EU"
+- platform: waze_travel_time
+  name: eindhoven
+  origin: !secret mylocale
+  destination: !secret workdestination_d
+  region: "EU"
+
+# NS reistijd sensors
+- platform: nederlandse_spoorwegen
+  api_key: !secret NS_API_KEY
+  routes:
+    - name: Kampen-Eindhoven
+      from: Kpnz
+      to: Ehv
+    - name: Eindhoven-Kampen
+      from: Ehv
+      to: Kpnz
+
+
+
+

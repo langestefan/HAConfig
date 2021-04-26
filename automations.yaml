@@ -25,10 +25,11 @@
     type: remote_button_short_release
   condition: []
   action:
-  - device_id: 50024ea994de40a0a9d153b25a061783
+  - type: turn_on
+    device_id: f78a9982007c96ad1a67292e8199accd
+    entity_id: switch.bw_shp10_1
     domain: switch
-    entity_id: switch.switch
-    type: turn_on
+  mode: single
 - id: '1592952171677'
   alias: Turn off light when kitchen swith is pressed
   description: ''
@@ -40,10 +41,11 @@
     type: remote_button_short_release
   condition: []
   action:
-  - device_id: 50024ea994de40a0a9d153b25a061783
+  - type: turn_off
+    device_id: f78a9982007c96ad1a67292e8199accd
+    entity_id: switch.bw_shp10_1
     domain: switch
-    entity_id: switch.switch
-    type: turn_off
+  mode: single
 - id: '1614892098467'
   alias: Home Assistant update notification
   description: ''
@@ -80,9 +82,49 @@
       day_offset: '1'
       reminder_time: '10:00:00'
       reminder_title: Afval herinnering
-      reminder_message: 'Morgen wordt opgehaald:'
+      reminder_message: 'Morgen wordt opgehaald: '
       notifier: notify.mobile_app_sm_a520f
       garbage_sensor_1: sensor.afvalinfo_gft_ymd
       garbage_sensor_2: sensor.afvalinfo_papier_ymd
       garbage_sensor_3: sensor.afvalinfo_pbd_ymd
       garbage_sensor_4: sensor.afvalinfo_restafval_ymd
+- id: unavailable_entities_notification
+  alias: Unavailable Entities Notification
+  description: Create persistent notification if there are unavailable entities, dismiss
+    if none.
+  mode: restart
+  trigger:
+  - platform: state
+    entity_id: sensor.unavailable_entities
+  action:
+  - choose:
+      conditions:
+      - condition: numeric_state
+        entity_id: sensor.unavailable_entities
+        below: 1
+      sequence:
+      - service: persistent_notification.dismiss
+        data:
+          notification_id: unavailable_entities
+    default:
+    - service: persistent_notification.create
+      data:
+        title: Unavailable Entities
+        message: '- {{ expand(state_attr(''sensor.unavailable_entities'',''entities''))|map(attribute=''entity_id'')|join(''
+
+          - '') }}'
+        notification_id: unavailable_entities
+
+- alias: Set expected solar output for each month
+  trigger:
+    - platform: time
+      at: '00:00:00'
+  condition:
+    - condition: template
+      # Change the number here to get whatever day of the month you want.
+      value_template: "{{ now().day == 1 }}"
+  action:
+    - service: input_select.select_next
+      target:
+        entity_id: input_select.expected_solar_energy_month
+   

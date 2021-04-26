@@ -1,0 +1,17 @@
+expected_solar_energy_month:
+  name: Expected solar output per month
+  options:
+    - 84  # jan
+    - 143 # feb
+    - 279 # mar
+    - 386 # apr
+    - 435 # mei
+    - 425 # jun
+    - 422 # jul
+    - 377 # aug
+    - 305 # sep
+    - 224 # okt
+    - 104 # nov
+    - 62  # dec
+  initial: 386
+  icon: mdi:solar-panel

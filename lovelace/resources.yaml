@@ -30,3 +30,7 @@
   type: module
 - url: /hacsfiles/lovelace-template-entity-row/template-entity-row.js
   type: module
+- url: /hacsfiles/ha-card-waze-travel-time/ha-card-waze-travel-time.js
+  type: module
+- url: /hacsfiles/text-element/text-element.js
+  type: module

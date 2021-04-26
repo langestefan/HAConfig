@@ -9,6 +9,7 @@ views:
   - !include lovelace/30_octo_pi.yaml
 #  - !include lovelace/40_nas_dashboard.yaml
   - !include lovelace/50_lighting.yaml
+  - !include lovelace/70_tablet_view.yaml
 
 # Templating
 button_card_templates:

@@ -118,7 +118,7 @@ cards:
           - light.sc_led_ring
 
       #######        
-      - break
+      - type: custom:layout-break
       #######
 
       - type: entities
@@ -126,7 +126,7 @@ cards:
         show_header_toggle: false
         entities:
           - type: 'custom:slider-entity-row'
-            entity: light.boekenkast_lamp_groot
+            entity: light.wc
             name: WC
             toggle: true
 

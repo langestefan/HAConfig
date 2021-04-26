@@ -1,0 +1,6 @@
+ignored_entities:
+  entities:
+    - binary_sensor.updater
+    - light.wc
+    - light.niet_in_gebruik
+    - light.sc_led_ring

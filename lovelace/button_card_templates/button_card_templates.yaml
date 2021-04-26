@@ -66,3 +66,138 @@ nest_battery_button:
     #state {
       padding-top: 5px;
     }
+
+# nest style picture button templates for tablet
+nest_picture_button_tablet:
+  show_state: true
+  show_icon: true
+  show_name: true
+  show_entity_picture: true
+  tap_action:
+    action: more-info
+  style: |
+    ha-card {
+      font-family: 'Open Sans', sans-serif;
+      padding-top: 0px !important;
+      background-color: rgba(0, 0, 0, 0);
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+    }
+    img {
+      width: 100% !important;
+    }
+    #img-cell {
+      background-color: #F5F5F5;
+      border-radius: 50px;
+      height: 50px !important;
+      width: 50px !important;
+    }
+    #state {
+      padding-top: 0px;
+    }
+
+nest_battery_button_tablet:
+  show_state: true
+  show_icon: true
+  show_name: false
+  show_entity_picture: true
+  tap_action:
+    action: more-info
+  state:
+  - color: 'rgb(255,0,0)'
+    operator: '<'
+    value: 25
+  - color: 'rgb(255,191,0)'
+    operator: '<'
+    value: 50
+  - color: 'rgb(0,255,0)'
+    operator: '>'
+    value: 50
+
+  style: |
+    ha-card {
+      font-family: 'Open Sans', sans-serif;
+      padding-top: 0px !important;
+      background-color: rgba(0, 0, 0, 0);
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+    }
+    img {
+      width: 100% !important;
+    }
+    #img-cell {
+      background-color: #F5F5F5;
+      border-radius: 50px;
+      height: 35px !important;
+      width: 50px !important;
+    }
+    #state {
+      padding-top: 0px;
+    }
+
+# big button template for general light
+light_button:
+  icon: mdi:lightbulb
+  tap_action:
+    action: toggle
+  hold_action:
+    action: more-info
+  styles:
+    card:
+      - height: 80px
+      - font-size: 12px
+      - font-weight: bold
+      - margin-top: 1%
+      - margin-bottom: 1%
+  state:
+    - value: 'on'
+      styles:
+        state:
+          - color: green
+    - value: 'off'
+      styles:
+        state:
+          - color: red
+        card:
+          - filter: brightness(98%)
+
+# 2D printer ink cartridge display template
+inkwell:
+  show_name: false
+  show_state: true
+  extra_styles: |
+    [[[ return `
+      @keyframes pulse {
+        5% {
+          background-color: ${variables.color};
+        }
+      }
+    `]]]
+  styles:
+    icon:
+      - opacity: 0.7
+      - color: '[[[ return variables.color ]]]'
+      - filter: drop-shadow( 0 0 2px rgba(0, 0, 0, .7))
+    state:
+      - font-size: 1.5em
+      - font-weight: bold
+      - color: white
+      - text-shadow: 0 0 6px black
+      - overflow: visible
+    card:
+      - border: solid 3px gray
+      - border-top: none
+      - background: |
+          [[[
+            var level = entity.state;
+            var color = variables.color;
+            return `linear-gradient(to top, ${color}, ${color} ${level}%, rgba(255,255,255,0.12) ${level}%)`
+          ]]]
+      - animation: |
+          [[[
+            return (0 + entity.state) < 10
+              ? 'pulse ease-in-out 1s infinite'
+              : 'none'
+          ]]]

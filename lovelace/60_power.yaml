@@ -9,49 +9,97 @@ cards:
   - type: custom:layout-card
     layout: vertical
     cards:
-      - type: custom:mini-graph-card
-        entities:
+      - type: custom:apexcharts-card
+        span:
+          end: day
+        experimental:
+          color_threshold: true
+        graph_span: 7d
+        locale: 'nl'
+        apex_config:
+          chart:
+            type: area
+          stroke:
+            show: true
+            width: 1
+            curve: smooth
+          legend:
+            show: true
+          xaxis:
+            labels:
+              format: ddd
+          yaxis:
+            min: 0
+            forceNiceScale: true
+        header:
+          title: Productie zonnepanelen
+          show: true
+          show_states: true
+          colorize_states: true
+        series:
           - entity: sensor.solaredge_energy_today_kwh
-        name: Productie vandaag (grafiek laatste 7 dagen)
-        hours_to_show: 168
-        aggregate_func: max
-        group_by: date
-        hour24: true
-        lower_bound: 0
-        show:
-          graph: bar
-          labels: true
-          labels_secondary: true
-          icon: true
-          points: true
-          legend: false
-        color_thresholds:
-          - value: 0
-            color: '#000000'
-          - value: 2
-            color: '#CC0000'
-          - value: 4
-            color: '#FFA500'
-          - value: 6
-            color: '#006400'
-          - value: 8
-            color: '#82D305'
-      - type: custom:mini-graph-card
-        title: Zonnepanelen laatste 12 uur
-        show_header_toggle: true
-        name: Vermogen zonnepanelen
-        entities:
-          - sensor.solaredgemb_ac_power_kw
-        line_color: "#339933"
-        line_width: 2
-        hours_to_show: 12
-        points_per_hour: 120
-        icon: mdi:lightning-bolt
-        show:
-          labels: true
-          labels_secondary: true
-          icon: true
-          extrema: true
+            type: column        
+            show:
+              datalabels: true
+              name_in_header: false
+            group_by:
+              func: max
+              duration: 24h
+            color_threshold:
+              - value: 4
+                color: '#000000'
+              - value: 6
+                color: '#CC0000'
+              - value: 8
+                color: '#FFA500'
+              - value: 10
+                color: '#006400'
+              - value: 16
+                color: '#82D305'
+                
+      - type: custom:apexcharts-card
+        locale: 'nl'
+        header:
+          title: Zonnepanelen
+          show: true
+          show_states: true
+          colorize_states: true
+        experimental:
+#          color_threshold: true
+          brush: true 
+        graph_span: 12h 
+        brush:
+          selection_span: 12h
+        apex_config:
+          yaxis:
+            forceNiceScale: true
+            min: 0
+            max: 4
+        series:
+          - entity: sensor.solaredgemb_ac_power_kw
+            color: green
+            type: area
+            stroke_width: 1
+            show:
+              extremas: true
+              name_in_header: false
+            color_threshold:
+              - value: 0
+                color: red
+              - value: 1
+                color: yellow
+              - value: 2
+                color: green
+          - entity: sensor.solaredgemb_ac_power_kw
+            color: green
+            stroke_width: 2
+            float_precision: 0
+            type: area
+            show:
+              # in_brush: set it to true and the serie will show up in the brush
+              in_brush: true
+              # add this also if you want your serie to only show up in the brush
+              in_chart: false
       - type: entities
         title: Zonnepanelen (energie)
         show_header_toggle: true

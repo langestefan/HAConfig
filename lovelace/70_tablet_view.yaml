@@ -233,9 +233,11 @@ cards:
     name: Vermogen zonnepanelen
     entities:
       - entity: sensor.solaredgemb_ac_power_kw
-        name: zonnepanelen
+        name: Zonnepanelen
       - entity: sensor.netto_consumption
-        name: verbruik
+        name: Verbruik
+      - entity: sensor.power_production
+        name: Terugleveren
     line_color: "#339933"
     line_width: 2
     hours_to_show: 12

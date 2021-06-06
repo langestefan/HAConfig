@@ -142,6 +142,9 @@ utility_meter:
   pc_energy_consumption_monthly:
     source: sensor.energy_pc_setup
     cycle: monthly
+  pc_energy_consumption_monthly_green:
+    source: sensor.pc_energy_consumption_green
+    cycle: monthly
 
 # ########################################
 # ###          PLATFORMS               ###

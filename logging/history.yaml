@@ -1,13 +1,13 @@
   exclude:
     domains:
-      # - automation
+      - automation
       - alert
       - camera
       - media_player
       # - sun
       - calendar
       # - sensor
-      # - device_tracker
+      - device_tracker
       - group
       - switch
-      # - script
+      - script

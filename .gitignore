@@ -6,7 +6,22 @@
 
 www/*
 
-custom_components/
+# custom_components
+!custom_components/
+custom_components/*
+
+# custom_components const afvalinfo
+!custom_components/afvalinfo/
+custom_components/afvalinfo/*
+!custom_components/afvalinfo/const/
+custom_components/afvalinfo/const/*
+!custom_components/afvalinfo/const/const.py
+
+# custom_components const average
+!custom_components/average/
+custom_components/average/*
+!custom_components/average/const.py
+
 test
 OZW_Log.txt
 home-assistant.log

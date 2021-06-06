@@ -127,4 +127,45 @@
     - service: input_select.select_next
       target:
         entity_id: input_select.expected_solar_energy_month
+
+# vaccinatie
+- alias: Check for Vaccine Appointment 1997
+  mode: single
+  description: 'Stuurt een notificatie als het geboortejaar in aanmerking komt voor een vaccinatieafspraak'
+  trigger:
+    - platform: state
+      entity_id: sensor.vaccinatie_1997
+      to: 'true'
+  condition: []
+  action:
+    - service: notify.mobile_app_oneplus_a5000
+      data:
+        message: 'Je mag een vaccinatieafspraak maken!'
+        title: Priktime!
+        data:
+          actions:
+            - action: URI
+              title: Maak die afspraak
+              uri: >-
+                https://coronatest.nl/ik-wil-me-laten-vaccineren/heeft-u-een-uitnodiging-gehad-wegens-medische-indicatie
+- alias: Check for Vaccine Appointment 2001
+  mode: single
+  description: 'Stuurt een notificatie als het geboortejaar in aanmerking komt voor een vaccinatieafspraak'
+  trigger:
+    - platform: state
+      entity_id: sensor.vaccinatie_2001
+      to: 'true'
+  condition: []
+  action:
+    - service: notify.mobile_app_gm1903
+      data:
+        message: 'Je mag een vaccinatieafspraak maken!'
+        title: Priktime!
+        data:
+          actions:
+            - action: URI
+              title: Maak die afspraak
+              uri: >-
+                https://coronatest.nl/ik-wil-me-laten-vaccineren/heeft-u-een-uitnodiging-gehad-wegens-medische-indicatie
+  
    

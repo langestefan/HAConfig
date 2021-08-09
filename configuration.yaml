@@ -19,6 +19,7 @@ updater:
 discovery:
 cloud:
 my:
+energy:
 
 # to fix custom cards in home assistant cast
 http:

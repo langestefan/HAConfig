@@ -312,6 +312,18 @@
             }}
         {%- endif %}
 
+    # total energy consumed    
+    total_energy_consumed_kwh:
+      friendly_name: 'Combined tarif 1 and 2 energy consumption in kWh'
+      unit_of_measurement: 'kWh'
+      value_template: "{{ (states('sensor.energy_consumption_tarif_2') | float + states('sensor.energy_consumption_tarif_1') | float) | round(1) }}"
+    
+    # total energy produced    
+    total_energy_produced_kwh:
+      friendly_name: 'Combined tarif 1 and 2 energy production in kWh'
+      unit_of_measurement: 'kWh'
+      value_template: "{{ (states('sensor.energy_production_tarif_2') | float + states('sensor.energy_production_tarif_1') | float) | round(1) }}"
+
 
 # integration for pc energy setup green
 - platform: integration
@@ -524,14 +536,23 @@
       device_class: timestamp
       value_template: "{{ state_attr('sensor.pollen_data', 'updatedAt') }}"
 
-# Vaccinatie
-- platform: rest
-  name: vaccinatie 1997
-  resource: https://user-api.coronatest.nl/vaccinatie/programma/bepaalbaar/1997/NEE/NEE
-  scan_interval: 300
-  value_template: "{{ value_json.success }}"  
-- platform: rest
-  name: vaccinatie 2001
-  resource: https://user-api.coronatest.nl/vaccinatie/programma/bepaalbaar/2001/NEE/NEE
-  scan_interval: 300
-  value_template: "{{ value_json.success }}"  
+# calculated solar panel output per month
+- platform: template
+  sensors:
+    expected_solar_output_monthly:
+      friendly_name: Expected solar output per month kWh
+      unit_of_measurement: 'kWh'
+      value_template: >-
+        {% if now().month == 1 %} 84
+        {% elif now().month == 2 %} 143
+        {% elif now().month == 3 %} 279
+        {% elif now().month == 4 %} 386
+        {% elif now().month == 5 %} 435
+        {% elif now().month == 6 %} 425
+        {% elif now().month == 7 %} 422
+        {% elif now().month == 8 %} 377
+        {% elif now().month == 9 %} 305
+        {% elif now().month == 10 %} 224
+        {% elif now().month == 11 %} 104
+        {% elif now().month == 12 %} 62
+        {% endif %}

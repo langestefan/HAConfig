@@ -7,20 +7,7 @@
 www/*
 
 # custom_components
-!custom_components/
-custom_components/*
-
-# custom_components const afvalinfo
-!custom_components/afvalinfo/
-custom_components/afvalinfo/*
-!custom_components/afvalinfo/const/
-custom_components/afvalinfo/const/*
-!custom_components/afvalinfo/const/const.py
-
-# custom_components const average
-!custom_components/average/
-custom_components/average/*
-!custom_components/average/const.py
+custom_components
 
 test
 OZW_Log.txt
@@ -63,7 +50,6 @@ ssh/
 zwcfg_0xca115759.xml
 ip_bans.yaml
 /lovelace/old/*
-esphome/
 haslcache.json
 appdaemon/compiled
 nodered/
@@ -71,3 +57,8 @@ zones/
 resources/
 node-red/
 appdaemon/apps/security/
+
+# ESPHome ignores
+esphome/secrets.yaml
+esphome/.*/
+esphome/*/*.csv

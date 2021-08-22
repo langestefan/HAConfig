@@ -1,0 +1,10 @@
+---
+# Device: Generic ESP32 BLE gateway
+#
+packages:
+  <<: !include_dir_named ../common
+  board: !include ../boards/nodemcu_32s.yaml
+
+sensor: !include_dir_merge_list ../sensors/ble/
+
+esp32_ble_tracker:

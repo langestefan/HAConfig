@@ -1,0 +1,16 @@
+---
+# ESP32 BLE gateway
+#
+# Generic BLE gateway. Used to capture advertisements from several sensors. 
+#
+substitutions:
+  label: esp32
+  slug: ble-gateway-bedroom
+  name: BLE gateway bedroom
+  description: ESP32 BLE gateway in the bedroom
+  api_password: !secret esphome_ble_gateway_bedroom_api_password
+  ota_password: !secret esphome_ble_gateway_bedroom_ota_password
+  static_ip: !secret esphome_ble_gateway_bedroom_static_ip
+
+packages:
+  device: !include devices/esp32_ble_gateway.yaml

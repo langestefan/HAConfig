@@ -1,0 +1,91 @@
+---
+#
+# BLE sensors of xiaomi type. These have been programmed with custom ATC firmware.
+#
+# https://github.com/atc1441/ATC_MiThermometer
+# https://geni.us/A3KWeh/opt/0?iguid=s9udck0LVEmP-ftAW2a_rg
+#
+
+# BLE mi sensor ATC_729785 
+- platform: xiaomi_lywsd03mmc
+  id: ATC_729785
+  mac_address: A4:C1:38:72:97:85
+  bindkey: "0245e23a268f47a9b2f6c8832d3db3a3" # dummy value, not actually used
+  temperature:
+    name: "ATC_729785 Temperature"
+  humidity:
+    name: "ATC_729785 Humidity"
+  battery_level:
+    name: "ATC_729785 Battery Level"
+
+# BLE mi sensor ATC_D1A6B7   
+- platform: xiaomi_lywsd03mmc
+  id: ATC_D1A6B7
+  mac_address: A4:C1:38:D1:A6:B7
+  bindkey: "0245e23a268f47a9b2f6c8832d3db3a3"
+  temperature:
+    name: "ATC_D1A6B7 Temperature"
+  humidity:
+    name: "ATC_D1A6B7 Humidity"
+  battery_level:
+    name: "ATC_D1A6B7 Battery Level"    
+
+# BLE mi sensor ATC_A0D802   
+- platform: xiaomi_lywsd03mmc
+  id: ATC_A0D802  
+  mac_address: A4:C1:38:A0:D8:02
+  bindkey: "0245e23a268f47a9b2f6c8832d3db3a3"
+  temperature:
+    name: "ATC_A0D802 Temperature"
+  humidity:
+    name: "ATC_A0D802 Humidity"
+  battery_level:
+    name: "ATC_A0D802 Battery Level"
+
+  # BLE mi sensor ATC_74724E   
+- platform: xiaomi_lywsd03mmc
+  id: ATC_74724E
+  mac_address: A4:C1:38:74:72:4E
+  bindkey: "0245e23a268f47a9b2f6c8832d3db3a3"
+  temperature:
+    name: "ATC_74724E Temperature"
+  humidity:
+    name: "ATC_74724E Humidity"
+  battery_level:
+    name: "ATC_74724E Battery Level"
+
+  # BLE mi sensor ATC_412743   
+- platform: xiaomi_lywsd03mmc
+  id: ATC_412743
+  mac_address: A4:C1:38:41:27:43
+  bindkey: "0245e23a268f47a9b2f6c8832d3db3a3"
+  temperature:
+    name: "ATC_412743 Temperature"
+  humidity:
+    name: "ATC_412743 Humidity"
+  battery_level:
+    name: "ATC_412743 Battery Level"  
+
+  # BLE mi sensor ATC_552AB1   
+- platform: xiaomi_lywsd03mmc
+  id: ATC_552AB1
+  mac_address: A4:C1:38:55:2A:B1
+  bindkey: "0245e23a268f47a9b2f6c8832d3db3a3"
+  temperature:
+    name: "ATC_552AB1 Temperature"
+  humidity:
+    name: "ATC_552AB1 Humidity"
+  battery_level:
+    name: "ATC_552AB1 Battery Level"   
+
+  # BLE mi sensor ATC_57D92F   
+- platform: xiaomi_lywsd03mmc
+  id: ATC_57D92F
+  mac_address: A4:C1:38:57:D9:2F
+  bindkey: "0245e23a268f47a9b2f6c8832d3db3a3"
+  temperature:
+    name: "ATC_57D92F Temperature"
+  humidity:
+    name: "ATC_57D92F Humidity"
+  battery_level:
+    name: "ATC_57D92F Battery Level"  

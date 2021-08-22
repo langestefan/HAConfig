@@ -7,6 +7,6 @@ before_install:
 install:
 - pip3 install homeassistant
 - git clone https://github.com/heyajohnny/afvalinfo.git afvalinfo_component/
-- mv afvalinfo_component/custom_components config/custom_components
+- mv afvalinfo_component/custom_components custom_components
 script:
 - hass -c . --script check_config

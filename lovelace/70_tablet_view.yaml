@@ -449,7 +449,7 @@ cards:
         icon: mdi:solar-power
       - type: custom:template-entity-row
         name: Verwacht
-        state: "{{states('sensor.expected_solar_energy')|round(1)}} kWh"
+        state: "{{states('sensor.expected_solar_output_monthly')|round(1)}} kWh"
         icon: mdi:solar-power        
     card_mod:
       style: |

@@ -273,13 +273,10 @@
       friendly_name: "Restafval"
       value_template: "{{ state_attr('sensor.afvalinfo_restafval', 'year_month_day_date') }}"
    
-    # expected solar energy
-    expected_solar_energy:
-      friendly_name: "Expected solar output per month"
-      value_template: "{{ states('input_select.expected_solar_energy_month') | int }}"    
+    # expected solar energy  
     expected_solar_energy_percentage:
       friendly_name: "Solar output as percentage of monthly expected"
-      value_template: "{{ ((states('sensor.solaredge_energy_this_month_kwh') | int) / (states('input_select.expected_solar_energy_month') | int)*100 )|round(1)}}"  
+      value_template: "{{ ((states('sensor.solaredge_energy_this_month_kwh') | int) / (states('sensor.expected_solar_output_monthly') | int)*100 )|round(1)}}"  
       unit_of_measurement: '%'
 
     # octoprint time ready ETA

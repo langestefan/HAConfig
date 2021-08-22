@@ -403,14 +403,6 @@
       from: Ehv
       to: Kpnz
 
-# average platform
-- platform: average
-  name: 'Average max solar production per day'
-  duration:
-    days: 2
-  entities:
-    - sensor.solaredge_energy_today_kwh
-
 # average max solar production per day via statistics
 - platform: statistics
   entity_id: sensor.solaredge_energy_today_kwh

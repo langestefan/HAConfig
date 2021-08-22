@@ -1,0 +1,11 @@
+---
+#
+# ESP32 devkitC. Also known as NodeMCU ESP32.
+#
+# https://esphome.io/devices/nodemcu_esp32.html
+#
+
+esphome:
+  <<: !include .esphome.yaml
+  platform: ESP32
+  board: nodemcu-32s

@@ -58,7 +58,13 @@ resources/
 node-red/
 appdaemon/apps/security/
 
+B7I2T5~Z
+
 # ESPHome ignores
 esphome/secrets.yaml
-esphome/.*/
 esphome/*/*.csv
+esphome/.build
+!esphome/boards/.esphome.yaml
+esphome/archived
+!esphome/common/secrets.yaml
+!esphome/components/secrets.yaml

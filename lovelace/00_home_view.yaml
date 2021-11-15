@@ -38,7 +38,7 @@ cards:
             entity: sensor.battery_level_2
           - type: custom:button-card
             template: nest_battery_button
-            entity: sensor.battery_level_4 
+            entity: sensor.battery_level_4
           - type: custom:button-card
             template: nest_battery_button
             entity: sensor.battery_level
@@ -51,10 +51,10 @@ cards:
         show_icon: false
         styles:
           card:
-            - background-color: 'rgba(0, 0, 0, 0)'
+            - background-color: "rgba(0, 0, 0, 0)"
             - font-size: 100px
             - margin-bottom: 0px
-            - font-size: '300%'
+            - font-size: "300%"
             - -webkit-box-shadow: none
             - -moz-box-shadow: none
             - box-shadow: none
@@ -67,9 +67,9 @@ cards:
         show_icon: false
         styles:
           card:
-            - background-color: 'rgba(0, 0, 0, 0)'
+            - background-color: "rgba(0, 0, 0, 0)"
             - font-size: 100px
-            - font-size: '200%'
+            - font-size: "200%"
             - -webkit-box-shadow: none
             - -moz-box-shadow: none
             - text-align: top
@@ -78,7 +78,7 @@ cards:
         show_header_toggle: false
         entities:
           - entity: weather.br_unknown_station
-            type: 'custom:weather-card'
+            type: "custom:weather-card"
             title: Weer
             style: |
               ha-card {
@@ -92,8 +92,7 @@ cards:
         entities: []
         camera_image: camera.buienradar_loop
 
-                  
-      #######        
+      #######
       #- type: custom:layout-break
       #######
 
@@ -144,9 +143,9 @@ cards:
         camera_view: live
         elements:
           - type: icon
-            icon: 'mdi:arrow-up'
+            icon: "mdi:arrow-up"
             style:
-              background: 'rgba(255, 255, 255, 0.5)'
+              background: "rgba(255, 255, 255, 0.5)"
               right: 25px
               bottom: 50px
             tap_action:
@@ -156,9 +155,9 @@ cards:
                 entity_id: camera.foscam
                 movement: up
           - type: icon
-            icon: 'mdi:arrow-down'
+            icon: "mdi:arrow-down"
             style:
-              background: 'rgba(255, 255, 255, 0.5)'
+              background: "rgba(255, 255, 255, 0.5)"
               right: 25px
               bottom: 0px
             tap_action:
@@ -168,9 +167,9 @@ cards:
                 entity_id: camera.foscam
                 movement: down
           - type: icon
-            icon: 'mdi:arrow-left'
+            icon: "mdi:arrow-left"
             style:
-              background: 'rgba(255, 255, 255, 0.5)'
+              background: "rgba(255, 255, 255, 0.5)"
               right: 50px
               bottom: 25px
             tap_action:
@@ -180,9 +179,9 @@ cards:
                 entity_id: camera.foscam
                 movement: left
           - type: icon
-            icon: 'mdi:arrow-right'
+            icon: "mdi:arrow-right"
             style:
-              background: 'rgba(255, 255, 255, 0.5)'
+              background: "rgba(255, 255, 255, 0.5)"
               right: 0px
               bottom: 25px
             tap_action:
@@ -192,9 +191,9 @@ cards:
                 entity_id: camera.foscam
                 movement: right
           - type: icon
-            icon: 'mdi:arrow-top-left'
+            icon: "mdi:arrow-top-left"
             style:
-              background: 'rgba(255, 255, 255, 0.5)'
+              background: "rgba(255, 255, 255, 0.5)"
               right: 50px
               bottom: 50px
             tap_action:
@@ -204,9 +203,9 @@ cards:
                 entity_id: camera.foscam
                 movement: top_left
           - type: icon
-            icon: 'mdi:arrow-top-right'
+            icon: "mdi:arrow-top-right"
             style:
-              background: 'rgba(255, 255, 255, 0.5)'
+              background: "rgba(255, 255, 255, 0.5)"
               right: 0px
               bottom: 50px
             tap_action:
@@ -216,9 +215,9 @@ cards:
                 entity_id: camera.foscam
                 movement: top_right
           - type: icon
-            icon: 'mdi:arrow-bottom-left'
+            icon: "mdi:arrow-bottom-left"
             style:
-              background: 'rgba(255, 255, 255, 0.5)'
+              background: "rgba(255, 255, 255, 0.5)"
               right: 50px
               bottom: 0px
             tap_action:
@@ -228,9 +227,9 @@ cards:
                 entity_id: camera.foscam
                 movement: bottom_left
           - type: icon
-            icon: 'mdi:arrow-bottom-right'
+            icon: "mdi:arrow-bottom-right"
             style:
-              background: 'rgba(255, 255, 255, 0.5)'
+              background: "rgba(255, 255, 255, 0.5)"
               right: 0px
               bottom: 0px
             tap_action:
@@ -249,16 +248,62 @@ cards:
             name: Fan
             sendStateWithSpeed: true
             customTheme: true
-      - type: entities
-        title: Hub cast
+      - type: statistics-graph
+        title: "Luchtkwaliteit kamer Stefan PM2.5"
         entities:
-          - type: cast
-            name: hub
-            view: hub
-            hide_if_unavailable: false
-          - type: cast
-            name: nas-dashboard
-            view: nas-dashboard
-            hide_if_unavailable: false
+          - sensor.vindriktning_stefan_pm2_5_concentration
+          - sensor.vindriktning_livingroom_pm2_5_concentration
+        days_to_show: 0.4
 
-
+        # air quality
+      - type: custom:apexcharts-card
+        locale: "nl"
+        experimental:
+          color_threshold: true
+        header:
+          title: Luchtkwaliteit kamer Stefan
+          show: true
+          show_states: false
+          colorize_states: true
+        graph_span: 12h
+        apex_config:
+          yaxis:
+            forceNiceScale: true
+        series:
+          - entity: sensor.pm_2_5_stefan_mean
+            name: Mean
+            opacity: 1
+            curve: "smooth"
+            stroke_width: 2
+            show:
+              name_in_header: false
+              legend_value: false
+            color: purple
+          - entity: sensor.pm_2_5_stefan_max
+            name: Max
+            opacity: 0.2
+            stroke_width: 1
+            type: "area"
+            curve: "smooth"
+            show:
+              name_in_header: false
+              legend_value: false
+            color_threshold:
+              - value: 0
+                opacity: 0.3
+                color: green
+              - value: 80
+                opacity: 0.3
+                color: orange
+              - value: 120
+                opacity: 0.3
+                color: red
+          - entity: sensor.pm_2_5_stefan_min
+            name: Min
+            opacity: 1
+            stroke_width: 1
+            type: "area"
+            color: "#FFFFFF"
+            show:
+              name_in_header: false
+              legend_value: false

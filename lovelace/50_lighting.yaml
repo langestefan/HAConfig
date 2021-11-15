@@ -13,33 +13,37 @@ cards:
         title: Boekenkast
         show_header_toggle: false
         entities:
-          - entity: switch.switch
+          - type: 'custom:slider-entity-row'
+            entity: light.boekenkast_lamp
             name: Boekenkast
             toggle: true
+
       - type: entities
         title: Achterdeur
         show_header_toggle: false
         entities:
           - type: 'custom:slider-entity-row'
-            entity: light.lamp_achterdeur
+            entity: light.achterdeur_lamp
             name: Achterdeur
             toggle: true
           - type: 'custom:rgb-light-card'
-            entity: light.lamp_achterdeur
+            entity: light.achterdeur_lamp
             colors:
               - color_name: 'wheat'
-                icon_color: 'wheat'  
-              - color_name: 'burlywood'
-                icon_color: 'burlywood'  
-              - color_name: 'crimson'
-                icon_color: 'crimson'
+                icon_color: 'wheat' 
+              - color_temp: 153
+                icon_color: '#A7D1FF'  
+              - color_temp: 300
+                icon_color: '#FFFFFF'  
+              - color_temp: 500
+                icon_color: '#FFA001'
 
       - type: entities
         title: Keuken
         show_header_toggle: false
         entities:
           - type: 'custom:slider-entity-row'
-            entity: light.kitchen_lights
+            entity: light.keuken_tafel
             name: Keuken
             toggle: true
           - type: custom:fold-entity-row
@@ -47,72 +51,82 @@ cards:
               type: 'custom:rgb-light-card'
               entity: light.kitchen_lights
               colors:
-                  - color_name: 'wheat'
-                    icon_color: 'wheat'  
-                  - color_name: 'burlywood'
-                    icon_color: 'burlywood'
-                  - color_name: 'crimson'
-                    icon_color: 'crimson'  
+                - color_name: 'wheat'
+                  icon_color: 'wheat' 
+                - color_temp: 153
+                  icon_color: '#A7D1FF'  
+                - color_temp: 300
+                  icon_color: '#FFFFFF'  
+                - color_temp: 500
+                  icon_color: '#FFA001'
             entities:             
               # Lamp 1
               - type: 'custom:slider-entity-row'
-                entity: light.diner_table_lamp_2
+                entity: light.keuken_lamp_1
                 name: Lamp 1
                 toggle: true
               - type: 'custom:rgb-light-card'
-                entity: light.diner_table_lamp_2
+                entity: light.keuken_lamp_1
                 colors:
                   - color_name: 'wheat'
-                    icon_color: 'wheat'  
-                  - color_name: 'burlywood'
-                    icon_color: 'burlywood'
-                  - color_name: 'crimson'
-                    icon_color: 'crimson'        
+                    icon_color: 'wheat' 
+                  - color_temp: 153
+                    icon_color: '#A7D1FF'  
+                  - color_temp: 300
+                    icon_color: '#FFFFFF'  
+                  - color_temp: 500
+                    icon_color: '#FFA001'      
               # Lamp 2
               - type: 'custom:slider-entity-row'
-                entity: light.diner_table_lamp_1
+                entity: light.keuken_lamp_2
                 name: Lamp 2
                 toggle: true
               - type: 'custom:rgb-light-card'
-                entity: light.diner_table_lamp_1
+                entity: light.keuken_lamp_2
                 colors:
                   - color_name: 'wheat'
-                    icon_color: 'wheat'  
-                  - color_name: 'burlywood'
-                    icon_color: 'burlywood'
-                  - color_name: 'crimson'
-                    icon_color: 'crimson'          
+                    icon_color: 'wheat' 
+                  - color_temp: 153
+                    icon_color: '#A7D1FF'  
+                  - color_temp: 300
+                    icon_color: '#FFFFFF'  
+                  - color_temp: 500
+                    icon_color: '#FFA001'        
               # Lamp 3
               - type: 'custom:slider-entity-row'
-                entity: light.diner_table_lamp_3
+                entity: light.keuken_lamp_3
                 name: Lamp 3
                 toggle: true
               - type: 'custom:rgb-light-card'
-                entity: light.diner_table_lamp_3
+                entity: light.keuken_lamp_3
                 colors:
                   - color_name: 'wheat'
-                    icon_color: 'wheat'  
-                  - color_name: 'burlywood'
-                    icon_color: 'burlywood'
-                  - color_name: 'crimson'
-                    icon_color: 'crimson'              
+                    icon_color: 'wheat' 
+                  - color_temp: 153
+                    icon_color: '#A7D1FF'  
+                  - color_temp: 300
+                    icon_color: '#FFFFFF'  
+                  - color_temp: 500
+                    icon_color: '#FFA001'            
               # Lamp 4
               - type: 'custom:slider-entity-row'
-                entity: light.diner_table_lamp_4
+                entity: light.keuken_lamp_4
                 name: Lamp 4
                 toggle: true
               - type: 'custom:rgb-light-card'
-                entity: light.diner_table_lamp_4
+                entity: light.keuken_lamp_4
                 colors:
                   - color_name: 'wheat'
-                    icon_color: 'wheat'  
-                  - color_name: 'burlywood'
-                    icon_color: 'burlywood'
-                  - color_name: 'crimson'
-                    icon_color: 'crimson'  
+                    icon_color: 'wheat' 
+                  - color_temp: 153
+                    icon_color: '#A7D1FF'  
+                  - color_temp: 300
+                    icon_color: '#FFFFFF'  
+                  - color_temp: 500
+                    icon_color: '#FFA001'
 
       - type: entities
-        title: Sonoff SC RGB
+        title: Kerstboom
         show_header_toggle: false
         entities:
           - light.sc_led_ring
@@ -122,24 +136,15 @@ cards:
       #######
 
       - type: entities
-        title: WC
-        show_header_toggle: false
-        entities:
-          - type: 'custom:slider-entity-row'
-            entity: light.wc
-            name: WC
-            toggle: true
-
-      - type: entities
         title: Gang
         show_header_toggle: false
         entities:
           - type: 'custom:slider-entity-row'
-            entity: light.lamp_voordeur
+            entity: light.gang_lamp
             name: Gang
             toggle: true
           - type: 'custom:rgb-light-card'
-            entity: light.lamp_voordeur
+            entity: light.gang_lamp
             colors:
               - color_name: 'wheat'
                 icon_color: 'wheat' 
@@ -155,60 +160,68 @@ cards:
         show_header_toggle: false
         entities:
           - type: 'custom:slider-entity-row'
-            entity: light.room_stefan
+            entity: light.kamer_stefan
             name: Kamer Stefan
             toggle: true
           - type: custom:fold-entity-row
             head: 
               type: 'custom:rgb-light-card'
-              entity: light.room_stefan
+              entity: light.kamer_stefan
               colors:
-                  - color_name: 'wheat'
-                    icon_color: 'wheat'  
-                  - color_name: 'burlywood'
-                    icon_color: 'burlywood'
-                  - color_name: 'crimson'
-                    icon_color: 'crimson'  
+                - color_name: 'wheat'
+                  icon_color: 'wheat' 
+                - color_temp: 153
+                  icon_color: '#A7D1FF'  
+                - color_temp: 300
+                  icon_color: '#FFFFFF'  
+                - color_temp: 500
+                  icon_color: '#FFA001'
             entities:             
               # Leeslamp
               - type: 'custom:slider-entity-row'
-                entity: light.stefan_s_leeslicht
+                entity: light.kamer_stefan_leeslamp
                 name: Leeslicht
                 toggle: true
               - type: 'custom:rgb-light-card'
-                entity: light.stefan_s_leeslicht
+                entity: light.kamer_stefan_leeslamp
                 colors:
                   - color_name: 'wheat'
-                    icon_color: 'wheat'  
-                  - color_name: 'burlywood'
-                    icon_color: 'burlywood'
-                  - color_name: 'crimson'
-                    icon_color: 'crimson'  
+                    icon_color: 'wheat' 
+                  - color_temp: 153
+                    icon_color: '#A7D1FF'  
+                  - color_temp: 300
+                    icon_color: '#FFFFFF'  
+                  - color_temp: 500
+                    icon_color: '#FFA001'
               # Kamerlamp
               - type: 'custom:slider-entity-row'
-                entity: light.stefan_s_kamerlamp
+                entity: light.kamer_stefan_lamp
                 name: Kamerlamp
                 toggle: true
               - type: 'custom:rgb-light-card'
-                entity: light.stefan_s_kamerlamp
+                entity: light.kamer_stefan_lamp
                 colors:
                   - color_name: 'wheat'
-                    icon_color: 'wheat'  
-                  - color_name: 'burlywood'
-                    icon_color: 'burlywood'
-                  - color_name: 'crimson'
-                    icon_color: 'crimson'  
+                    icon_color: 'wheat' 
+                  - color_temp: 153
+                    icon_color: '#A7D1FF'  
+                  - color_temp: 300
+                    icon_color: '#FFFFFF'  
+                  - color_temp: 500
+                    icon_color: '#FFA001'
               # Bureaulamp
               - type: 'custom:slider-entity-row'
-                entity: light.stefan_bureaulamp
+                entity: light.kamer_stefan_bureaulamp
                 name: Bureaulamp
                 toggle: true
               - type: 'custom:rgb-light-card'
-                entity: light.stefan_bureaulamp
+                entity: light.kamer_stefan_bureaulamp
                 colors:
                   - color_name: 'wheat'
-                    icon_color: 'wheat'  
-                  - color_name: 'burlywood'
-                    icon_color: 'burlywood'
-                  - color_name: 'crimson'
-                    icon_color: 'crimson'  
+                    icon_color: 'wheat' 
+                  - color_temp: 153
+                    icon_color: '#A7D1FF'  
+                  - color_temp: 300
+                    icon_color: '#FFFFFF'  
+                  - color_temp: 500
+                    icon_color: '#FFA001'

@@ -37,7 +37,7 @@ cards:
           show_states: true
           colorize_states: true
         series:
-          - entity: sensor.solaredge_energy_today_kwh
+          - entity: sensor.solaredge_energy_this_day
             type: column        
             show:
               datalabels: true
@@ -81,7 +81,7 @@ cards:
       - type: custom:apexcharts-card
         locale: 'nl'
         header:
-          title: Zonnepanelen
+          title: Vermogen
           show: true
           show_states: true
           colorize_states: true
@@ -97,21 +97,32 @@ cards:
             max: 4
         series:
           - entity: sensor.solaredgemb_ac_power_kw
-            color: green
+            name: Solar
+            color: orange
+            opacity: 0.1
             type: area
             stroke_width: 1
             show:
-              extremas: true
               name_in_header: false
-            color_threshold:
-              - value: 0
-                color: red
-              - value: 1
-                color: yellow
-              - value: 2
-                color: green
+          # - entity: sensor.power_production
+          #   name: Terugleveren
+          #   color: green
+          #   opacity: 0.1
+          #   type: area
+          #   stroke_width: 1
+          #   show:
+          #     name_in_header: false       
+          # - entity: sensor.power_consumption
+          #   name: Grid
+          #   color: blue            
+          #   opacity: 0.1
+          #   type: area
+          #   stroke_width: 1
+          #   show:
+          #     name_in_header: false                       
           - entity: sensor.solaredgemb_ac_power_kw
-            color: green
+            color: orange          
+            opacity: 0.5
             stroke_width: 2
             float_precision: 0
             type: area

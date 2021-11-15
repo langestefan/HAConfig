@@ -1,0 +1,8 @@
+# family phones push notifications
+- name: family_phones
+  platform: group
+  services:
+    - service: mobile_app_mobiel_mama
+    - service: mobile_app_mobiel_stefan
+    - service: mobile_app_gm1903
+    - service: mobile_app_oneplusnordpapa

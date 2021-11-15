@@ -1,18 +1,8 @@
-# foscam
-- platform: foscam
-  ip: !secret foscam_ip
-  username: !secret foscam_username
-  password: !secret foscam_password
-  name: !secret foscam_name
-
 # octopi
 - platform: mjpeg
   name: OctoPrint
   still_image_url: http://192.168.50.118/webcam/?action=snapshot
   mjpeg_url: http://192.168.50.118/webcam/?action=stream
-
-# regen/buienradar
-- platform: buienradar
 
 # Octoprint Preview
 - platform: generic

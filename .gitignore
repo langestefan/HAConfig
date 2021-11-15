@@ -69,3 +69,5 @@ esphome/archived
 !esphome/common/secrets.yaml
 !esphome/components/secrets.yaml
 zigbee.db
+home-assistant.log.fault
+home-assistant.log.1

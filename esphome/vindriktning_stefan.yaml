@@ -1,0 +1,17 @@
+---
+# 
+# Vindriktning Stefan
+#
+# Monitors the airquality in Stefan's room.
+#
+substitutions:
+  label: none
+  slug: vindriktning-stefan
+  name: Vindriktning Stefan
+  description: Monitors airquality (PM2.5) in Stefan's room.
+  api_password: !secret esphome_vindr_stefan_api_password
+  ota_password: !secret esphome_vindr_stefan_ota_password
+  static_ip: !secret esphome_vindr_stefan_static_ip
+
+packages:
+  device: !include devices/ikea_vindriktning.yaml

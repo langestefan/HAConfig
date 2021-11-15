@@ -1,0 +1,20 @@
+
+---
+#
+# Device: Ikea Vindriktning PM2.5 sensor
+# 
+# Ikea airquality sensor. 
+#
+# https://www.ikea.com/nl/nl/p/vindriktning-luchtkwaliteitsensor-70498242/
+#
+
+packages:
+  <<: !include_dir_named ../common
+  board: !include ../boards/wemos_d1_mini.yaml
+
+uart:
+  rx_pin: D2
+  baud_rate: 9600
+
+sensor:
+  - <<: !include ../sensors/pm1006.yaml

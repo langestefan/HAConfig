@@ -1,0 +1,52 @@
+daily_energy_offpeak:
+  source: sensor.energy_consumption_tarif_1
+  cycle: daily
+
+daily_energy_peak:
+  source: sensor.energy_consumption_tarif_2
+  cycle: daily
+
+daily_gas:
+  source: sensor.gas_consumption
+  cycle: daily
+
+monthly_energy_offpeak:
+  source: sensor.energy_consumption_tarif_1
+  cycle: monthly
+
+monthly_energy_peak:
+  source: sensor.energy_consumption_tarif_2
+  cycle: monthly
+
+monthly_gas:
+  source: sensor.gas_consumption
+  cycle: monthly
+
+daily_energy_returned:
+  source: sensor.energy_returned
+  cycle: daily
+
+monthly_energy_returned:
+  source: sensor.energy_returned
+  cycle: monthly
+
+pc_energy_consumption_daily:
+  source: sensor.energy_pc_setup
+  cycle: daily
+
+pc_energy_consumption_monthly:
+  source: sensor.energy_pc_setup
+  cycle: monthly
+
+pc_energy_consumption_monthly_green:
+  source: sensor.pc_energy_consumption_green
+  cycle: monthly
+
+# solaredge
+solaredge_energy_this_month:
+  source: sensor.solaredgemb_ac_energy_kwh
+  cycle: monthly
+
+solaredge_energy_this_day:
+  source: sensor.solaredgemb_ac_energy_kwh
+  cycle: daily  

@@ -68,3 +68,4 @@ esphome/.build
 esphome/archived
 !esphome/common/secrets.yaml
 !esphome/components/secrets.yaml
+zigbee.db

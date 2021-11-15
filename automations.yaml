@@ -1,51 +1,3 @@
-- alias: Motion Sensor Lights On
-  trigger:
-    platform: state
-    entity_id: binary_sensor.voordeur_sensor
-  condition:
-    condition: state
-    entity_id: sun.sun
-    state: below_horizon
-  action:
-    service: homeassistant.turn_on
-    entity_id: light.lamp_voordeur
-    data:
-      transition: 1
-      brightness: 200
-      color_name: wheat
-  id: 7db7f9c4ffe145f7afbf804e0c523344
-- id: '1592952081853'
-  alias: Turn on light when kitchen switch is pressed
-  description: ''
-  trigger:
-  - device_id: 244e64ce923a46e986c183f5923b01e5
-    domain: hue
-    platform: device
-    subtype: turn_on
-    type: remote_button_short_release
-  condition: []
-  action:
-  - type: turn_on
-    device_id: f78a9982007c96ad1a67292e8199accd
-    entity_id: switch.bw_shp10_1
-    domain: switch
-  mode: single
-- id: '1592952171677'
-  alias: Turn off light when kitchen swith is pressed
-  description: ''
-  trigger:
-  - device_id: 244e64ce923a46e986c183f5923b01e5
-    domain: hue
-    platform: device
-    subtype: turn_off
-    type: remote_button_short_release
-  condition: []
-  action:
-  - type: turn_off
-    device_id: f78a9982007c96ad1a67292e8199accd
-    entity_id: switch.bw_shp10_1
-    domain: switch
-  mode: single
 - id: '1614892098467'
   alias: Home Assistant update notification
   description: ''
@@ -68,26 +20,11 @@
       reminder_time: '10:00:00'
       reminder_title: Afval herinnering
       reminder_message: 'Morgen wordt opgehaald:  '
-      notifier: notify.mobi
       garbage_sensor_1: sensor.afvalinfo_papier_ymd
       garbage_sensor_2: sensor.afvalinfo_pbd_ymd
       garbage_sensor_3: sensor.afvalinfo_restafval_ymd
       garbage_sensor_4: sensor.afvalinfo_gft_ymd
-- id: '1615979101691'
-  alias: Garbage reminder mama
-  description: ''
-  use_blueprint:
-    path: westenberg/garbage-reminder.yaml
-    input:
-      day_offset: '1'
-      reminder_time: '10:00:00'
-      reminder_title: Afval herinnering
-      reminder_message: 'Morgen wordt opgehaald: '
-      notifier: notify.mobile_app_sm_a520f
-      garbage_sensor_1: sensor.afvalinfo_gft_ymd
-      garbage_sensor_2: sensor.afvalinfo_papier_ymd
-      garbage_sensor_3: sensor.afvalinfo_pbd_ymd
-      garbage_sensor_4: sensor.afvalinfo_restafval_ymd
+      notifier: notify.family_phones
 - id: unavailable_entities_notification
   alias: Unavailable Entities Notification
   description: Create persistent notification if there are unavailable entities, dismiss
@@ -114,4 +51,83 @@
 
           - '') }}'
         notification_id: unavailable_entities
- 
+- id: '1635608563987'
+  alias: ZHA - Philips Hue Dimmer Switch Kamer Stefan
+  description: ''
+  use_blueprint:
+    path: vanstinator/zha-philips-hue-dimmer-switch-rwl020-rwl021.yaml
+    input:
+      remote: 0e31c0fce49bb254ebfa1cd927f71017
+      brightness: 70
+      light:
+        entity_id:
+        - light.kamer_stefan_leeslamp
+        - light.kamer_stefan_lamp
+        - light.kamer_stefan_bureaulamp
+- id: '1635619715991'
+  alias: ZHA - Philips Hue Dimmer Switch Keuken
+  description: ''
+  use_blueprint:
+    path: vanstinator/zha-philips-hue-dimmer-switch-rwl020-rwl021.yaml
+    input:
+      remote: bee3e75754cde7880141e304e1035169
+      brightness: 40
+      force_brightness: true
+      light:
+        area_id:
+        - achterdeur
+        - 283dbabf623d4e009860c39890fdc8e9
+        - fe7b5b313f884c66812a4b7b3fb1f162
+- id: '1635630838683'
+  alias: Motion sensor lamp gang
+  description: ''
+  trigger:
+  - type: occupied
+    platform: device
+    device_id: ba3728975b6617385f91e760b5501c8f
+    entity_id: binary_sensor.gang_beweging_sensor
+    domain: binary_sensor
+  condition:
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: sun.sun
+      state: below_horizon
+    - condition: numeric_state
+      entity_id: sensor.gang_beweging_sensor_lux
+      below: '5'
+  action:
+  - type: turn_on
+    device_id: d84a8f705175b8cdb9ec708122336b6c
+    entity_id: light.gang_lamp
+    domain: light
+    brightness_pct: 60
+  - delay:
+      hours: 0
+      minutes: 5
+      seconds: 0
+      milliseconds: 0
+  - type: turn_off
+    device_id: d84a8f705175b8cdb9ec708122336b6c
+    entity_id: light.gang_lamp
+    domain: light
+  mode: restart
+- id: '1635874279845'
+  alias: Low battery level detection & notification for all battery sensors
+  description: ''
+  use_blueprint:
+    path: tykeal/low-battery.yaml
+    input:
+      actions:
+      - service: notify.mobile_app_mobiel_stefan
+        data:
+          title: Batterij laag! 🔋
+          message: 'Batterij is laag voor: {{sensors}}'
+      exclude:
+        entity_id: []
+        device_id:
+        - 77c85b50e9a433ee4e281cb1d8ffd178
+        - 7d65adcd43584595a568550bd4894e87
+        - 7f43d99feb035376afb28284dfd44743
+        - 24426efdfe135d6d9244b25d13739ca5
+        - 4915d4c39c644da99989890b4c95786e

@@ -50,3 +50,7 @@ solaredge_energy_this_month:
 solaredge_energy_this_day:
   source: sensor.solaredgemb_ac_energy_kwh
   cycle: daily  
+
+solaredge_energy_hourly:
+  source: sensor.solaredgemb_ac_energy_kwh
+  cycle: hourly    

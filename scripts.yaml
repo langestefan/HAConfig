@@ -1,6 +1,18 @@
-stefanpc_turnoff:
-    sequence:
-     - service: hassio.addon_stdin
-       data:
-         addon: core_rpc_shutdown
-         input: !secret pc_name
+test123:
+  alias: Flashing light 10 times
+  sequence:
+  - repeat:
+      count: '10'
+      sequence:
+      - service: light.toggle
+        target:
+          entity_id: light.kamer_stefan_bureaulamp
+        data:
+          flash: long
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 0
+          milliseconds: 500
+  mode: single
+  icon: mdi:alarm-light

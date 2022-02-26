@@ -512,7 +512,6 @@
   sampling_size: 100
   max_age:
     minutes: 20
-
 - platform: template
   sensors:
     pm_2_5_living_room_mean:
@@ -527,3 +526,11 @@
       value_template: "{{ state_attr('sensor.pm_2_5_livingroom_stats', 'min_value') | float }}"
       friendly_name: PM2.5 living room min
       unit_of_measurement: "µg/m³"
+
+# test last changed timestamp update
+- platform: template
+  sensors:
+    sensor_keuken_dimschakelaar_lastupdate:
+      friendly_name: "humidity room"
+      value_template: "{{ states.binary_sensor.keuken_dimschakelaar.last_changed }}"
+      device_class: timestamp

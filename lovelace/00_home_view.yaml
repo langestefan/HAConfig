@@ -248,6 +248,20 @@ cards:
             name: Fan
             sendStateWithSpeed: true
             customTheme: true
+
+      - type: 'custom:mini-graph-card'
+        entities:
+          - entity: sensor.solaredge_current_power
+            color: '#00AA00'
+            name: Solar edge 
+        name: Solaredge per uur
+        show:
+          graph: bar
+          labels: true
+        group_by: hour
+        aggregate_func: max
+        # hour24: true  
+
       - type: statistics-graph
         title: "Luchtkwaliteit kamer Stefan PM2.5"
         entities:
@@ -304,6 +318,25 @@ cards:
             stroke_width: 1
             type: "area"
             color: "#FFFFFF"
+            show:
+              name_in_header: false
+              legend_value: false
+
+       # air quality test 123
+      - type: custom:apexcharts-card
+        chart_type: radialBar
+        header:
+          title: Luchtkwaliteit kamer Stefan
+          show: true
+          show_states: false
+          colorize_states: true
+        graph_span: 12h
+        apex_config:
+          yaxis:
+            forceNiceScale: true
+        series:
+          - entity: sensor.pm_2_5_stefan_max
+            name: Max
             show:
               name_in_header: false
               legend_value: false

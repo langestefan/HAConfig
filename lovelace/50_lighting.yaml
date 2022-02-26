@@ -13,7 +13,7 @@ cards:
         title: Boekenkast
         show_header_toggle: false
         entities:
-          - type: 'custom:slider-entity-row'
+          - type: "custom:slider-entity-row"
             entity: light.boekenkast_lamp
             name: Boekenkast
             toggle: true
@@ -22,116 +22,145 @@ cards:
         title: Achterdeur
         show_header_toggle: false
         entities:
-          - type: 'custom:slider-entity-row'
+          - type: "custom:slider-entity-row"
             entity: light.achterdeur_lamp
             name: Achterdeur
             toggle: true
-          - type: 'custom:rgb-light-card'
+          - type: "custom:rgb-light-card"
             entity: light.achterdeur_lamp
             colors:
-              - color_name: 'wheat'
-                icon_color: 'wheat' 
+              - color_name: "wheat"
+                icon_color: "wheat"
               - color_temp: 153
-                icon_color: '#A7D1FF'  
+                icon_color: "#A7D1FF"
               - color_temp: 300
-                icon_color: '#FFFFFF'  
+                icon_color: "#FFFFFF"
               - color_temp: 500
-                icon_color: '#FFA001'
+                icon_color: "#FFA001"
 
       - type: entities
         title: Keuken
         show_header_toggle: false
         entities:
-          - type: 'custom:slider-entity-row'
+          - type: "custom:slider-entity-row"
             entity: light.keuken_tafel
             name: Keuken
             toggle: true
           - type: custom:fold-entity-row
-            head: 
-              type: 'custom:rgb-light-card'
+            head:
+              type: "custom:rgb-light-card"
               entity: light.kitchen_lights
               colors:
-                - color_name: 'wheat'
-                  icon_color: 'wheat' 
+                - color_name: "wheat"
+                  icon_color: "wheat"
                 - color_temp: 153
-                  icon_color: '#A7D1FF'  
+                  icon_color: "#A7D1FF"
                 - color_temp: 300
-                  icon_color: '#FFFFFF'  
+                  icon_color: "#FFFFFF"
                 - color_temp: 500
-                  icon_color: '#FFA001'
-            entities:             
+                  icon_color: "#FFA001"
+            entities:
               # Lamp 1
-              - type: 'custom:slider-entity-row'
+              - type: "custom:slider-entity-row"
                 entity: light.keuken_lamp_1
                 name: Lamp 1
                 toggle: true
-              - type: 'custom:rgb-light-card'
+              - type: "custom:rgb-light-card"
                 entity: light.keuken_lamp_1
                 colors:
-                  - color_name: 'wheat'
-                    icon_color: 'wheat' 
+                  - color_name: "wheat"
+                    icon_color: "wheat"
                   - color_temp: 153
-                    icon_color: '#A7D1FF'  
+                    icon_color: "#A7D1FF"
                   - color_temp: 300
-                    icon_color: '#FFFFFF'  
+                    icon_color: "#FFFFFF"
                   - color_temp: 500
-                    icon_color: '#FFA001'      
+                    icon_color: "#FFA001"
               # Lamp 2
-              - type: 'custom:slider-entity-row'
+              - type: "custom:slider-entity-row"
                 entity: light.keuken_lamp_2
                 name: Lamp 2
                 toggle: true
-              - type: 'custom:rgb-light-card'
+              - type: "custom:rgb-light-card"
                 entity: light.keuken_lamp_2
                 colors:
-                  - color_name: 'wheat'
-                    icon_color: 'wheat' 
+                  - color_name: "wheat"
+                    icon_color: "wheat"
                   - color_temp: 153
-                    icon_color: '#A7D1FF'  
+                    icon_color: "#A7D1FF"
                   - color_temp: 300
-                    icon_color: '#FFFFFF'  
+                    icon_color: "#FFFFFF"
                   - color_temp: 500
-                    icon_color: '#FFA001'        
+                    icon_color: "#FFA001"
               # Lamp 3
-              - type: 'custom:slider-entity-row'
+              - type: "custom:slider-entity-row"
                 entity: light.keuken_lamp_3
                 name: Lamp 3
                 toggle: true
-              - type: 'custom:rgb-light-card'
+              - type: "custom:rgb-light-card"
                 entity: light.keuken_lamp_3
                 colors:
-                  - color_name: 'wheat'
-                    icon_color: 'wheat' 
+                  - color_name: "wheat"
+                    icon_color: "wheat"
                   - color_temp: 153
-                    icon_color: '#A7D1FF'  
+                    icon_color: "#A7D1FF"
                   - color_temp: 300
-                    icon_color: '#FFFFFF'  
+                    icon_color: "#FFFFFF"
                   - color_temp: 500
-                    icon_color: '#FFA001'            
+                    icon_color: "#FFA001"
               # Lamp 4
-              - type: 'custom:slider-entity-row'
+              - type: "custom:slider-entity-row"
                 entity: light.keuken_lamp_4
                 name: Lamp 4
                 toggle: true
-              - type: 'custom:rgb-light-card'
+              - type: "custom:rgb-light-card"
                 entity: light.keuken_lamp_4
                 colors:
-                  - color_name: 'wheat'
-                    icon_color: 'wheat' 
+                  - color_name: "wheat"
+                    icon_color: "wheat"
                   - color_temp: 153
-                    icon_color: '#A7D1FF'  
+                    icon_color: "#A7D1FF"
                   - color_temp: 300
-                    icon_color: '#FFFFFF'  
+                    icon_color: "#FFFFFF"
                   - color_temp: 500
-                    icon_color: '#FFA001'
+                    icon_color: "#FFA001"
 
+      - type: custom:light-entity-card
+        header: Kerstboom
+        entity: light.wled_kerstboom 
       - type: entities
-        title: Kerstboom
-        show_header_toggle: false
-        entities:
-          - light.sc_led_ring
+        entities: 
+          - entity: select.wled_kerstboom_color_palette
+            name: Kerstboom kleurpalette
+          - entity: number.wled_kerstboom_speed
+            name: Kerstboom effect snelheid
 
-      #######        
+      - type: custom:apexcharts-card
+        locale: 'nl'
+        header:
+          title: Kerstboom stroom mA
+          show: true
+          show_states: true
+          colorize_states: true
+        experimental:
+          brush: true 
+        graph_span: 1h 
+        apex_config:
+          yaxis:
+            forceNiceScale: true
+          chart:
+            height: 150px            
+        series:
+          - entity: sensor.wled_kerstboom_estimated_current
+            name: Solar
+            color: red
+            opacity: 1
+            type: line
+            stroke_width: 2
+            show:
+              name_in_header: false        
+
+      #######
       - type: custom:layout-break
       #######
 
@@ -139,89 +168,89 @@ cards:
         title: Gang
         show_header_toggle: false
         entities:
-          - type: 'custom:slider-entity-row'
+          - type: "custom:slider-entity-row"
             entity: light.gang_lamp
             name: Gang
             toggle: true
-          - type: 'custom:rgb-light-card'
+          - type: "custom:rgb-light-card"
             entity: light.gang_lamp
             colors:
-              - color_name: 'wheat'
-                icon_color: 'wheat' 
+              - color_name: "wheat"
+                icon_color: "wheat"
               - color_temp: 153
-                icon_color: '#A7D1FF'  
+                icon_color: "#A7D1FF"
               - color_temp: 300
-                icon_color: '#FFFFFF'  
+                icon_color: "#FFFFFF"
               - color_temp: 500
-                icon_color: '#FFA001'
+                icon_color: "#FFA001"
 
       - type: entities
         title: Kamer Stefan
         show_header_toggle: false
         entities:
-          - type: 'custom:slider-entity-row'
+          - type: "custom:slider-entity-row"
             entity: light.kamer_stefan
             name: Kamer Stefan
             toggle: true
           - type: custom:fold-entity-row
-            head: 
-              type: 'custom:rgb-light-card'
+            head:
+              type: "custom:rgb-light-card"
               entity: light.kamer_stefan
               colors:
-                - color_name: 'wheat'
-                  icon_color: 'wheat' 
+                - color_name: "wheat"
+                  icon_color: "wheat"
                 - color_temp: 153
-                  icon_color: '#A7D1FF'  
+                  icon_color: "#A7D1FF"
                 - color_temp: 300
-                  icon_color: '#FFFFFF'  
+                  icon_color: "#FFFFFF"
                 - color_temp: 500
-                  icon_color: '#FFA001'
-            entities:             
+                  icon_color: "#FFA001"
+            entities:
               # Leeslamp
-              - type: 'custom:slider-entity-row'
+              - type: "custom:slider-entity-row"
                 entity: light.kamer_stefan_leeslamp
                 name: Leeslicht
                 toggle: true
-              - type: 'custom:rgb-light-card'
+              - type: "custom:rgb-light-card"
                 entity: light.kamer_stefan_leeslamp
                 colors:
-                  - color_name: 'wheat'
-                    icon_color: 'wheat' 
+                  - color_name: "wheat"
+                    icon_color: "wheat"
                   - color_temp: 153
-                    icon_color: '#A7D1FF'  
+                    icon_color: "#A7D1FF"
                   - color_temp: 300
-                    icon_color: '#FFFFFF'  
+                    icon_color: "#FFFFFF"
                   - color_temp: 500
-                    icon_color: '#FFA001'
+                    icon_color: "#FFA001"
               # Kamerlamp
-              - type: 'custom:slider-entity-row'
+              - type: "custom:slider-entity-row"
                 entity: light.kamer_stefan_lamp
                 name: Kamerlamp
                 toggle: true
-              - type: 'custom:rgb-light-card'
+              - type: "custom:rgb-light-card"
                 entity: light.kamer_stefan_lamp
                 colors:
-                  - color_name: 'wheat'
-                    icon_color: 'wheat' 
+                  - color_name: "wheat"
+                    icon_color: "wheat"
                   - color_temp: 153
-                    icon_color: '#A7D1FF'  
+                    icon_color: "#A7D1FF"
                   - color_temp: 300
-                    icon_color: '#FFFFFF'  
+                    icon_color: "#FFFFFF"
                   - color_temp: 500
-                    icon_color: '#FFA001'
+                    icon_color: "#FFA001"
               # Bureaulamp
-              - type: 'custom:slider-entity-row'
+              - type: "custom:slider-entity-row"
                 entity: light.kamer_stefan_bureaulamp
                 name: Bureaulamp
                 toggle: true
-              - type: 'custom:rgb-light-card'
+              - type: "custom:rgb-light-card"
                 entity: light.kamer_stefan_bureaulamp
                 colors:
-                  - color_name: 'wheat'
-                    icon_color: 'wheat' 
+                  - color_name: "wheat"
+                    icon_color: "wheat"
                   - color_temp: 153
-                    icon_color: '#A7D1FF'  
+                    icon_color: "#A7D1FF"
                   - color_temp: 300
-                    icon_color: '#FFFFFF'  
+                    icon_color: "#FFFFFF"
                   - color_temp: 500
-                    icon_color: '#FFA001'
+                    icon_color: "#FFA001"

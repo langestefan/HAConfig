@@ -24,6 +24,11 @@ cards:
                 show_header_toggle: false
                 entities: 
                   - sensor.last_boot
+              - type: entities
+                entities:
+                - entity: binary_sensor.mobiel_stefan_bluetooth_state_test
+                  secondary_info: last-changed                
+
 
           #######
           - type: custom:layout-break
@@ -149,3 +154,4 @@ cards:
                 font_size: 80
                 line_color: "#389638"
                 line_width: 2
+

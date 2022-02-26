@@ -1,4 +1,3 @@
-
 # Hue motion sensor
 - platform: mqtt
   state_topic: 'sensors/gang/motion'
@@ -9,4 +8,23 @@
   payload_off: "false"
   device_class: 'motion'
 
-# - platform: huesensor
+# sleep sensor
+- platform: template
+  sensors:
+    stefan_slaapt:
+      value_template: >-
+        {{ is_state('sensor.mobiel_stefan_battery_state','charging')
+        and is_state('device_tracker.mobiel_stefan','home')
+        and is_state('light.kamer_stefan','off') }}
+
+# binary sensor icon test
+- platform: template
+  sensors:
+    mobiel_stefan_bluetooth_state_test: 
+      value_template: "{{ states('binary_sensor.mobiel_stefan_bluetooth_state') }}"
+      icon_template: >-
+        {% if is_state("binary_sensor.mobiel_stefan_bluetooth_state", "on") %}
+          mdi:email-alert-outline
+        {% else %}
+          mdi:email-remove-outline
+        {% endif %}

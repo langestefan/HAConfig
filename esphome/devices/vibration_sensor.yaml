@@ -1,0 +1,22 @@
+
+---
+#
+# Device: Door bell sensor using vibration sensor
+# 
+# Using SW420 sensor
+#
+# https://github.com/rmooreID/Home-Assistant-Appliance-Monitor/
+#
+
+packages:
+  <<: !include_dir_named ../common
+  board: !include ../boards/nodemcu_v2.yaml
+
+binary_sensor:
+ - platform: gpio
+   pin: GPIO13
+   name: "${name} vibration sensor"
+   device_class: vibration
+   filters:
+   - delayed_on: 10ms
+   - delayed_off: 10ms

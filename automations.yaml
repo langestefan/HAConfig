@@ -131,3 +131,50 @@
         - 7f43d99feb035376afb28284dfd44743
         - 24426efdfe135d6d9244b25d13739ca5
         - 4915d4c39c644da99989890b4c95786e
+- id: '1642976109058'
+  alias: Deurbel app/licht notificatie
+  description: Deurbel app/licht notificatie
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.doorbell_sensor_vibration_sensor
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: zone
+    entity_id: device_tracker.mobiel_stefan
+    zone: zone.home
+  action:
+  - service: notify.mobile_app_mobiel_stefan
+    data:
+      message: De bel gaat!
+      title: Bel! 🔔🔔🔔
+  - service: script.test123
+  - delay:
+      hours: 0
+      minutes: 1
+      seconds: 0
+      milliseconds: 0
+  mode: single
+- id: '1644356794224'
+  alias: HA shutdown
+  description: ''
+  trigger:
+  - platform: homeassistant
+    event: shutdown
+    id: shutdown
+  - platform: homeassistant
+    event: start
+    id: start
+  condition: []
+  action:
+  - service: notify.mobile_app_mobiel_stefan
+    data:
+      message: Yes/No
+      title: Please select one
+      data:
+        actions:
+        - action: SEND_YES
+          title: Yes!
+        - action: SEND_NO
+          title: No!
+  mode: single

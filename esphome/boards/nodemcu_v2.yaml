@@ -1,0 +1,11 @@
+---
+#
+# NodeMCU ESP8266. Generic devkit.
+#
+# https://esphome.io/devices/nodemcu_esp8266.html
+#
+
+esphome:
+  <<: !include .esphome.yaml
+  platform: ESP8266
+  board: nodemcuv2

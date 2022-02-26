@@ -104,6 +104,7 @@ utility_meter: !include utility_meter.yaml
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
+# script:
 scene: !include scenes.yaml
 sensor: !include sensor.yaml
 binary_sensor: !include binary_sensor.yaml

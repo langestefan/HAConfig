@@ -11,13 +11,13 @@
       notify_device: 24426efdfe135d6d9244b25d13739ca5
       is_ios: false
 - id: '1615978879105'
-  alias: Garbage reminder stefan
+  alias: Afval herinnering fam
   description: ''
   use_blueprint:
     path: westenberg/garbage-reminder.yaml
     input:
       day_offset: '1'
-      reminder_time: '10:00:00'
+      reminder_time: '19:00:00'
       reminder_title: Afval herinnering
       reminder_message: 'Morgen wordt opgehaald:  '
       garbage_sensor_1: sensor.afvalinfo_papier_ymd
@@ -64,6 +64,7 @@
         - light.kamer_stefan_leeslamp
         - light.kamer_stefan_lamp
         - light.kamer_stefan_bureaulamp
+      force_brightness: true
 - id: '1635619715991'
   alias: ZHA - Philips Hue Dimmer Switch Keuken
   description: ''
@@ -82,35 +83,49 @@
   alias: Motion sensor lamp gang
   description: ''
   trigger:
-  - type: occupied
-    platform: device
-    device_id: ba3728975b6617385f91e760b5501c8f
+  - platform: state
     entity_id: binary_sensor.gang_beweging_sensor
-    domain: binary_sensor
-  condition:
-  - condition: or
-    conditions:
-    - condition: state
-      entity_id: sun.sun
-      state: below_horizon
-    - condition: numeric_state
-      entity_id: sensor.gang_beweging_sensor_lux
-      below: '5'
-  action:
-  - type: turn_on
-    device_id: d84a8f705175b8cdb9ec708122336b6c
-    entity_id: light.gang_lamp
-    domain: light
-    brightness_pct: 60
-  - delay:
+    id: motion_on
+    from: 'off'
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.gang_beweging_sensor
+    id: motion_off
+    from: 'on'
+    to: 'off'
+    for:
       hours: 0
-      minutes: 5
+      minutes: 1
       seconds: 0
-      milliseconds: 0
-  - type: turn_off
-    device_id: d84a8f705175b8cdb9ec708122336b6c
-    entity_id: light.gang_lamp
-    domain: light
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: motion_on
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: sun.sun
+          state: below_horizon
+        - condition: numeric_state
+          entity_id: sensor.gang_beweging_sensor_lux
+          below: '5'
+      sequence:
+      - type: turn_on
+        device_id: d84a8f705175b8cdb9ec708122336b6c
+        entity_id: light.gang_lamp
+        domain: light
+        brightness_pct: 60
+    - conditions:
+      - condition: trigger
+        id: motion_off
+      sequence:
+      - type: turn_off
+        device_id: d84a8f705175b8cdb9ec708122336b6c
+        entity_id: light.gang_lamp
+        domain: light
+    default: []
   mode: restart
 - id: '1635874279845'
   alias: Low battery level detection & notification for all battery sensors

@@ -1,0 +1,138 @@
+---
+# Device: BlitzWolf SHP10
+#
+# ESPHome device template for BlitzWolf SHP10
+#
+# Should include power sensor, buttons, LEDs etc.
+#
+# https://templates.blakadder.com/blitzwolf_SHP10P
+#
+packages:
+  <<: !include_dir_named ../common
+  board: !include ../boards/esp8285.yaml
+
+uart:
+  id: uart_bus
+  tx_pin: TX
+  rx_pin: RX
+  baud_rate: 4800
+  stop_bits: 1
+
+sensor:
+  #
+  # Power measurement sensor bl0940
+  #
+  - platform: bl0940
+    uart_id: uart_bus
+
+    # Current sensor
+    current:
+      id: device_current
+      name: "${name} Current"
+      unit_of_measurement: "A"
+      accuracy_decimals: 3
+      filters:
+        # Map 0.0 (from sensor) to 0.0 (true value)
+        # - calibrate_linear:
+            # - 0.0 -> 0.014
+            # - 0.07725 -> 0.072
+            # - 1.31809 -> 1.062
+            # - 1.41948 -> 1.129
+            # - 5.34961 -> 4.361
+            # - 12.36976 -> 9.891
+        # Make everything below 0.01A appear as just 0A.
+        # Furthermore it corrects 0.015A for the power usage of the device.
+        - lambda: if (x < (0.01 - 0.015)) return 0; else return (x - 0.015);
+
+    # Voltage sensor
+    voltage:
+      id: device_voltage
+      name: "${name} Voltage"
+      unit_of_measurement: "V"
+      accuracy_decimals: 1
+      # filters:
+        # Map 0.0 (from sensor) to 0.0 (true value)
+        # - calibrate_linear:
+            # - 0.0 -> 0.0
+            # - 587.21063 -> 226.1
+            # - 605.87170 -> 231.8
+
+    # Power sensor
+    power:
+      id: device_power
+      name: "${name} Power"
+      unit_of_measurement: "W"
+      accuracy_decimals: 0
+      filters:
+        # Map 0.0 (from sensor) to 0.0 (true value)
+        - calibrate_linear:
+            - 0.0 -> 0.7
+            - 701 -> 737
+            - 1116 -> 1173
+            - 1758 -> 1845
+        # Make everything below 2W appear as just 0W.
+        # Furthermore it corrects 0.70 for the power usage of the plug.
+        - lambda: if (x < (2 + 0.70)) return 0; else return (x - 0.70);
+
+    # BL0940 energy sensor
+    energy:
+      name: "${name} Energy"
+    
+    # Internal temperature sensor
+    internal_temperature:
+      unit_of_measurement: "°C"
+      name: "${name} Internal temperature"
+
+    # External temperature sensor
+    external_temperature:
+      unit_of_measurement: "°C"
+      name: "${name} External temperature"
+
+    # Device update interval
+    update_interval: 15s      
+
+  - <<: !include ../sensors/total_daily_energy.yaml
+    power_id: device_power
+
+binary_sensor:
+  # Binary sensor for the button press
+  - platform: gpio
+    id: device_button
+    name: "${name} Button"
+    pin:
+      number: GPIO13
+      mode: INPUT_PULLUP
+      inverted: true
+    on_press:
+      then:
+        - switch.toggle: device_relay
+
+switch:
+  # Switch to toggle the relay
+  - platform: gpio
+    id: device_relay
+    name: "${name}"
+    restore_mode: RESTORE_DEFAULT_ON
+    pin: GPIO5
+    on_turn_on:
+      - light.turn_on: device_led
+    on_turn_off:
+      - light.turn_off: device_led
+
+output:
+  - platform: esp8266_pwm
+    id: device_output_led
+    pin:
+      number: GPIO0
+      inverted: true
+
+light:
+  - platform: monochromatic
+    id: device_led
+    output: device_output_led
+
+# Uses the red LED as status indicator
+status_led:
+  pin:
+    number: GPIO4
+    inverted: true

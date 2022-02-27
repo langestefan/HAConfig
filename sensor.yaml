@@ -215,11 +215,11 @@
       unit_of_measurement: "kW"
       value_template: >-
         {% if(states('sensor.power_production')|float > 0|float) -%}
-          {{ states('sensor.bw_shp10_2_energy_power_2')|float / 1000 }}
+          {{ states('sensor.pc_stefan_power')|float / 1000 }}
           {%- else -%}
             {{
               ((
-                states('sensor.bw_shp10_2_energy_power_2')|float   * 
+                states('sensor.pc_stefan_power')|float   * 
                 (
                   states('sensor.solaredgemb_ac_power_kw')|float / 
                   (states('sensor.netto_consumption'))|float
@@ -249,11 +249,6 @@
 - platform: integration
   source: sensor.power_production
   name: energy_returned
-
-# integration for PC energy usage sensor
-- platform: integration
-  source: sensor.bw_shp10_2_energy_power_2
-  name: energy_pc_setup
 
 # Octoprint Current Filename
 - platform: rest

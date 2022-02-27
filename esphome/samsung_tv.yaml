@@ -1,0 +1,16 @@
+---
+# Samsung TV
+#
+# Monitors the power used by the Samsung TV
+#
+substitutions:
+  label: none
+  slug: samsung-tv
+  name: Samsung TV
+  description: Monitors power used by samsung TV.
+  api_password: !secret esphome_samsung_tv_api_password
+  ota_password: !secret esphome_samsung_tv_ota_password
+  static_ip: !secret esphome_samsung_tv_static_ip
+
+packages:
+  device: !include devices/blitzwolf_shp10.yaml

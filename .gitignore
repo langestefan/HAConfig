@@ -71,3 +71,6 @@ esphome/archived
 zigbee.db
 home-assistant.log.fault
 home-assistant.log.1
+
+# local images
+image/

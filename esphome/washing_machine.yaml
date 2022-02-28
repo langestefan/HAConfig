@@ -1,0 +1,16 @@
+---
+# Washing machine.
+#
+# Monitors the power used by the washing machine.
+#
+substitutions:
+  label: none
+  slug: washing-machine
+  name: Washing Machine
+  description: Monitors power used by the washing machine.
+  api_password: !secret esphome_washing_machine_api_password
+  ota_password: !secret esphome_washing_machine_ota_password
+  static_ip: !secret esphome_washing_machine_static_ip
+
+packages:
+  device: !include devices/blitzwolf_shp10.yaml

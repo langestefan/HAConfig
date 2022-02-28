@@ -529,3 +529,4 @@
       friendly_name: "humidity room"
       value_template: "{{ states.binary_sensor.keuken_dimschakelaar.last_changed }}"
       device_class: timestamp
+       

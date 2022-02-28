@@ -1,0 +1,16 @@
+---
+# Attic 3D printer
+#
+# Gosund SP1 for the 3D printer in the attic. 
+#
+substitutions:
+  label: esp10
+  slug: attic-3d-printer
+  name: Attic 3D printer
+  description: Monitors power used by Stefan's AC.
+  api_password: !secret esphome_attic_3d_printer_api_password
+  ota_password: !secret esphome_attic_3d_printer_ota_password
+  static_ip: !secret esphome_attic_3d_printer_static_ip
+
+packages:
+  device: !include devices/gosund_sp1.yaml

@@ -46,8 +46,8 @@ cards:
                 entities:
                   - entity: sensor.octoprint_current_filename                  
                     icon: mdi:rename-box
-                  - entity: sensor.octoprint_time_elapsed_friendly
-                  - entity: sensor.octoprint_time_remaining_friendly
+                  - entity: sensor.octoprint_start_time
+                  - entity: sensor.octoprint_estimated_finish_time
               - type: conditional
                 conditions:
                   - entity: binary_sensor.octoprint_printing
@@ -59,9 +59,9 @@ cards:
                   camera_image: camera.octoprint_preview
               - type: entities
                 entities:
-                - entity: switch.switch_2
+                - entity: switch.attic_3d_printer
                   name: Printer on/off
-                - entity: sensor.power_2
+                - entity: sensor.attic_3d_printer_power
                   name: Printer power
 
 
@@ -70,42 +70,77 @@ cards:
           - type: custom:layout-break
           #######
 
-          - type: vertical-stack
-            cards:
-              - type: custom:mini-graph-card
+          # Tool temperature
+          - type: custom:apexcharts-card
+            locale: 'nl'
+            header:
+              title: Tool temperature
+              show: true
+              show_states: true
+              colorize_states: true
+            experimental:
+              brush: true 
+            graph_span: 2h 
+            brush:
+              selection_span: 2h
+            apex_config:
+              yaxis:
+                forceNiceScale: true
+                # min: 0
+                # max: 4
+            series:
+              # Tool
+              - entity: sensor.octoprint_actual_tool0_temp
+                name: Current nozzle temp
+                color: red
+                opacity: 0.1
+                type: area
+                stroke_width: 1
                 show:
-                  labels: true
-                  labels_secondary: true
-                  icon: true
-                name: Tool temperature
-                entities:
-                  - entity: sensor.octoprint_actual_tool0_temp
-                    name: Current nozzle temp
-                  - entity: sensor.octoprint_target_tool0_temp
-                    name: Target nozzle temp
-                font_size: 80
-                line_color: "#FF0000"
-                line_width: 2
-                hours_to_show: 1
-                points_per_hour: 60
-                smoothing: false
-                lower_bound: 0
-              - type: custom:mini-graph-card
+                  name_in_header: true
+              - entity: sensor.octoprint_target_tool0_temp
+                name: Target nozzle temp
+                color: orange
+                opacity: 0.1
+                type: area
+                stroke_width: 1
                 show:
-                  labels: true
-                  labels_secondary: true
-                  icon: true
-                name: Bed temperature
-                entities:
-                  - entity: sensor.octoprint_actual_bed_temp
-                    name: Current bed temp
-                  - entity: sensor.octoprint_target_bed_temp
-                    name: Target bed temp
-                font_size: 80
-                line_color: "#0000FF"
-                line_width: 2
-                hours_to_show: 1
-                points_per_hour: 60
-                smoothing: false
-                lower_bound: 0
+                  name_in_header: true      
+
+          # Bed temperature
+          - type: custom:apexcharts-card
+            locale: 'nl'
+            header:
+              title: Bed temperature
+              show: true
+              show_states: true
+              colorize_states: true
+            experimental:
+              brush: true 
+            graph_span: 2h 
+            brush:
+              selection_span: 2h
+            apex_config:
+              yaxis:
+                forceNiceScale: true
+                # min: 0
+                # max: 4
+            series:
+              # Bed
+              - entity: sensor.octoprint_actual_bed_temp
+                name: Current bed temp
+                color: blue
+                opacity: 0.1
+                type: area
+                stroke_width: 1
+                show:
+                  name_in_header: true
+              - entity: sensor.octoprint_target_bed_temp
+                name: Target bed temp
+                color: purple
+                opacity: 0.1
+                type: area
+                stroke_width: 1
+                show:
+                  name_in_header: true                           
 

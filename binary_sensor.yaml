@@ -28,3 +28,27 @@
         {% else %}
           mdi:email-remove-outline
         {% endif %}
+
+# washing machine status on/off
+- platform: template
+  sensors:
+    washer_status:
+      friendly_name: "Washing Machine status"
+      delay_on:
+        minutes: 2
+      delay_off:
+        minutes: 6
+      value_template: >-
+        {{ states('sensor.washing_machine_power')|float > 2 }}   
+
+# TV status on/off
+- platform: template
+  sensors:
+    tv_status:
+      friendly_name: "TV status"
+      delay_on:
+        minutes: 2
+      delay_off:
+        minutes: 2
+      value_template: >-
+        {{ states('sensor.samsung_tv_power')|float > 30 }}             

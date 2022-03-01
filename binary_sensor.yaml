@@ -39,7 +39,7 @@
       delay_off:
         minutes: 6
       value_template: >-
-        {{ states('sensor.washing_machine_power')|float > 2 }}   
+        {{ states('sensor.washing_machine_power')|float > 3 }}   
 
 # TV status on/off
 - platform: template
@@ -47,8 +47,8 @@
     tv_status:
       friendly_name: "TV status"
       delay_on:
-        minutes: 2
+        minutes: 1
       delay_off:
-        minutes: 2
+        minutes: 1
       value_template: >-
         {{ states('sensor.samsung_tv_power')|float > 30 }}             

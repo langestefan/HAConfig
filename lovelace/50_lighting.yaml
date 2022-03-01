@@ -125,41 +125,6 @@ cards:
                   - color_temp: 500
                     icon_color: "#FFA001"
 
-      - type: custom:light-entity-card
-        header: Kerstboom
-        entity: light.wled_kerstboom 
-      - type: entities
-        entities: 
-          - entity: select.wled_kerstboom_color_palette
-            name: Kerstboom kleurpalette
-          - entity: number.wled_kerstboom_speed
-            name: Kerstboom effect snelheid
-
-      - type: custom:apexcharts-card
-        locale: 'nl'
-        header:
-          title: Kerstboom stroom mA
-          show: true
-          show_states: true
-          colorize_states: true
-        experimental:
-          brush: true 
-        graph_span: 1h 
-        apex_config:
-          yaxis:
-            forceNiceScale: true
-          chart:
-            height: 150px            
-        series:
-          - entity: sensor.wled_kerstboom_estimated_current
-            name: Solar
-            color: red
-            opacity: 1
-            type: line
-            stroke_width: 2
-            show:
-              name_in_header: false        
-
       #######
       - type: custom:layout-break
       #######

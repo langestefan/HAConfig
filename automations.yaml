@@ -193,3 +193,43 @@
         - action: SEND_NO
           title: No!
   mode: single
+- id: '1646153872084'
+  alias: 3D print finish
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.octoprint_printing
+    from: 'on'
+    to: 'off'
+    for:
+      hours: 0
+      minutes: 3
+      seconds: 0
+  condition: []
+  action:
+  - service: notify.mobile_app_mobiel_stefan
+    data:
+      message: 3D printer has finished. Shut down printer?
+      title: '3D print finished! '
+      data:
+        actions:
+        - action: TURN_OFF_PRINTER
+          title: SHUT DOWN NOW
+        - action: DO_NOTHING
+          title: DO NOTHING
+  - wait_for_trigger:
+    - platform: event
+      event_type: mobile_app_notification_action
+      event_data:
+        action: TURN_OFF_PRINTER
+      context:
+        user_id:
+        - f1ad3343d187403d8a6f51670cf705b6
+      id: turn off
+    continue_on_timeout: false
+    timeout: 01:00:00
+  - service: switch.turn_off
+    data: {}
+    target:
+      entity_id: switch.attic_3d_printer
+  mode: single

@@ -233,3 +233,22 @@
     target:
       entity_id: switch.attic_3d_printer
   mode: single
+- id: '1646247786443'
+  alias: Washing machine notification
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.washer_status
+    from: 'on'
+    to: 'off'
+    for:
+      hours: 0
+      minutes: 2
+      seconds: 0
+  condition: []
+  action:
+  - service: notify.family_phones
+    data:
+      message: Wasmachine is klaar met het programma.
+      title: Wasmachine is klaar 🧺✔️
+  mode: single

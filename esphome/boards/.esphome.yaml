@@ -8,3 +8,4 @@
 name: "${slug}"
 comment: "${description}"
 build_path: "./.build/${slug}/"
+

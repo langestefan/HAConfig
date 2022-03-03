@@ -9,3 +9,8 @@ esphome:
   <<: !include .esphome.yaml
   platform: ESP8266
   board: esp8285
+
+  # uncomment this to change the OTA password between firmware updates
+  # on_boot:
+  #   - lambda: |-
+  #       id(component_ota).set_auth_password("${ota_password}");  

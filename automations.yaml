@@ -275,7 +275,7 @@
       minutes: 0
       seconds: 20
   action:
-  - service: notify.family_phones
+  - service: notify.mobile_app_mobiel_stefan # notify.family_phones
     data_template:
       message: Geschatte aankomst om {{ eta }}.
       title: Papa is op weg naar huis! 👨➡️🏠

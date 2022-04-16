@@ -15,7 +15,6 @@ hassio:
 system_health:
 ssdp:
 zeroconf:
-updater:
 discovery:
 cloud:
 my:
@@ -89,10 +88,6 @@ shell_command: !include shell.yaml
 # influxdb
 influxdb:
   host: 192.168.50.11
-
-# buienradar
-weather:
-  - platform: buienradar
 
 # utility meter
 utility_meter: !include utility_meter.yaml

@@ -2,17 +2,15 @@
 
 title: De Lange
 views:
-  - !include lovelace/60_power.yaml
-  - !include lovelace/50_lighting.yaml
-  - !include lovelace/00_home_view.yaml
-#  - !include lovelace/10_hub_cast.yaml
-  - !include lovelace/20_system_info.yaml
-  - !include lovelace/30_octo_pi.yaml
-#  - !include lovelace/40_nas_dashboard.yaml
-  - !include lovelace/70_tablet_view.yaml
+  - !include lovelace/dashboards/lovelace_default/60_power.yaml
+  - !include lovelace/dashboards/lovelace_default/50_lighting.yaml
+  - !include lovelace/dashboards/lovelace_default/00_home_view.yaml
+#  - !include lovelace/dashboards/lovelace_default/10_hub_cast.yaml
+  - !include lovelace/dashboards/lovelace_default/20_system_info.yaml
+  - !include lovelace/dashboards/lovelace_default/30_octo_pi.yaml
+#  - !include lovelace/dashboards/lovelace_default/40_nas_dashboard.yaml
+  - !include lovelace/dashboards/lovelace_default/70_tablet_view.yaml
 
 # Templating
 button_card_templates:
   !include lovelace/button_card_templates/button_card_templates.yaml
-
-# ...

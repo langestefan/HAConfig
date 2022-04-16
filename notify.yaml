@@ -6,3 +6,11 @@
     - service: mobile_app_mobiel_stefan
     - service: mobile_app_gm1903
     - service: mobile_app_oneplusnordpapa
+
+# family phones push notifications without papa
+- name: family_phones_exclude_p
+  platform: group
+  services:
+    - service: mobile_app_mobiel_mama
+    - service: mobile_app_mobiel_stefan
+    - service: mobile_app_gm1903

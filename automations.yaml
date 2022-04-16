@@ -18,12 +18,12 @@
     input:
       day_offset: '1'
       reminder_time: '19:00:00'
-      reminder_title: Afval herinnering
+      reminder_title: Afval herinnering 🗑️🚮
       reminder_message: 'Morgen wordt opgehaald:  '
-      garbage_sensor_1: sensor.afvalinfo_papier_ymd
-      garbage_sensor_2: sensor.afvalinfo_pbd_ymd
-      garbage_sensor_3: sensor.afvalinfo_restafval_ymd
-      garbage_sensor_4: sensor.afvalinfo_gft_ymd
+      garbage_sensor_1: sensor.gft
+      garbage_sensor_2: sensor.pmd
+      garbage_sensor_3: sensor.papier
+      garbage_sensor_4: sensor.restafval
       notifier: notify.family_phones
 - id: unavailable_entities_notification
   alias: Unavailable Entities Notification
@@ -251,4 +251,19 @@
     data:
       message: Wasmachine is klaar met het programma.
       title: Wasmachine is klaar 🧺✔️
+  mode: single
+- id: '1646400163104'
+  alias: P leave work
+  description: ''
+  trigger:
+  - platform: zone
+    entity_id: person.jonny_de_lange
+    zone: zone.volvo
+    event: leave
+  condition: []
+  action:
+  - service: notify.family_phones_exclude_p
+    data_template:
+      message: Geschatte aankomst over {{ states('sensor.work_p_dynamic') }} minuten.
+      title: Papa is op weg naar huis! 👨➡️🏠
   mode: single

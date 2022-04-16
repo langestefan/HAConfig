@@ -87,13 +87,6 @@ tts:
 # camera
 camera: !include camera.yaml
 
-# mqtt
-mqtt:
-  broker: a0d7b954-mqtt
-  username: !secret mqtt_username
-  password: !secret mqtt_password
-  client_id: home-assistant
-
 shell_command: !include shell.yaml
 
 # influxdb

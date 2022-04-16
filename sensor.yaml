@@ -27,23 +27,49 @@
 - platform: travisci
   api_key: !secret travis_api_key
 
-# afval info
-- platform: afvalinfo
+# afval beheer
+- platform: afvalbeheer
+  wastecollector: MijnAfvalwijzer
   resources:
-    - gft
-    - kerstboom
-    - pbd
-    - papier
     - restafval
-    - textiel
-    - trash_type_today
-    - trash_type_tomorrow
-  location: !secret mycity
+    - gft
+    - papier
+    - pmd
   postcode: !secret mypostcode
   streetnumber: !secret mystreetnumber
-  dateformat: "%d-%m-%Y"
-  locale: "nl"
-  timespanindays: 365
+  upcomingsensor: 1
+  dateformat: "%Y-%m-%d"
+  nameprefix: 0
+  dutch: 1
+  dateonly: 1
+
+# # afval info
+# - platform: afvalinfo
+#   resources:
+#     - type: gft
+#       friendly_name: Groente Fruit en Tuinafval
+#     - type: kerstboom
+#       friendly_name: Kerstboom
+#     - type: pbd
+#       friendly_name: Plastic Blik en Drankkartons
+#     - type: papier
+#       friendly_name: Papier
+#     - type: restafval
+#       friendly_name: Restafval
+#     - type: takken
+#       friendly_name: Takken
+#     - type: textiel
+#       friendly_name: Oude Kleding
+#     - type: trash_type_today
+#       friendly_name: Afval voor vandaag
+#     - type: trash_type_tomorrow
+#       friendly_name: Afval voor morgen
+#   location: !secret mycity
+#   postcode: !secret mypostcode
+#   streetnumber: !secret mystreetnumber
+#   dateformat: "%d-%m-%Y"
+#   locale: "nl"
+#   timespanindays: 365
 
 # time/date
 - platform: time_date
@@ -111,20 +137,6 @@
       friendly_name: "Solar energy consumption"
       unit_of_measurement: "kW"
       value_template: "{{ ((states('sensor.solaredgemb_ac_power_kw')| float) - (states('sensor.power_production')| float)) | round(2) }}"
-
-    # afvalinfo yyyy-mm-dd format
-    afvalinfo_pbd_ymd:
-      friendly_name: "PBD"
-      value_template: "{{ state_attr('sensor.afvalinfo_pbd', 'year_month_day_date') }}"
-    afvalinfo_gft_ymd:
-      friendly_name: "GFT"
-      value_template: "{{ state_attr('sensor.afvalinfo_gft', 'year_month_day_date') }}"
-    afvalinfo_papier_ymd:
-      friendly_name: "Papier"
-      value_template: "{{ state_attr('sensor.afvalinfo_papier', 'year_month_day_date') }}"
-    afvalinfo_restafval_ymd:
-      friendly_name: "Restafval"
-      value_template: "{{ state_attr('sensor.afvalinfo_restafval', 'year_month_day_date') }}"
 
     # expected solar energy
     expected_solar_energy_percentage:
@@ -401,26 +413,6 @@
         {% elif now().month == 12 %} 62
         {% endif %}
 
-# powercalc is used to infer power from light and usage statistics
-- platform: powercalc
-  entity_id: light.kamer_stefan_bureaulamp
-- platform: powercalc
-  entity_id: light.kamer_stefan_lamp
-- platform: powercalc
-  entity_id: light.kamer_stefan_leeslamp
-- platform: powercalc
-  entity_id: light.keuken_lamp_1
-- platform: powercalc
-  entity_id: light.keuken_lamp_2
-- platform: powercalc
-  entity_id: light.keuken_lamp_3
-- platform: powercalc
-  entity_id: light.keuken_lamp_4
-- platform: powercalc
-  entity_id: light.gang_lamp
-- platform: powercalc
-  entity_id: light.achterdeur_lamp
-
 # air quality sensor statistics room stefan
 - platform: statistics
   name: pm_2_5_stefan_stats
@@ -473,4 +465,32 @@
       friendly_name: "humidity room"
       value_template: "{{ states.binary_sensor.keuken_dimschakelaar.last_changed }}"
       device_class: timestamp
-       
+
+# for afvalophaling card
+- platform: template
+  sensors:
+    papier_formatted_short:
+      friendly_name: "sensor_date_short_papier"
+      value_template: "{{ as_timestamp(states('sensor.papier')) | timestamp_custom('%d-%m') }}"
+    gft_formatted_short:
+      friendly_name: "sensor_date_short_gft"
+      value_template: "{{ as_timestamp(states('sensor.gft')) | timestamp_custom('%d-%m') }}"
+    pmd_formatted_short:
+      friendly_name: "sensor_date_short_pmd"
+      value_template: "{{ as_timestamp(states('sensor.pmd')) | timestamp_custom('%d-%m') }}"
+    restafval_formatted_short:
+      friendly_name: "sensor_date_short_restafval"
+      value_template: "{{ as_timestamp(states('sensor.restafval')) | timestamp_custom('%d-%m') }}"
+    date_recycle_vandaag_formatted_short:
+      friendly_name: "sensor_date_short_afval_vandaag"
+      value_template: "{{ as_timestamp(states('sensor.afval_vandaag')) | timestamp_custom('%d-%m') }}"
+    date_recycle_morgen_formatted_short:
+      friendly_name: "sensor_date_short_afval_morgen"
+      value_template: "{{ as_timestamp(states('sensor.afval_vandaag')) | timestamp_custom('%d-%m') }}"
+
+# current gas consumption sensor
+- platform: derivative
+  name: Current gas consumption
+  source: sensor.gas_consumption
+  time_window: "00:00:10"
+  unit_time: s

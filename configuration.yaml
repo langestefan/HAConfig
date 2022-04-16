@@ -40,11 +40,20 @@ lovelace:
   # Additional resources
   resources: !include lovelace/resources.yaml
 
+  # Lovelace dashboards
+  dashboards:
+    lovelace-default: # Needs to contain a hyphen (-)
+      mode: yaml
+      filename: lovelace_default.yaml
+      title: Default
+      icon: mdi:tools
+      show_in_sidebar: true
+
 map:
 
 frontend:
-  themes: !include_dir_named themes
-      
+  themes: !include_dir_merge_named themes
+
 # ########################################
 # ###              LOGGING             ###
 # ########################################
@@ -67,7 +76,7 @@ shopping_list:
 notify: !include notify.yaml
 
 #python_script:
- 
+
 tts:
   - platform: google_translate
 
@@ -75,7 +84,7 @@ tts:
 # ###          INTEGRATIONS            ###
 # ########################################
 
-# camera 
+# camera
 camera: !include camera.yaml
 
 # mqtt
@@ -89,7 +98,7 @@ shell_command: !include shell.yaml
 
 # influxdb
 influxdb:
-  host: 192.168.50.11 
+  host: 192.168.50.11
 
 # buienradar
 weather:

@@ -107,6 +107,9 @@ weather:
 # utility meter
 utility_meter: !include utility_meter.yaml
 
+# proximity 
+proximity: !include proximity.yaml
+
 # ########################################
 # ###          PLATFORMS               ###
 # ########################################

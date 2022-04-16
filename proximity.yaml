@@ -1,0 +1,41 @@
+# home general
+home:
+  zone: home
+  devices:
+    - device_tracker.mobiel_papa
+    - device_tracker.mobiel_mama
+    - device_tracker.mobiel_stefan
+    - device_tracker.mobiel_miriam
+  tolerance: 50
+  unit_of_measurement: km
+
+# papa
+home_papa:
+  zone: home
+  devices:
+    - device_tracker.mobiel_papa
+  tolerance: 100
+  unit_of_measurement: km
+work_papa:
+  zone: volvo
+  devices:
+    - device_tracker.mobiel_papa
+  tolerance: 100
+  unit_of_measurement: km
+
+# mama
+home_mama:
+  zone: home
+  devices:
+    - device_tracker.mobiel_mama
+  tolerance: 100
+  unit_of_measurement: km
+work_mama:
+  zone: theodora
+  devices:
+    - device_tracker.mobiel_mama
+  tolerance: 100
+  unit_of_measurement: km  
+
+
+

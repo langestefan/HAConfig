@@ -253,17 +253,64 @@
       title: Wasmachine is klaar 🧺✔️
   mode: single
 - id: '1646400163104'
-  alias: P leave work
-  description: ''
+  alias: Papa leaves work notification
+  description: When papa leaves work towards home a notification should be send to
+    family phones.
   trigger:
-  - platform: zone
-    entity_id: person.jonny_de_lange
-    zone: zone.volvo
-    event: leave
-  condition: []
+  - platform: state
+    entity_id: proximity.work_papa
+    attribute: dir_of_travel
+    to: away_from
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 20
+  condition:
+  - condition: state
+    entity_id: proximity.home_papa
+    attribute: dir_of_travel
+    state: towards
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 20
   action:
-  - service: notify.family_phones_exclude_p
+  - service: notify.family_phones
     data_template:
-      message: Geschatte aankomst over {{ states('sensor.work_p_dynamic') }} minuten.
+      message: Geschatte aankomst om {{ eta }}.
       title: Papa is op weg naar huis! 👨➡️🏠
+  variables:
+    eta: '{{ (now() + timedelta(minutes=states(''sensor.work_p_dynamic'') | float(0))).strftime(''%H:%M'')
+      }}'
   mode: single
+- id: '1646401163114'
+  alias: Mama leaves work notification
+  description: When mama leaves work towards home a notification should be send to
+    family phones.
+  trigger:
+  - platform: state
+    entity_id: proximity.work_mama
+    attribute: dir_of_travel
+    to: away_from
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 20
+  condition:
+  - condition: state
+    entity_id: proximity.home_mama
+    attribute: dir_of_travel
+    state: towards
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 20
+  action:
+  - service: notify.mobile_app_mobiel_stefan # notify.family_phones
+    data_template:
+      message: Geschatte aankomst om {{ eta }}.
+      title: Mama is op weg naar huis! 👩➡️🏠
+  variables:
+    eta: '{{ (now() + timedelta(minutes=states(''sensor.work_m_dynamic'') | float(0))).strftime(''%H:%M'')
+      }}'
+

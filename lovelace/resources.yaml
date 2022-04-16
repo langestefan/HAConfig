@@ -42,3 +42,11 @@
   type: module  
 - url: /hacsfiles/restriction-card/restriction-card.js
   type: module  
+- url: /hacsfiles/mini-media-player/mini-media-player-bundle.js
+  type: module
+- url: /hacsfiles/my-cards/my-cards.js
+  type: module   
+- url: /hacsfiles/simple-weather-card/simple-weather-card-bundle.js
+  type: module
+- url: /hacsfiles/lovelace-auto-entities/auto-entities.js
+  type: module

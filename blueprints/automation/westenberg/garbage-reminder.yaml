@@ -62,7 +62,7 @@ variables:
     (state_attr(garbage_sensor_2, ''friendly_name''), states(garbage_sensor_2)), (state_attr(garbage_sensor_3,
     ''friendly_name''), states(garbage_sensor_3)), (state_attr(garbage_sensor_4, ''friendly_name''),
     states(garbage_sensor_4))] | selectattr(''1'', ''eq'', (now() + timedelta(days
-    = day_offset | int)).strftime(''%Y-%m-%d'')) | join('', '',  attribute=0) }}'
+    = day_offset | int)).strftime(''%Y-%m-%d'')) | join('', '',  attribute=0)}}'
 trigger:
   platform: time
   at: !input 'reminder_time'
@@ -73,4 +73,4 @@ action:
   service: !input 'notifier'
   data:
     title: '{{ reminder_title }}'
-    message: '{{ reminder_message }}{{ sensors_tomorrow }}'
+    message: '{{ reminder_message }}{{ sensors_tomorrow | upper  }}'

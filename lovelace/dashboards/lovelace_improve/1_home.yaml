@@ -1,0 +1,17 @@
+## Home
+
+title: Home
+icon: mdi:flower
+path: home
+
+cards:
+  - type: 'custom:button-card'
+    template:
+      - card_afvalophaling
+    variables:
+      ulm_card_ophaling_vandaag: sensor.date_recycle_vandaag_formatted_short
+      ulm_card_ophaling_morgen: sensor.date_recycle_morgen_formatted_short
+      ulm_card_datum_gft: sensor.gft_formatted_short
+      ulm_card_datum_pmd: sensor.pmd_formatted_short
+      # ulm_card_datum_rest: sensor.restafval_formatted_short
+      ulm_card_datum_papier: sensor.papier_formatted_short

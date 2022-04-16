@@ -1,0 +1,707 @@
+# Octoprint dashboard
+title: Tablet view
+icon: mdi:tablet
+path: tablet
+background: "right/auto linear-gradient(23deg, rgba(211,211,211,1) 0%, rgba(223,223,223,1) 34%, rgba(255,255,255,1) 100%)"
+
+type: custom:grid-layout
+layout:
+  grid-template-columns: 300px 330px 315px 320px  
+  grid-template-rows: 175px 230px 193px 140px
+  grid-template-areas: |
+    "A B C D"
+    "E F G H"
+    "I J K L"
+    "M N O P"
+cards:
+    # card A 
+  - type: custom:mod-card
+    view_layout:
+      grid-area: A
+    card_mod:
+      style: |
+        ha-card {
+          padding: -10px 0px 0px 0px;
+        }
+    card:  
+      type: custom:layout-card
+      layout_type: custom:vertical-layout
+      cards:
+        - type: horizontal-stack  
+          cards:
+            - type: custom:button-card
+              template: nest_picture_button_tablet
+              entity: person.stefan_de_lange
+              entity_picture: !secret default
+              name: Naam1 #Stefan
+            - type: custom:button-card
+              template: nest_picture_button_tablet
+              entity: person.miriam_de_lange
+              entity_picture: !secret default
+              name: Naam2 #Miriam
+            - type: custom:button-card
+              template: nest_picture_button_tablet
+              entity: person.monique_de_lange
+              entity_picture: !secret default
+              name: Naam3 #Mama
+            - type: custom:button-card
+              template: nest_picture_button_tablet
+              entity: person.jonny_de_lange
+              entity_picture: !secret default
+              name: Naam4 #Papa
+        - type: horizontal-stack
+          cards:
+            - type: custom:button-card
+              template: nest_battery_button_tablet
+              entity: sensor.oneplus_a5000_batterijniveau
+            - type: custom:button-card
+              template: nest_battery_button_tablet
+              entity: sensor.battery_level_2
+            - type: custom:button-card
+              template: nest_battery_button_tablet
+              entity: sensor.battery_level_4 
+            - type: custom:button-card
+              template: nest_battery_button_tablet
+              entity: sensor.oneplusnordpapa_batterijniveau
+
+    # card B 
+  - type: vertical-stack
+    view_layout:
+      grid-area: B
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: 'custom:button-card'
+            template: light_button
+            entity: light.kitchen_lights
+            name: Keuken
+            styles:
+              card:
+                - height: 75px
+          - type: 'custom:button-card'
+            template: light_button
+            entity: light.lamp_achterdeur
+            name: Achterdeur
+            styles:
+              card:
+                - height: 75px
+      - type: horizontal-stack
+        cards:
+          - type: 'custom:button-card'
+            template: light_button
+            entity: light.lamp_voordeur
+            name: Voordeur
+            styles:
+              card:
+                - height: 75px
+          - type: 'custom:button-card'
+            template: light_button
+            entity: switch.bw_shp10_1
+            name: Boekenkast            
+            styles:
+              card:
+                - height: 75px
+
+    # card C
+  - type: custom:mini-graph-card
+    view_layout:
+      grid-area: C
+    entities:
+      - entity: sensor.solaredge_energy_today_kwh
+    name: Productie vandaag (grafiek laatste 7 dagen)
+    hours_to_show: 168
+    aggregate_func: max
+    group_by: date
+    hour24: true
+    lower_bound: 0
+    show:
+      graph: bar
+      labels: true
+      labels_secondary: true
+      icon: true
+      points: true
+      legend: false
+    color_thresholds:
+      - value: 0
+        color: '#000000'
+      - value: 2
+        color: '#CC0000'
+      - value: 4
+        color: '#FFA500'
+      - value: 6
+        color: '#006400'
+      - value: 8
+        color: '#82D305'
+  
+    # card D
+  - type: custom:vertical-stack-in-card
+    cards:
+      - type: custom:mod-card
+        view_layout:
+          grid-area: D
+        card:
+          type: custom:ha-card-waze-travel-time
+          name: Verkeer/trein
+          unit: km
+          columns:
+            - to
+            - duration
+            - distance
+            - icon
+          destinations:
+            - entity: sensor.work_d
+              to: "Werk"
+            - entity: sensor.work_m
+              to: "Werk"
+            - entity: sensor.eindhoven_kampen
+              to: "Eindhoven1"            
+            - entity: sensor.eindhoven_kampen
+              to: "Eindhoven2"
+            
+    # card E 
+  - type: picture-glance
+    view_layout:
+      grid-area: E
+    card_mod:
+      style: |
+        ha-card {
+          padding: 0px 0px 0px 0px;
+        }
+    entities: []
+    camera_image: camera.buienradar_loop
+
+    # card F 
+  - type: vertical-stack
+    view_layout:
+      grid-area: F
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: 'custom:button-card'   
+            name: Ventilator
+            show_header_toggle: false
+            icon: mdi:fan
+            color: yellow
+            color_type: card
+            entity: fan.ifan02_fan
+            show_state: true
+            layout: icon_state_name2nd
+            tap_action:
+              action: toggle
+            state:
+              - value: 'on'
+                icon: mdi:fan
+                styles:
+                  icon:
+                    - animation: blink 2s ease infinite
+              - value: 'off'
+                icon: mdi:fan-off
+            styles:
+              card:
+                - height: 80px
+              icon:
+                - align: left
+      - type: horizontal-stack
+        cards:
+          - type: custom:mini-graph-card
+            entities:
+              - entity: sensor.atc_74724e_humidity
+                name: Woonkamer
+            font_size: 75
+            line_color: blue
+            line_width: 2
+            hours_to_show: 6
+            points_per_hour: 12
+            smoothing: true
+          - type: custom:mini-graph-card
+            entities:
+              - entity: sensor.atc_74724e_temperature
+                name: Woonkamer
+            font_size: 75
+            line_color: red
+            line_width: 2
+            hours_to_show: 6
+            points_per_hour: 12
+            smoothing: true
+
+    # card G    
+  - type: custom:mini-graph-card
+    view_layout:
+      grid-area: G
+    title: Zonnepanelen laatste 12 uur
+    show_header_toggle: true
+    name: Vermogen zonnepanelen
+    entities:
+      - entity: sensor.solaredgemb_ac_power_kw
+        name: Zonnepanelen
+      - entity: sensor.netto_consumption
+        name: Verbruik
+      - entity: sensor.power_production
+        name: Terugleveren
+    line_color: "#339933"
+    line_width: 2
+    hours_to_show: 12
+    points_per_hour: 120
+    lower_bound: 0
+    font_size: 90
+    icon: mdi:lightning-bolt
+    show:
+      labels: true
+      labels_secondary: false
+      icon: true
+      extrema: false
+
+    # card H 
+  - type: custom:button-card
+    view_layout:
+      grid-area: H
+    entity: sensor.brother_hl_3140cw_series
+    name: 3140CW
+    color: gray
+    show_state: true
+    styles:
+      card:
+        - padding: auto auto auto auto
+      icon:
+        - width: 100%
+      state:
+        - text-align: center
+        - width: 100%
+      grid:
+        - grid-template-areas: |
+            "i c m" 
+            "n . ."  
+            "s y k"         
+        - grid-template-columns: 1fr 1fr 1fr
+        - grid-template-rows: auto auto auto
+      custom_fields:
+        k:
+          - width: 80%
+          - margin: auto
+        c:
+          - width: 80%
+          - margin: auto
+        m:
+          - width: 80%
+          - margin: auto
+        y:
+          - width: 80%
+          - margin: auto
+    custom_fields:
+      k:
+        card:
+          type: custom:button-card
+          template: inkwell
+          entity: sensor.brother_hl_3140cw_series_black_toner_cartridge
+          variables:
+            color: black
+      c:
+        card:
+          type: custom:button-card
+          template: inkwell
+          entity: sensor.brother_hl_3140cw_series_cyan_toner_cartridge
+          variables:
+            color: cyan
+      m:
+        card:
+          type: custom:button-card
+          template: inkwell
+          entity: sensor.brother_hl_3140cw_series_magenta_toner_cartridge
+          variables:
+            color: magenta
+      y:
+        card:
+          type: custom:button-card
+          template: inkwell
+          entity: sensor.brother_hl_3140cw_series_yellow_toner_cartridge
+          variables:
+            color: yellow
+
+    # card I
+  - type: weather-forecast
+    view_layout:
+      grid-area: I
+    show_header_toggle: false
+    entity: weather.br_unknown_station
+
+    # card J
+  - type: picture-elements    
+    view_layout:
+      grid-area: J
+    entity: camera.foscam
+    camera_image: camera.foscam
+    camera_view: live
+    elements:
+      - type: icon
+        icon: 'mdi:arrow-up'
+        style:
+          background: 'rgba(255, 255, 255, 0.5)'
+          right: 25px
+          bottom: 50px
+        tap_action:
+          action: call-service
+          service: foscam.ptz
+          service_data:
+            entity_id: camera.foscam
+            movement: up
+      - type: icon
+        icon: 'mdi:arrow-down'
+        style:
+          background: 'rgba(255, 255, 255, 0.5)'
+          right: 25px
+          bottom: 0px
+        tap_action:
+          action: call-service
+          service: foscam.ptz
+          service_data:
+            entity_id: camera.foscam
+            movement: down
+      - type: icon
+        icon: 'mdi:arrow-left'
+        style:
+          background: 'rgba(255, 255, 255, 0.5)'
+          right: 50px
+          bottom: 25px
+        tap_action:
+          action: call-service
+          service: foscam.ptz
+          service_data:
+            entity_id: camera.foscam
+            movement: left
+      - type: icon
+        icon: 'mdi:arrow-right'
+        style:
+          background: 'rgba(255, 255, 255, 0.5)'
+          right: 0px
+          bottom: 25px
+        tap_action:
+          action: call-service
+          service: foscam.ptz
+          service_data:
+            entity_id: camera.foscam
+            movement: right
+      - type: icon
+        icon: 'mdi:arrow-top-left'
+        style:
+          background: 'rgba(255, 255, 255, 0.5)'
+          right: 50px
+          bottom: 50px
+        tap_action:
+          action: call-service
+          service: foscam.ptz
+          service_data:
+            entity_id: camera.foscam
+            movement: top_left
+      - type: icon
+        icon: 'mdi:arrow-top-right'
+        style:
+          background: 'rgba(255, 255, 255, 0.5)'
+          right: 0px
+          bottom: 50px
+        tap_action:
+          action: call-service
+          service: foscam.ptz
+          service_data:
+            entity_id: camera.foscam
+            movement: top_right
+      - type: icon
+        icon: 'mdi:arrow-bottom-left'
+        style:
+          background: 'rgba(255, 255, 255, 0.5)'
+          right: 50px
+          bottom: 0px
+        tap_action:
+          action: call-service
+          service: foscam.ptz
+          service_data:
+            entity_id: camera.foscam
+            movement: bottom_left
+      - type: icon
+        icon: 'mdi:arrow-bottom-right'
+        style:
+          background: 'rgba(255, 255, 255, 0.5)'
+          right: 0px
+          bottom: 0px
+        tap_action:
+          action: call-service
+          service: foscam.ptz
+          service_data:
+            entity_id: camera.foscam
+            movement: bottom_right
+
+    # card K
+  - type: entities
+    title: Deze maand
+    view_layout:
+      grid-area: K
+    entities:
+      - type: custom:template-entity-row
+        name: "Verbruik"
+        state: "{{states('sensor.monthly_energy')|round(1)}} kWh"
+        icon: mdi:transmission-tower
+      - type: custom:template-entity-row
+        name: "Teruggeleverd"
+        state: "{{states('sensor.monthly_energy_returned')|round(1)}} kWh"
+        icon: mdi:solar-power
+      - type: custom:template-entity-row
+        name: Productie
+        state: "{{states('sensor.solaredge_energy_this_month_kwh')|round(1)}} kWh"
+        icon: mdi:solar-power
+      - type: custom:template-entity-row
+        name: Verwacht
+        state: "{{states('sensor.expected_solar_output_monthly')|round(1)}} kWh"
+        icon: mdi:solar-power        
+    card_mod:
+      style: |
+        .card-header {
+          font-size: 20px;
+          padding: 0px 20px 20px 20px;
+        }
+        #states > * {
+            margin: -12px 0px !important;
+        }
+
+        ha-card {
+          box-shadow: none;
+        }
+
+    # card L
+  - type: picture-elements    
+    view_layout:
+      grid-area: L
+    image: /local/testpattern_square_2560px.jpg
+    elements:
+      - type: image
+        entity: camera.octoprint 
+        camera_image: camera.octoprint 
+        camera_view: camera.octoprint 
+        style:
+          left: 50%
+          top: 100%
+          width: 100%
+          height: 300%
+      - type: state-label
+        entity: sensor.octoprint_time_ready
+        prefix: "ETA: " 
+        style:
+          left: 10
+          bottom: -90px
+          background-color: 'rgba(0, 0, 0, 0.3)'
+          width: 100%
+          transform: initial
+          padding: 10px 0px 0px 0px
+          text-transform: uppercase
+          color: white
+      - type: state-label
+        entity: sensor.octoprint_current_state
+        prefix: "State: " 
+        style:
+          left: 10
+          bottom: -75px
+          transform: initial
+          padding: 10px 0px 0px 0px
+          text-transform: uppercase
+          color: white
+      - type: state-label
+        entity: sensor.power_2
+        style:
+          bottom: -90px
+          right: 0
+          transform: initial
+          padding: 10px 0px 0px 0px
+          color: white
+      - type: state-icon
+        entity: sensor.power_2
+        style:
+          bottom: -71px
+          right: 2px
+          transform: initial
+          #padding: 20px 0px 0px 0px
+
+        # bed sensors
+      - type: custom:text-element
+        text: "Bed"
+        style:
+          left: 10px
+          top: 0px
+          transform: initial
+          color: white
+          text-transform: uppercase
+          #padding: 20px 0px 0px 0px
+      - type: state-label
+        entity: sensor.octoprint_target_bed_temp
+        style:
+          left: 10
+          top: -5px
+          transform: initial
+          padding: 10px 0px 0px 0px
+          text-transform: uppercase
+          color: white
+      - type: state-label
+        entity: sensor.octoprint_actual_bed_temp
+        style:
+          left: 10
+          top: 10px
+          transform: initial
+          padding: 10px 0px 0px 0px
+          text-transform: uppercase
+          color: white          
+
+        # nozzle sensors
+      - type: custom:text-element
+        text: "Nozzle"
+        style:
+          right: 10px
+          top: 0px
+          transform: initial
+          color: white
+          text-transform: uppercase
+          #padding: 20px 0px 0px 0px
+      - type: state-label
+        entity: sensor.octoprint_target_tool0_temp
+        style:
+          right: 10px
+          top: -5px
+          transform: initial
+          padding: 10px 0px 0px 0px
+          text-transform: uppercase
+          color: white
+      - type: state-label
+        entity: sensor.octoprint_actual_tool0_temp
+        style:
+          right: 10px
+          top: 10px
+          transform: initial
+          padding: 10px 0px 0px 0px
+          text-transform: uppercase
+          color: white          
+
+
+    # card P
+  - type: custom:vertical-stack-in-card
+    view_layout:
+      grid-area: P
+    cards:
+      - type: entities
+        title: OctoPi 3D printer
+        entities:
+          - entity: switch.switch_2
+            name: Printer on/off
+          - entity: sensor.power_2 
+            name: Printer power
+          # - entity: sensor.octoprint_time_ready
+          #   name: Print ETA
+          #   icon: mdi:clock-end
+          - entity: sensor.octoprint_current_filename       
+            name: Current file           
+            icon: mdi:rename-box
+        card_mod:
+          style: |
+            .card-header {
+              font-size: 16px;
+              padding: 0px 10px 0px 10px;
+            }
+            #states > * {
+                margin: -12px 0px !important;
+            }
+
+            ha-card {
+              box-shadow: none;
+              padding: 0px 0px 0px 0px;
+            }
+
+    # card M
+  - type: horizontal-stack  
+    view_layout:
+      grid-area: M
+    cards:
+      - type: custom:mini-graph-card
+        entities:
+          - entity: sensor.atc_618bd6_humidity
+            name: Buiten
+        font_size: 75
+        line_color: blue
+        line_width: 2
+        hours_to_show: 6
+        points_per_hour: 12
+        smoothing: true
+      - type: custom:mini-graph-card
+        entities:
+          - entity: sensor.atc_618bd6_temperature
+            name: Buiten
+        font_size: 75
+        line_color: red
+        line_width: 2
+        hours_to_show: 6
+        points_per_hour: 12
+        smoothing: true
+
+    # card N
+  - type: horizontal-stack  
+    view_layout:
+      grid-area: N
+    cards:
+      - type: custom:mini-graph-card
+        entities:
+          - entity: sensor.atc_729785_humidity
+            name: Slaapkamer
+        font_size: 75
+        line_color: blue
+        line_width: 2
+        hours_to_show: 6
+        points_per_hour: 12
+        smoothing: true
+      - type: custom:mini-graph-card
+        entities:
+          - entity: sensor.atc_729785_temperature
+            name: Slaapkamer
+        font_size: 75
+        line_color: red
+        line_width: 2
+        hours_to_show: 6
+        points_per_hour: 12
+        smoothing: true        
+
+
+    # card O
+  - type: custom:bar-card    
+    title: Productie zonnepanelen
+    view_layout:
+      grid-area: O
+    entity: sensor.expected_solar_energy_percentage
+    positions:
+      icon: inside
+      indicator: 'off'
+      name: inside
+    align: split
+    show_icon: true
+    color: '#00ba6a'
+    icon: mdi:solar-power
+    name: Productie % van verwacht deze maand
+    style: |-
+      bar-card-name {
+        margin-right: 0px;
+        font-size: 16px;
+      }        
+      .card-header {
+          font-size: 20px;
+          padding: 8px 20px 20px 20px;
+        }
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

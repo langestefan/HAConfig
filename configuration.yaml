@@ -84,9 +84,6 @@ tts:
 # ###          INTEGRATIONS            ###
 # ########################################
 
-# camera
-camera: !include camera.yaml
-
 shell_command: !include shell.yaml
 
 # influxdb

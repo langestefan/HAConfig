@@ -7,6 +7,13 @@
     - light.keuken_lamp_3
     - light.keuken_lamp_4
 
+# keuken
+- platform: group
+  name: Woonkamer
+  entities:
+    - light.boekenkast_lamp
+    - light.achterdeur_lamp
+
 # kamer stefan
 - platform: group
   name: Kamer stefan

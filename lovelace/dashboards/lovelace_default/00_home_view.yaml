@@ -87,6 +87,7 @@ cards:
                 -moz-box-shadow: none;
                 box-shadow: none;
               }
+
       - type: picture-glance
         title: Buienradar
         entities: []
@@ -249,18 +250,18 @@ cards:
             sendStateWithSpeed: true
             customTheme: true
 
-      - type: 'custom:mini-graph-card'
+      - type: "custom:mini-graph-card"
         entities:
           - entity: sensor.solaredge_current_power
-            color: '#00AA00'
-            name: Solar edge 
+            color: "#00AA00"
+            name: Solar edge
         name: Solaredge per uur
         show:
           graph: bar
           labels: true
         group_by: hour
         aggregate_func: max
-        # hour24: true  
+        # hour24: true
 
       - type: statistics-graph
         title: "Luchtkwaliteit kamer Stefan PM2.5"
@@ -322,7 +323,7 @@ cards:
               name_in_header: false
               legend_value: false
 
-       # air quality test 123
+        # air quality test 123
       - type: custom:apexcharts-card
         chart_type: radialBar
         header:

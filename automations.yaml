@@ -16,15 +16,15 @@
   use_blueprint:
     path: westenberg/garbage-reminder.yaml
     input:
-      day_offset: '1'
-      reminder_time: '19:00:00'
-      reminder_title: Afval herinnering 🗑️🚮
-      reminder_message: 'Morgen wordt opgehaald:  '
+      reminder_time: 06:00:00
+      reminder_title: "Afval herinnering \U0001F5D1️\U0001F6AE"
+      reminder_message: 'Vandaag wordt opgehaald:  '
       garbage_sensor_1: sensor.gft
       garbage_sensor_2: sensor.pmd
       garbage_sensor_3: sensor.papier
       garbage_sensor_4: sensor.restafval
       notifier: notify.family_phones
+      day_offset: '0'
 - id: unavailable_entities_notification
   alias: Unavailable Entities Notification
   description: Create persistent notification if there are unavailable entities, dismiss
@@ -136,7 +136,7 @@
       actions:
       - service: notify.mobile_app_mobiel_stefan
         data:
-          title: Batterij laag! 🔋
+          title: "Batterij laag! \U0001F50B"
           message: 'Batterij is laag voor: {{sensors}}'
       exclude:
         entity_id: []
@@ -162,7 +162,7 @@
   - service: notify.mobile_app_mobiel_stefan
     data:
       message: De bel gaat!
-      title: Bel! 🔔🔔🔔
+      title: "Bel! \U0001F514\U0001F514\U0001F514"
   - service: script.test123
   - delay:
       hours: 0
@@ -250,7 +250,7 @@
   - service: notify.family_phones
     data:
       message: Wasmachine is klaar met het programma.
-      title: Wasmachine is klaar 🧺✔️
+      title: "Wasmachine is klaar \U0001F9FA✔️"
   mode: single
 - id: '1646400163104'
   alias: Papa leaves work notification
@@ -274,11 +274,17 @@
       hours: 0
       minutes: 0
       seconds: 20
+  - condition: numeric_state
+    entity_id: proximity.work_papa
+    below: '5'
   action:
-  - service: notify.mobile_app_mobiel_stefan # notify.family_phones
+  - service: notify.family_phones_exclude_p
     data_template:
       message: Geschatte aankomst om {{ eta }}.
-      title: Papa is op weg naar huis! 👨➡️🏠
+      title: "Papa is op weg naar huis! \U0001F468➡️\U0001F3E0"
+      data:
+        ttl: 0
+        priority: high
   variables:
     eta: '{{ (now() + timedelta(minutes=states(''sensor.work_p_dynamic'') | float(0))).strftime(''%H:%M'')
       }}'
@@ -305,12 +311,80 @@
       hours: 0
       minutes: 0
       seconds: 20
+  - condition: numeric_state
+    entity_id: proximity.work_mama
+    below: '5'
   action:
-  - service: notify.mobile_app_mobiel_stefan # notify.family_phones
+  - service: notify.family_phones_exclude_m
     data_template:
       message: Geschatte aankomst om {{ eta }}.
-      title: Mama is op weg naar huis! 👩➡️🏠
+      title: "Mama is op weg naar huis! \U0001F469➡️\U0001F3E0"
+      data:
+        ttl: 0
+        priority: high
   variables:
     eta: '{{ (now() + timedelta(minutes=states(''sensor.work_m_dynamic'') | float(0))).strftime(''%H:%M'')
       }}'
-
+- id: '1650647659392'
+  alias: Motion sensor lamp overloop
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.overloop_beweging_sensor
+    id: motion_on
+    from: 'off'
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.overloop_beweging_sensor
+    id: motion_off
+    from: 'on'
+    to: 'off'
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: motion_on
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: sun.sun
+          state: below_horizon
+        - condition: numeric_state
+          entity_id: sensor.overloop_beweging_sensor_lux
+          below: '5'
+      sequence:
+      - type: turn_on
+        device_id: 4cd3a2442b60221a1436583ed692c0de
+        entity_id: light.lamp_overloop
+        domain: light
+        brightness_pct: 25
+    - conditions:
+      - condition: trigger
+        id: motion_off
+      sequence:
+      - type: turn_off
+        device_id: 4cd3a2442b60221a1436583ed692c0de
+        entity_id: light.lamp_overloop
+        domain: light
+    default: []
+  mode: restart
+- id: '1651169398189'
+  alias: Test update notifiy
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: switch.ac_stefan
+  condition: []
+  action:
+  - service: notify.mobile_app_mobiel_stefan
+    data:
+      message: '"Someone might be in the backyard."'
+      data:
+        tag: backyard-motion-detected
+      title: '"test123"'
+  mode: single

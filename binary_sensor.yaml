@@ -1,13 +1,3 @@
-# Hue motion sensor
-- platform: mqtt
-  state_topic: 'sensors/gang/motion'
-#  value_template: '{{ value }}'
-  name: 'voordeur_sensor'
-  qos: 0
-  payload_on: "true"
-  payload_off: "false"
-  device_class: 'motion'
-
 # sleep sensor
 - platform: template
   sensors:
@@ -20,7 +10,7 @@
 # binary sensor icon test
 - platform: template
   sensors:
-    mobiel_stefan_bluetooth_state_test: 
+    mobiel_stefan_bluetooth_state_test:
       value_template: "{{ states('binary_sensor.mobiel_stefan_bluetooth_state') }}"
       icon_template: >-
         {% if is_state("binary_sensor.mobiel_stefan_bluetooth_state", "on") %}
@@ -39,7 +29,7 @@
       delay_off:
         minutes: 6
       value_template: >-
-        {{ states('sensor.washing_machine_power')|float > 3 }}   
+        {{ states('sensor.washing_machine_power')|float > 3 }}
 
 # TV status on/off
 - platform: template
@@ -51,4 +41,10 @@
       delay_off:
         minutes: 1
       value_template: >-
-        {{ states('sensor.samsung_tv_power')|float > 30 }}             
+        {{ states('sensor.samsung_tv_power')|float > 30 }}
+
+# day/night
+- platform: tod
+  name: Night
+  after: sunset
+  before: sunrise

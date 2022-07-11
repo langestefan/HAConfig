@@ -17,12 +17,6 @@ cards:
         graph_span: 7d
         locale: 'nl'
         apex_config:
-          chart:
-            type: area
-          stroke:
-            show: true
-            width: 1
-            curve: smooth
           legend:
             show: true
           xaxis:
@@ -56,7 +50,7 @@ cards:
                 color: '#006400'
               - value: 16
                 color: '#82D305'
-       
+ 
       - type: custom:bar-card    
         entity: sensor.expected_solar_energy_percentage
         positions:

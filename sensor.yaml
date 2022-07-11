@@ -82,6 +82,20 @@
     - "time_utc"
     - "beat"
 
+# Filtered netto consumption. Consumption is in kW
+- platform: filter
+  name: "Filtered netto consumption"
+  entity_id: sensor.netto_consumption
+  filters:
+    - filter: outlier
+      window_size: 5
+      radius: 1.5
+    - filter: time_simple_moving_average
+      window_size: "00:00:30"
+      precision: 3
+    - filter: range
+      lower_bound: 0
+
 # template
 - platform: template
   sensors:
@@ -130,7 +144,7 @@
     netto_consumption:
       friendly_name: "Netto consumption"
       unit_of_measurement: "kW"
-      value_template: "{{ ((states('sensor.solaredgemb_ac_power_kw')| float) - (states('sensor.power_production')| float) + (states('sensor.power_consumption')| float)) | round(2) }}"
+      value_template: "{{ ((states('sensor.solaredgemb_ac_power_kw')| float) - (states('sensor.power_production')| float) + (states('sensor.power_consumption')| float)) | round(3) }}"
 
     # solar energy consumed
     solar_consumption:
@@ -154,6 +168,10 @@
       value_template: "{{ (states('sensor.solaredgemb_ac_power') | float / 1000) | round(2) }}"
       unit_of_measurement: "kW"
 
+    solaredgemb_ac_power_w_rounded:
+      value_template: "{{ states('sensor.solaredgemb_ac_power') | round(0) }}"
+      unit_of_measurement: "W"
+
     # octoprint time ready ETA
     octoprint_time_ready:
       friendly_name: "ETA"
@@ -173,15 +191,9 @@
         {% if(states('sensor.power_production')|float > 0|float) -%}
           {{ states('sensor.pc_stefan_power')|float / 1000 }}
           {%- else -%}
-            {{
-              ((
-                states('sensor.pc_stefan_power')|float   * 
-                (
-                  states('sensor.solaredgemb_ac_power_kw')|float / 
-                  (states('sensor.netto_consumption'))|float
-                )
-              ) / 1000) | round(3) |float
-            }}
+            {{((states('sensor.pc_stefan_power')|float *(
+                states('sensor.solaredgemb_ac_power_kw')|float / 
+               (states('sensor.filtered_netto_consumption'))|float)) / 1000) | round(3) |float }}
         {%- endif %}
 
     # total energy consumed
@@ -196,6 +208,12 @@
       unit_of_measurement: "kWh"
       value_template: "{{ (states('sensor.energy_production_tarif_2') | float + states('sensor.energy_production_tarif_1') | float) | round(1) }}"
 
+    # current power consumption in W
+    power_consumption_w:
+      friendly_name: "Current net power consumption in W"
+      unit_of_measurement: "W"
+      value_template: "{{ (states('sensor.power_consumption') | float * 1000) | round(0) }}"
+
 # integration for pc energy setup green
 - platform: integration
   source: sensor.pc_setup_green_kw
@@ -205,6 +223,11 @@
 - platform: integration
   source: sensor.power_production
   name: energy_returned
+
+# Netto consumption energy sensor (for whole house netto consumption)
+- platform: integration
+  source: sensor.filtered_netto_consumption
+  name: Netto filtered energy consumption
 
 # Octoprint Current Filename
 - platform: rest
@@ -283,7 +306,6 @@
       value_template: "{{ state_attr('sensor.daily_solar_stats', 'max_value') }}"
       friendly_name: Max solar production per day
       unit_of_measurement: kWh
-
 
 # calculated solar panel output per month
 - platform: template

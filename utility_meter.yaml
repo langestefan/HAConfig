@@ -41,8 +41,21 @@ solaredge_energy_this_month:
 
 solaredge_energy_this_day:
   source: sensor.solaredgemb_ac_energy_kwh
-  cycle: daily  
+  cycle: daily
 
 solaredge_energy_hourly:
   source: sensor.solaredgemb_ac_energy_kwh
-  cycle: hourly    
+  cycle: hourly
+
+# Netto consumption energy sensor (for whole house netto consumption)
+house_netto_monthly:
+  source: sensor.netto_filtered_energy_consumption
+  cycle: monthly
+
+house_netto_daily:
+  source: sensor.netto_filtered_energy_consumption
+  cycle: daily
+
+house_netto_hourly:
+  source: sensor.netto_filtered_energy_consumption
+  cycle: hourly

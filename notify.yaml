@@ -14,3 +14,11 @@
     - service: mobile_app_mobiel_mama
     - service: mobile_app_mobiel_stefan
     - service: mobile_app_gm1903
+    
+# family phones push notifications without mama
+- name: family_phones_exclude_m
+  platform: group
+  services:
+    - service: mobile_app_oneplusnordpapa
+    - service: mobile_app_mobiel_stefan
+    - service: mobile_app_gm1903    

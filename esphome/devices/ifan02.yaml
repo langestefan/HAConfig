@@ -108,6 +108,7 @@ switch:
               - fan.turn_on:
                   id: ifan02_fan
                   speed: 1
+        # disable speed 2 for safety ?              
         - if:
             condition:
               and:
@@ -118,17 +119,17 @@ switch:
               - fan.turn_on:
                   id: ifan02_fan
                   speed: 2
-        # disable speed 3 for safety
-        # - if:
-        #     condition:
-        #       and:
-        #         - switch.is_on: fan_relay1
-        #         - switch.is_off: fan_relay2
-        #         - switch.is_on: fan_relay3
-        #     then:
-        #       - fan.turn_on:
-        #           id: ifan02_fan
-        #           speed: 3
+        # disable speed 3 for safety ?
+        - if:
+            condition:
+              and:
+                - switch.is_on: fan_relay1
+                - switch.is_off: fan_relay2
+                - switch.is_on: fan_relay3
+            then:
+              - fan.turn_on:
+                  id: ifan02_fan
+                  speed: 3
         - switch.turn_off: update_fan_speed
 
   - platform: gpio
@@ -148,5 +149,5 @@ fan:
   - platform: speed
     output: fanoutput
     id: ifan02_fan
-    speed_count: 2
+    speed_count: 3
     name: "${name}"

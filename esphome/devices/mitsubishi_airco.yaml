@@ -1,0 +1,74 @@
+
+---
+#
+# Device: Sonoff fan controller ifan02.
+# 
+# General purpose fan controller for ceiling fans. 
+#
+# https://esphome.io/cookbook/ifan02.html
+#
+
+packages:
+  <<: !include_dir_named ../common
+  board: !include ../boards/wemos_d1_mini.yaml
+
+esphome:
+  platformio_options:
+    # Run CPU at 160Mhz to fix mhi_ac_ctrl_core.loop error: -2
+    board_build.f_cpu: 160000000L
+  includes:
+    - include/mhi_ac_ctrl.h
+    - include/MHI-AC-Ctrl-core.h
+    - include/MHI-AC-Ctrl-core.cpp
+
+globals:
+  - id: room_temp_api_timeout
+    type: int
+    restore_value: no
+    initial_value: '120'
+
+climate:
+  - platform: custom
+    lambda: |-
+      auto mhi_ac_ctrl = new MhiAcCtrl();
+      App.register_component(mhi_ac_ctrl);
+      return {mhi_ac_ctrl};
+    climates:
+      - name: "${name}"
+        id: ${deviceid}
+
+api:
+  reboot_timeout: 0s
+  services:
+    # Call the set_api_room_temperature service from HA to override the room temperature
+    # If a new value has not been received after room_temp_api_timeout seconds, it will fall back to internal sensor
+    - service: set_api_room_temperature
+      variables:
+        value: float
+      then:
+        - lambda: |-
+            return ((MhiAcCtrl*)id(${deviceid}))->set_room_temperature(value);
+
+sensor:
+  - platform: custom
+    lambda: |-
+      return ((MhiAcCtrl*)id(${deviceid}))->get_sensors();
+    # Sensor names in HA, you can change these if you want
+    # Don't delete them or change their position in the list
+    sensors:
+      - name: ${name} error code
+      - name: ${name} outdoor temperature
+      - name: ${name} return air temperature
+      - name: ${name} outdoor unit fan speed
+      - name: ${name} indoor unit fan speed
+      - name: ${name} current power
+      - name: ${name} compressor frequency
+      - name: ${name} indoor unit total run time
+      - name: ${name} compressor total run time
+
+binary_sensor:
+  - platform: custom
+    lambda: |-
+      return ((MhiAcCtrl*)id(${deviceid}))->get_binary_sensors();
+    binary_sensors:
+      - name: ${name} defrost

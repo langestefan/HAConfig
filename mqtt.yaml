@@ -1,0 +1,249 @@
+#####################################################################################################################################################
+## Contains all the climate component provided by the ac-woonkamer controller software.                                                             ##
+## Note: Make sure the MQTT topics are correct! If you modified your hostname in the ac-woonkamer controller software, the topics can be different! ##
+#####################################################################################################################################################
+## Release Notes:                                                                                                                                  ##
+## 2022-09-08 : - Modified the YAML configuration so it matches the new way manually created MQTT sensors must be configured                       ##
+##                since HomeAssistant 2022.09.                                                                                                     ##
+##              - Removed "send_if_off" from configuration, since this is deprecated in HomeAssistant.                                             ##
+#####################################################################################################################################################
+
+climate:
+# woonkamer
+  - unique_id: ac-woonkamer
+    name: ac-woonkamer
+    initial: 22
+    min_temp: 18
+    max_temp: 30
+    modes:
+      - "auto"
+      - "dry"
+      - "cool"
+      - "fan_only"
+      - "heat"
+      - "off"
+    swing_modes:
+      - "1"
+      - "2"
+      - "3"
+      - "4"
+      - "swing"
+    fan_modes:
+      - "1"
+      - "2"
+      - "3"
+      - "4"
+    mode_command_topic: "ac-woonkamer/set/Mode"
+    mode_state_topic: "ac-woonkamer/Mode"
+    temperature_command_topic: "ac-woonkamer/set/Tsetpoint"
+    temperature_state_topic: "ac-woonkamer/Tsetpoint"
+    fan_mode_command_topic: "ac-woonkamer/set/Fan"
+    fan_mode_state_topic: "ac-woonkamer/Fan"
+    swing_mode_command_topic: "ac-woonkamer/set/Vanes"
+    swing_mode_state_topic: "ac-woonkamer/Vanes"
+    current_temperature_topic: "ac-woonkamer/Troom"
+
+# slaapkamer
+  - unique_id: ac-slaapkamer
+    name: ac-slaapkamer
+    initial: 22
+    min_temp: 18
+    max_temp: 30
+    modes:
+      - "auto"
+      - "dry"
+      - "cool"
+      - "fan_only"
+      - "heat"
+      - "off"
+    swing_modes:
+      - "1"
+      - "2"
+      - "3"
+      - "4"
+      - "swing"
+    fan_modes:
+      - "1"
+      - "2"
+      - "3"
+      - "4"
+    mode_command_topic: "ac-slaapkamer/set/Mode"
+    mode_state_topic: "ac-slaapkamer/Mode"
+    temperature_command_topic: "ac-slaapkamer/set/Tsetpoint"
+    temperature_state_topic: "ac-slaapkamer/Tsetpoint"
+    fan_mode_command_topic: "ac-slaapkamer/set/Fan"
+    fan_mode_state_topic: "ac-slaapkamer/Fan"
+    swing_mode_command_topic: "ac-slaapkamer/set/Vanes"
+    swing_mode_state_topic: "ac-slaapkamer/Vanes"
+    current_temperature_topic: "ac-slaapkamer/Troom"
+    
+# woonkamer
+sensor:
+  - name: "ac-woonkamer - connected"                         ## MHI AC CTRL connection status to broker
+    state_topic: "ac-woonkamer/connected"
+  - name: "ac-woonkamer - RSSI"                              ## WiFI RSSI /Received Signal Strength in dBm during boot
+    state_topic: "ac-woonkamer/RSSI"
+    unit_of_measurement: "dBm"
+  - name: "ac-woonkamer - fSCK"                              ## Frequency of the SCK pin in Hz during boot
+    state_topic: "ac-woonkamer/fSCK"
+    unit_of_measurement: "Hz"
+  - name: "ac-woonkamer - fMOSI"                             ## Frequency of the MOSI pin in Hz during boot
+    state_topic: "ac-woonkamer/fMOSI"
+    unit_of_measurement: "Hz"
+  - name: "ac-woonkamer - fMISO"                             ## Frequency of the MISO pin in Hz during boot
+    state_topic: "ac-woonkamer/fMISO"
+    unit_of_measurement: "Hz"
+  - name: "ac-woonkamer - Mode"                              ## Current operation mode
+    state_topic: "ac-woonkamer/Mode"
+  - name: "ac-woonkamer - Power"                             ## Current power mode
+    state_topic: "ac-woonkamer/Power"
+  - name: "ac-woonkamer - Fan"                               ## Fan level
+    state_topic: "ac-woonkamer/Fan"
+  - name: "ac-woonkamer - Vanes"                             ## Vanes up/down position
+    state_topic: "ac-woonkamer/Vanes"
+  - name: "ac-woonkamer - Troom"                             ## Room temperature (°C)
+    state_topic: "ac-woonkamer/Troom"
+    unit_of_measurement: "°C"
+  - name: "ac-woonkamer - Tsetpoint"                         ## Target room temperature (°C)
+    state_topic: "ac-woonkamer/Tsetpoint"
+    unit_of_measurement: "°C"
+  - name: "ac-woonkamer - Errorcode"                         ## Errorcode
+    state_topic: "ac-woonkamer/Errorcode"
+  - name: "ac-woonkamer - Operating Data - Mode"             ## Current operation mode
+    state_topic: "ac-woonkamer/OpData/Mode"
+  - name: "ac-woonkamer - Operating Data - Tsetpoint"        ## Set temperature (°C)
+    state_topic: "ac-woonkamer/OpData/Tsetpoint"
+    unit_of_measurement: "°C"
+  - name: "ac-woonkamer - Operating Data - RETURN-AIR"       ## Return air sensor temperature (°C)
+    state_topic: "ac-woonkamer/OpData/RETURN-AIR"
+    unit_of_measurement: "°C"
+  - name: "ac-woonkamer - Operating Data - THI-R1"           ## Indoor heat exchanger sensor (on U bend) (°C)
+    state_topic: "ac-woonkamer/OpData/THI-R1"
+    unit_of_measurement: "°C"
+  - name: "ac-woonkamer - Operating Data - THI-R2"           ## Indoor heat exchanger sensor (on Capillary) (°C)
+    state_topic: "ac-woonkamer/OpData/THI-R2"
+    unit_of_measurement: "°C"
+  - name: "ac-woonkamer - Operating Data - THI-R3"           ## Indoor heat exchanger sensor (on suction header) (°C)
+    state_topic: "ac-woonkamer/OpData/THI-R3"
+    unit_of_measurement: "°C"
+  - name: "ac-woonkamer - Operating Data - IU-FANSPEED"      ## Indoor unit - Fanspeed
+    state_topic: "ac-woonkamer/OpData/IU-FANSPEED"
+  - name: "ac-woonkamer - Operating Data - OUTDOOR"          ## Outdoor air temperature (°C)
+    state_topic: "ac-woonkamer/OpData/OUTDOOR"
+    unit_of_measurement: "°C"
+  - name: "ac-woonkamer - Operating Data - COMP"             ## Compressor frequency (Hz)
+    state_topic: "ac-woonkamer/OpData/COMP"
+    unit_of_measurement: "Hz"
+  - name: "ac-woonkamer - Operating Data - THO-R1"           ## Outdoor unit heat exchanger sensor (°C)
+    state_topic: "ac-woonkamer/OpData/THO-R1"
+    unit_of_measurement: "°C"
+  - name: "ac-woonkamer - Operating Data - TD"               ## Discharge Pipe Temperature (°C)
+    state_topic: "ac-woonkamer/OpData/TD"
+    unit_of_measurement: "°C"
+  - name: "ac-woonkamer - Operating Data - CT"               ## Current (Amp)
+    state_topic: "ac-woonkamer/OpData/CT"
+    unit_of_measurement: "A"
+  - name: "ac-woonkamer - Operating Data - PROTECTION-NO"    ## Protection state number of the compressor
+    state_topic: "ac-woonkamer/OpData/PROTECTION-NO"
+  - name: "ac-woonkamer - Operating Data - OU-FANSPEED"      ## Outdoor unit fan speed
+    state_topic: "ac-woonkamer/OpData/OU-FANSPEED"
+  - name: "ac-woonkamer - Operating Data - DEFROST"          ## Defrost control on/off
+    state_topic: "ac-woonkamer/OpData/DEFROST"
+  - name: "ac-woonkamer - Operating Data - TOTAL-COMP-RUN"   ## Total running hours of compressor (Hr)
+    state_topic: "ac-woonkamer/OpData/TOTAL-COMP-RUN"
+    unit_of_measurement: "hours"
+  - name: "ac-woonkamer - Operating Data - OU-EEV1"          ## Pulse rate of the outdoor unit expansion valve EEVC (Pulse)
+    state_topic: "ac-woonkamer/OpData/OU-EEV1"
+  - name: "ac-woonkamer - Operating Data - TDSH"             ## Compressor discharge pipe super heat (°C)
+    state_topic: "ac-woonkamer/OpData/TDSH"
+    unit_of_measurement: "°C"    
+  # Calculate the airco usage power in Watts
+  - name: "Airco Woonkamer Power"
+    state_topic: "ac-woonkamer/OpData/CT"
+    unit_of_measurement: "Watt"
+    value_template: "{{ (value | float * 230) | round(2) }}"
+
+# slaapkamer
+  - name: "ac-slaapkamer - connected"                         ## MHI AC CTRL connection status to broker
+    state_topic: "ac-slaapkamer/connected"
+  - name: "ac-slaapkamer - RSSI"                              ## WiFI RSSI /Received Signal Strength in dBm during boot
+    state_topic: "ac-slaapkamer/RSSI"
+    unit_of_measurement: "dBm"
+  - name: "ac-slaapkamer - fSCK"                              ## Frequency of the SCK pin in Hz during boot
+    state_topic: "ac-slaapkamer/fSCK"
+    unit_of_measurement: "Hz"
+  - name: "ac-slaapkamer - fMOSI"                             ## Frequency of the MOSI pin in Hz during boot
+    state_topic: "ac-slaapkamer/fMOSI"
+    unit_of_measurement: "Hz"
+  - name: "ac-slaapkamer - fMISO"                             ## Frequency of the MISO pin in Hz during boot
+    state_topic: "ac-slaapkamer/fMISO"
+    unit_of_measurement: "Hz"
+  - name: "ac-slaapkamer - Mode"                              ## Current operation mode
+    state_topic: "ac-slaapkamer/Mode"
+  - name: "ac-slaapkamer - Power"                             ## Current power mode
+    state_topic: "ac-slaapkamer/Power"
+  - name: "ac-slaapkamer - Fan"                               ## Fan level
+    state_topic: "ac-slaapkamer/Fan"
+  - name: "ac-slaapkamer - Vanes"                             ## Vanes up/down position
+    state_topic: "ac-slaapkamer/Vanes"
+  - name: "ac-slaapkamer - Troom"                             ## Room temperature (°C)
+    state_topic: "ac-slaapkamer/Troom"
+    unit_of_measurement: "°C"
+  - name: "ac-slaapkamer - Tsetpoint"                         ## Target room temperature (°C)
+    state_topic: "ac-slaapkamer/Tsetpoint"
+    unit_of_measurement: "°C"
+  - name: "ac-slaapkamer - Errorcode"                         ## Errorcode
+    state_topic: "ac-slaapkamer/Errorcode"
+  - name: "ac-slaapkamer - Operating Data - Mode"             ## Current operation mode
+    state_topic: "ac-slaapkamer/OpData/Mode"
+  - name: "ac-slaapkamer - Operating Data - Tsetpoint"        ## Set temperature (°C)
+    state_topic: "ac-slaapkamer/OpData/Tsetpoint"
+    unit_of_measurement: "°C"
+  - name: "ac-slaapkamer - Operating Data - RETURN-AIR"       ## Return air sensor temperature (°C)
+    state_topic: "ac-slaapkamer/OpData/RETURN-AIR"
+    unit_of_measurement: "°C"
+  - name: "ac-slaapkamer - Operating Data - THI-R1"           ## Indoor heat exchanger sensor (on U bend) (°C)
+    state_topic: "ac-slaapkamer/OpData/THI-R1"
+    unit_of_measurement: "°C"
+  - name: "ac-slaapkamer - Operating Data - THI-R2"           ## Indoor heat exchanger sensor (on Capillary) (°C)
+    state_topic: "ac-slaapkamer/OpData/THI-R2"
+    unit_of_measurement: "°C"
+  - name: "ac-slaapkamer - Operating Data - THI-R3"           ## Indoor heat exchanger sensor (on suction header) (°C)
+    state_topic: "ac-slaapkamer/OpData/THI-R3"
+    unit_of_measurement: "°C"
+  - name: "ac-slaapkamer - Operating Data - IU-FANSPEED"      ## Indoor unit - Fanspeed
+    state_topic: "ac-slaapkamer/OpData/IU-FANSPEED"
+  - name: "ac-slaapkamer - Operating Data - OUTDOOR"          ## Outdoor air temperature (°C)
+    state_topic: "ac-slaapkamer/OpData/OUTDOOR"
+    unit_of_measurement: "°C"
+  - name: "ac-slaapkamer - Operating Data - COMP"             ## Compressor frequency (Hz)
+    state_topic: "ac-slaapkamer/OpData/COMP"
+    unit_of_measurement: "Hz"
+  - name: "ac-slaapkamer - Operating Data - THO-R1"           ## Outdoor unit heat exchanger sensor (°C)
+    state_topic: "ac-slaapkamer/OpData/THO-R1"
+    unit_of_measurement: "°C"
+  - name: "ac-slaapkamer - Operating Data - TD"               ## Discharge Pipe Temperature (°C)
+    state_topic: "ac-slaapkamer/OpData/TD"
+    unit_of_measurement: "°C"
+  - name: "ac-slaapkamer - Operating Data - CT"               ## Current (Amp)
+    state_topic: "ac-slaapkamer/OpData/CT"
+    unit_of_measurement: "A"
+  - name: "ac-slaapkamer - Operating Data - PROTECTION-NO"    ## Protection state number of the compressor
+    state_topic: "ac-slaapkamer/OpData/PROTECTION-NO"
+  - name: "ac-slaapkamer - Operating Data - OU-FANSPEED"      ## Outdoor unit fan speed
+    state_topic: "ac-slaapkamer/OpData/OU-FANSPEED"
+  - name: "ac-slaapkamer - Operating Data - DEFROST"          ## Defrost control on/off
+    state_topic: "ac-slaapkamer/OpData/DEFROST"
+  - name: "ac-slaapkamer - Operating Data - TOTAL-COMP-RUN"   ## Total running hours of compressor (Hr)
+    state_topic: "ac-slaapkamer/OpData/TOTAL-COMP-RUN"
+    unit_of_measurement: "hours"
+  - name: "ac-slaapkamer - Operating Data - OU-EEV1"          ## Pulse rate of the outdoor unit expansion valve EEVC (Pulse)
+    state_topic: "ac-slaapkamer/OpData/OU-EEV1"
+  - name: "ac-slaapkamer - Operating Data - TDSH"             ## Compressor discharge pipe super heat (°C)
+    state_topic: "ac-slaapkamer/OpData/TDSH"
+    unit_of_measurement: "°C"    
+  # Calculate the airco usage power in Watts
+  - name: "Airco Slaapkamer Power"
+    state_topic: "ac-slaapkamer/OpData/CT"
+    unit_of_measurement: "Watt"
+    value_template: "{{ (value | float * 230) | round(2) }}"

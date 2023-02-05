@@ -146,6 +146,7 @@
         - 7f43d99feb035376afb28284dfd44743
         - 24426efdfe135d6d9244b25d13739ca5
         - 4915d4c39c644da99989890b4c95786e
+      threshold: 20
 - id: '1642976109058'
   alias: Deurbel app/licht notificatie
   description: Deurbel app/licht notificatie
@@ -251,6 +252,8 @@
     data:
       message: Wasmachine is klaar met het programma.
       title: "Wasmachine is klaar \U0001F9FA✔️"
+      data:
+        notification_icon: mdi:washing-machine
   mode: single
 - id: '1646400163104'
   alias: Papa leaves work notification
@@ -285,6 +288,7 @@
       data:
         ttl: 0
         priority: high
+        notification_icon: mdi:car-back
   variables:
     eta: '{{ (now() + timedelta(minutes=states(''sensor.work_p_dynamic'') | float(0))).strftime(''%H:%M'')
       }}'
@@ -335,13 +339,14 @@
     from: 'off'
     to: 'on'
   - platform: state
-    entity_id: binary_sensor.overloop_beweging_sensor
+    entity_id:
+    - binary_sensor.overloop_beweging_sensor
     id: motion_off
     from: 'on'
     to: 'off'
     for:
       hours: 0
-      minutes: 1
+      minutes: 3
       seconds: 0
   condition: []
   action:
@@ -356,7 +361,7 @@
           state: below_horizon
         - condition: numeric_state
           entity_id: sensor.overloop_beweging_sensor_lux
-          below: '5'
+          below: '3'
       sequence:
       - type: turn_on
         device_id: 4cd3a2442b60221a1436583ed692c0de
@@ -373,18 +378,452 @@
         domain: light
     default: []
   mode: restart
-- id: '1651169398189'
-  alias: Test update notifiy
+- id: '1659911239419'
+  alias: Bird seen
+  description: ''
+  use_blueprint:
+    path: hunterjm/frigate_0.10_notification.yaml
+    input:
+      camera: woonkamer
+      notify_device: 24426efdfe135d6d9244b25d13739ca5
+      update_thumbnail: true
+      labels:
+      - bird
+- id: '1659913148769'
+  alias: Birdies
+  description: ''
+  use_blueprint:
+    path: hunterjm/frigate_0.10_notification.yaml
+    input:
+      camera: woonkamer
+      notify_device: 77c85b50e9a433ee4e281cb1d8ffd178
+      update_thumbnail: true
+      labels:
+      - bird
+- id: '1659961850696'
+  alias: Koelkast temperatuur alarm
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.atc_729785_koelkast_temperature
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+    above: 8
+    id: above_8
+  - platform: numeric_state
+    entity_id: sensor.atc_729785_koelkast_temperature
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
+    above: '10'
+    id: above_10
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: above_10
+      sequence:
+      - service: notify.family_phones
+        data_template:
+          message: De temperatuur van de koelkast is al 1 minuut hoger dan 10 °C en
+            is nu {{states('sensor.atc_729785_koelkast_temperature')}} °C!  Is de
+            stroom uitgevallen?
+          title: ⚠️⚠️ KOELKAST TEMPERATUUR ALARM ⚠️⚠️
+          data:
+            ttl: 0
+            priority: high
+            default: []
+    - conditions:
+      - condition: trigger
+        id: above_8
+      sequence:
+      - service: notify.family_phones
+        data_template:
+          message: De temperatuur van de koelkast is al 10 minuten hoger dan 8 °C
+            en is nu {{states('sensor.atc_729785_koelkast_temperature')}} °C! Is de
+            stroom uitgevallen?
+          title: ⚠️⚠️ KOELKAST TEMPERATUUR ALARM ⚠️⚠️
+          data:
+            ttl: 0
+            priority: high
+            default: []
+  - delay:
+      hours: 0
+      minutes: 30
+      seconds: 0
+      milliseconds: 0
+  mode: single
+- id: '1659962017464'
+  alias: Vriezer temperatuur alarm
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.atc_a0d802_vriezer_temperature
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+    above: '-5'
+    id: above_min5
+  - platform: numeric_state
+    entity_id: sensor.atc_a0d802_vriezer_temperature
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
+    above: '0'
+    id: above_0
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: above_0
+      sequence:
+      - service: notify.family_phones
+        data_template:
+          message: De temperatuur van de vriezer is al 1 minuut hoger dan 0 °C en
+            is nu {{states('sensor.atc_a0d802_vriezer_temperature')}} °C! Is de stroom
+            uitgevallen?
+          title: ⚠️⚠️ VRIEZER TEMPERATUUR ALARM ⚠️⚠️
+          data:
+            ttl: 0
+            priority: high
+            default: []
+    - conditions:
+      - condition: trigger
+        id: above_min5
+      sequence:
+      - service: notify.family_phones
+        data_template:
+          message: De temperatuur van de vriezer is al 5 minuten hoger dan -5 °C en
+            is nu {{states('sensor.atc_a0d802_vriezer_temperature')}} °C! Is de stroom
+            uitgevallen?
+          title: ⚠️⚠️ VRIEZER TEMPERATUUR ALARM ⚠️⚠️
+          data:
+            ttl: 0
+            priority: high
+            default: []
+    default: []
+  - delay:
+      hours: 0
+      minutes: 15
+      seconds: 0
+      milliseconds: 0
+  mode: single
+- id: '1664147850446'
+  alias: Deuren open gelaten
   description: ''
   trigger:
   - platform: state
-    entity_id: switch.ac_stefan
+    entity_id: sensor.deuren_open_count
+  - platform: time
+    at: '22:15:00'
+  - platform: time
+    at: '23:00:00'
+  condition:
+  - condition: time
+    before: 06:00:00
+    after: '22:15:00'
+    alias: After 22:15
+    enabled: true
+  - condition: state
+    entity_id: binary_sensor.deuren_open
+    state: 'on'
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
+    enabled: true
+  - condition: template
+    value_template: "{% if trigger.platform == 'state' %}\n  {{ (trigger.from_state.state
+      | is_number) and (trigger.to_state.state | is_number) \n      and (int(trigger.from_state.state)
+      < int(trigger.to_state.state)) }}\n{% else %}\n  {{ True }}\n{% endif %}"
+  action:
+  - service: camera.snapshot
+    data:
+      entity_id: camera.livingroom
+      filename: /config/www/snapshots/backdoor_last_snapshot.jpg
+  - service: notify.family_phones
+    data:
+      title: "Deur(en) open! \U0001F6AA\U0001F511\U0001F513"
+      message: '{% set open = expand(''binary_sensor.deuren_open'') | selectattr(''state'',
+        ''eq'', ''on'') | map(attribute=''name'') | list %} {{ (open[:-1] | join('',
+        '') ~ '' en '' ~ open[-1]) if open | count > 2 else open | join('' en '')
+        }}  {{ ''staat'' if open | count == 1 else ''staan'' }} open!
+
+        '
+      data:
+        notification_icon: mdi:door-open
+        image: https://1cr2sj0v54yok540l6plhf9nsuwfhtwh.ui.nabu.casa/local/snapshots/backdoor_last_snapshot.jpg
+        ttl: 0
+        priority: high
+        actions:
+        - action: URI
+          title: Open camera
+          uri: /testing-mushroom/camera
+  - service: shell_command.delete_livingroom_snapshot
+    data: {}
+    alias: 'Shell command: Delete the created snapshot'
+  - delay:
+      hours: 0
+      minutes: 3
+      seconds: 0
+      milliseconds: 0
+    alias: 'Rate limiter: New trigger will be discarded'
+  mode: single
+- id: '8129273482885'
+  alias: Maak licht R/G/B
+  description: Zet de kleur van een enkele lamp op Rood, Groen of Blauw met een actionable
+    notification
+  trigger:
+    platform: state
+    entity_id: input_boolean.test_toggle
+    to: 'on'
+  action:
+  - service: notify.mobile_app_mobiel_stefan
+    data:
+      title: Kleur
+      message: Kies een kleur
+      data:
+        actions:
+        - action: red
+          title: Rood
+        - action: green
+          title: Groen
+        - action: blue
+          title: Blauw
+  - wait_for_trigger:
+    - platform: event
+      event_type: mobile_app_notification_action
+      event_data:
+        action: red
+      actions:
+      - service: light.turn_on
+        data:
+          entity_id: light.lamp
+          rgb_color:
+          - 255
+          - 0
+          - 0
+- id: '1674302914740'
+  alias: 'Test button '
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_button.test_button
   condition: []
   action:
   - service: notify.mobile_app_mobiel_stefan
     data:
-      message: '"Someone might be in the backyard."'
-      data:
-        tag: backyard-motion-detected
-      title: '"test123"'
+      message: Test123
+      title: Hoi
   mode: single
+- id: '1675355249042'
+  alias: 'Test voor zone trigger '
+  description: When mama leaves work towards home a notification should be send to
+    family phones.
+  trigger:
+  - platform: zone
+    entity_id: device_tracker.mobiel_stefan
+    zone: zone.bondstraat_2
+    event: leave
+  condition: []
+  action:
+  - service: notify.mobile_app_mobiel_stefan
+    data_template:
+      message: Geschatte aankomst om {{ eta }}.
+      title: "Mama is op weg naar huis! \U0001F469➡️\U0001F3E0"
+      data:
+        ttl: 0
+        priority: high
+  mode: single
+  variables:
+    eta: '{{ (now() + timedelta(minutes=states(''sensor.work_m_dynamic'') | float(0))).strftime(''%H:%M'')
+      }}'
+- id: garage_door_open_long
+  alias: Garage Door Open For Long Time
+  trigger:
+  - entity_id: sensor.garage_door_currently_open
+    platform: state
+    to: Open
+    for:
+      minutes: 10
+  action:
+  - service: camera.snapshot
+    data:
+      entity_id: camera.foscam
+      filename: /config/www/snapshots/backdoor_last_snapshot.jpg
+  - service: notify.mobile_app_person
+    data:
+      message: Garage Door Open for Longer Than 10 Minutes
+      title: HA Notification
+      data:
+        image: https://1cr2sj0v54yok540l6plhf9nsuwfhtwh.ui.nabu.casa/local/snapshots/backdoor_last_snapshot.jpg
+        ttl: 0
+        priority: high
+        actions:
+        - action: '{{ action_close }}'
+          title: Close Garage
+        - action: URI
+          title: View Cam
+          uri: /lovelace/garage
+- id: garage_door_open_long
+  alias: Garage Door Open For Long Time
+  trigger:
+  - entity_id: sensor.garage_door_currently_open
+    platform: state
+    to: Open
+    for:
+      minutes: 10
+  action:
+  - service: camera.snapshot
+    data:
+      entity_id: camera.foscam
+      filename: /config/www/snapshots/backdoor_last_snapshot.jpg
+  - service: notify.mobile_app_mobiel_stefan
+    data:
+      message: Garage Door Open for Longer Than 10 Minutes
+      title: HA Notification
+      data:
+        image: https://1cr2sj0v54yok540l6plhf9nsuwfhtwh.ui.nabu.casa/local/snapshots/backdoor_last_snapshot.jpg
+        ttl: 0
+        priority: high
+        actions:
+        - action: '{{ action_close }}'
+          title: Close Garage
+        - action: URI
+          title: View Cam
+          uri: /lovelace/garage
+- id: garage_door_open_long
+  alias: Garage Door Open For Long Time
+  trigger:
+  - entity_id: sensor.garage_door_currently_open
+    platform: state
+    to: Open
+    for:
+      minutes: 10
+  action:
+  - service: camera.snapshot
+    data:
+      entity_id: camera.foscam
+      filename: /config/www/snapshots/backdoor_last_snapshot.jpg
+  - service: notify.mobile_app_mobiel_stefan
+    data:
+      message: Garage Door Open for Longer Than 10 Minutes
+      title: false
+      data:
+        image: https://1cr2sj0v54yok540l6plhf9nsuwfhtwh.ui.nabu.casa/local/snapshots/backdoor_last_snapshot.jpg
+        ttl: 0
+        priority: high
+        actions:
+        - action: '{{ action_close }}'
+          title: Close Garage
+        - action: URI
+          title: View Cam
+          uri: /lovelace/garage
+- id: garage_door_open_long
+  alias: Garage Door Open For Long Time
+  trigger:
+  - entity_id: sensor.garage_door_currently_open
+    platform: state
+    to: Open
+    for:
+      minutes: 10
+  action:
+  - service: camera.snapshot
+    data:
+      entity_id: camera.foscam
+      filename: /config/www/snapshots/backdoor_last_snapshot.jpg
+  - service: notify.mobile_app_mobiel_stefan
+    data:
+      message: Garage Door Open for Longer Than 10 Minutes
+      data:
+        image: https://1cr2sj0v54yok540l6plhf9nsuwfhtwh.ui.nabu.casa/local/snapshots/backdoor_last_snapshot.jpg
+        ttl: 0
+        priority: high
+        actions:
+        - action: '{{ action_close }}'
+          title: Close Garage
+        - action: URI
+          title: View Cam
+          uri: /lovelace/garage
+- id: garage_door_open_long
+  alias: Garage Door Open For Long Time
+  trigger:
+  - entity_id: sensor.garage_door_currently_open
+    platform: state
+    to: Open
+    for:
+      minutes: 10
+  action:
+  - service: camera.snapshot
+    data:
+      entity_id: camera.foscam
+      filename: /config/www/snapshots/backdoor_last_snapshot.jpg
+  - service: notify.mobile_app_mobiel_stefan
+    data:
+      message: Garage Door Open for Longer Than 10 Minutes
+      data:
+        image: https://1cr2sj0v54yok540l6plhf9nsuwfhtwh.ui.nabu.casa/local/snapshots/backdoor_last_snapshot.jpg
+        ttl: 0
+        priority: high
+        actions:
+        - action: '{{ action_close }}'
+          title: Close Garage
+        - action: URI
+          title: View Cam
+          uri: /testing-mushroom/camera
+- id: garage_door_open_long
+  alias: Garage Door Open For Long Time
+  trigger:
+  - entity_id: sensor.garage_door_currently_open
+    platform: state
+    to: Open
+    for:
+      minutes: 10
+  action:
+  - service: camera.snapshot
+    data:
+      entity_id: camera.foscam
+      filename: /config/www/snapshots/backdoor_last_snapshot.jpg
+  - service: notify.mobile_app_mobiel_stefan
+    data:
+      message: Garage Door Open for Longer Than 10 Minutes
+      data:
+        image: https://1cr2sj0v54yok540l6plhf9nsuwfhtwh.ui.nabu.casa/local/snapshots/backdoor_last_snapshot.jpg
+        ttl: 0
+        priority: high
+        actions:
+        - action: URI
+          title: View Cam
+          uri: /testing-mushroom/camera
+- id: garage_door_open_long
+  alias: Garage Door Open For Long Time
+  trigger:
+  - entity_id: sensor.garage_door_currently_open
+    platform: state
+    to: Open
+    for:
+      minutes: 10
+  action:
+  - service: camera.snapshot
+    data:
+      entity_id: camera.foscam
+      filename: /config/www/snapshots/backdoor_last_snapshot.jpg
+  - service: notify.mobile_app_mobiel_stefan
+    data:
+      message: Garage Door Open for Longer Than 10 Minutes
+      data:
+        image: https://1cr2sj0v54yok540l6plhf9nsuwfhtwh.ui.nabu.casa/local/snapshots/backdoor_last_snapshot.jpg
+        ttl: 0
+        priority: high
+        actions:
+        - action: URI
+          title: OPEN CAMERA
+          uri: /testing-mushroom/camera

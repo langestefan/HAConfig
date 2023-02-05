@@ -9,7 +9,9 @@ homeassistant:
   unit_system: metric
   time_zone: !secret time_zone
   customize: !include customize.yaml
-
+  country: NL
+  
+conversation:
 config:
 hassio:
 system_health:
@@ -19,6 +21,14 @@ discovery:
 cloud:
 my:
 energy:
+input_boolean:
+input_number:
+input_text:
+timer:
+input_datetime:
+schedule:
+counter:
+input_button:
 
 # to fix custom cards in home assistant cast
 http:
@@ -38,15 +48,6 @@ lovelace:
 
   # Additional resources
   resources: !include lovelace/resources.yaml
-
-  # Lovelace dashboards
-  dashboards:
-    lovelace-default: # Needs to contain a hyphen (-)
-      mode: yaml
-      filename: lovelace_default.yaml
-      title: Default
-      icon: mdi:tools
-      show_in_sidebar: true
 
 map:
 
@@ -92,7 +93,7 @@ influxdb:
 # utility meter
 utility_meter: !include utility_meter.yaml
 
-# proximity 
+# proximity
 proximity: !include proximity.yaml
 
 # ########################################
@@ -101,9 +102,9 @@ proximity: !include proximity.yaml
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
-# script:
 scene: !include scenes.yaml
 sensor: !include sensor.yaml
 binary_sensor: !include binary_sensor.yaml
-light: !include light.yaml
+# light: !include light.yaml
 input_select: !include input_select.yaml
+mqtt: !include mqtt.yaml

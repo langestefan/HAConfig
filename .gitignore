@@ -74,3 +74,6 @@ home-assistant.log.1
 
 # local images
 image/
+
+# zigbee
+zigbee.*

@@ -2,14 +2,18 @@
 - platform: systemmonitor
   resources:
     - type: disk_use_percent
-      arg: /home
+      arg: /config
+    - type: disk_use
+    - type: disk_free
+    - type: memory_use_percent
+    - type: memory_use
     - type: memory_free
-    - type: processor_use
-    - type: last_boot
+    - type: swap_use_percent
+    - type: swap_use
+    - type: swap_free
     - type: load_1m
     - type: load_5m
     - type: load_15m
-    - type: processor_temperature
     - type: network_in
       arg: eth0
     - type: network_out
@@ -18,10 +22,17 @@
       arg: eth0
     - type: throughput_network_out
       arg: eth0
+    - type: packets_in
+      arg: eth0
+    - type: packets_out
+      arg: eth0
     - type: ipv4_address
       arg: eth0
     - type: ipv6_address
       arg: eth0
+    - type: processor_use
+    - type: processor_temperature
+    - type: last_boot
 
 # travis CI
 - platform: travisci
@@ -264,6 +275,7 @@
   name: br_feel_stats
   entity_id: sensor.br_feel_temperature
   sampling_size: 99999999999
+  state_characteristic: mean
   max_age:
     hours: 24
 
@@ -298,6 +310,7 @@
   entity_id: sensor.solaredge_energy_today_kwh
   name: daily solar stats
   sampling_size: 999999999
+  state_characteristic: mean
   max_age:
     hours: 16
 - platform: template
@@ -333,6 +346,7 @@
   name: pm_2_5_stefan_stats
   entity_id: sensor.vindriktning_stefan_pm2_5_concentration
   sampling_size: 100
+  state_characteristic: mean
   max_age:
     minutes: 20
 
@@ -356,6 +370,7 @@
   name: pm_2_5_livingroom_stats
   entity_id: sensor.vindriktning_livingroom_pm2_5_concentration
   sampling_size: 100
+  state_characteristic: mean
   max_age:
     minutes: 20
 - platform: template
@@ -409,3 +424,154 @@
   source: sensor.gas_consumption
   time_window: "00:00:10"
   unit_time: s
+
+# sun-window angular similarity
+- platform: template
+  sensors:
+    sun_window_ang_similarity:
+      friendly_name: Sun-window angular similarity
+      unit_of_measurement: "degrees"
+      value_template: >
+        {% set deg2rad = pi/180 %}
+
+        {% set sun_azi = state_attr('sun.sun', 'azimuth') | int %}
+        {% set sun_ele = state_attr('sun.sun', 'elevation') | int %}
+
+        {% set sun_x = cos(sun_azi*deg2rad)*cos(sun_ele*deg2rad) %}
+        {% set sun_y = sin(sun_azi*deg2rad)*cos(sun_ele*deg2rad) %}
+        {% set sun_z = sin(sun_ele*deg2rad) %}
+
+        {% set win_azi = 153 %}
+        {% set win_ele = 0 %}
+
+        {% set win_x = cos(win_azi*deg2rad)*cos(win_ele*deg2rad) %}
+        {% set win_y = sin(win_azi*deg2rad)*cos(win_ele*deg2rad) %}
+        {% set win_z = sin(win_ele*deg2rad) %}
+
+        {% set dot = sun_x*win_x + sun_y*win_y + sun_z*win_z %}
+        {% set norm_win = sqrt(win_x**2 + win_y**2 + win_z**2) %}
+        {% set norm_sun = sqrt(sun_x**2 + sun_y**2 + sun_z**2) %}
+        {% set cos_sim = dot/(norm_win*norm_sun) %}
+
+        {% set ang_sim = 1 - acos(cos_sim)/pi %}
+        {{ ang_sim | round(3) }}
+
+# AC 
+- platform: template
+  sensors:
+    airco_power:
+      friendly_name: "AC power of all units"
+      value_template: "{{ (states('sensor.solaredgemb_ac_voltage_ab') | float) * (states('sensor.airco_woonkamer_current_power')  | float) | round(1) }}"
+      unit_of_measurement: "W"
+      device_class: "power"
+    airco_kamer_pm_current_temperature:
+      friendly_name: "AC bedroom current temperature"
+      value_template: "{{ state_attr('climate.airco_kamer_pm', 'current_temperature') | float }}"
+      unit_of_measurement: "°C"
+    airco_woonkamer_current_temperature:
+      friendly_name: "AC woonkamer current temperature"
+      value_template: "{{ state_attr('climate.airco_woonkamer', 'current_temperature') | float }}"
+      unit_of_measurement: "°C"      
+
+# Airco energy filter
+- platform: filter
+  name: "Filtered airco energy"
+  entity_id: sensor.ac_energy
+  filters:
+    - filter: outlier
+      window_size: 2
+      radius: 0.1
+
+      
+# Power filters
+- platform: filter
+  name: "Downsampled power consumption"
+  entity_id: sensor.power_consumption
+  filters:
+    - filter: throttle
+      window_size: 10
+- platform: filter
+  name: "Downsampled solaredge ac power"
+  entity_id: sensor.solaredgemb_ac_power_kw
+  filters:
+    - filter: throttle
+      window_size: 10
+
+
+# delta sensor
+- platform: derivative
+  source: sensor.washing_machine_energy
+  name: energy_delta_washing_machine
+
+# TV 
+- platform: history_stats
+  name: TV aan vandaag
+  entity_id: light.my_lamp
+  state: "on"
+  type: time
+  start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+  end: "{{ now() }}"
+
+### AC woonkamer ### 
+## Calculate the total airco running time on a day ##
+- platform: history_stats
+  name: Airco - Running time (daily)
+  entity_id: binary_sensor.ac_woonkamer_activity_state
+  state: 'on'
+  type: time
+  start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+  end: "{{ now().replace(hour=23, minute=59, second=59) }}"
+
+##  Count the amount of defrost cycles on a day ##
+- platform: history_stats
+  name: Airco - Defrost - Amount (daily)
+  entity_id: sensor.ac_woonkamer_operating_data_defrost
+  state: "on"
+  type: count
+  start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+  end: "{{ now().replace(hour=23, minute=59, second=59) }}"
+
+## Calculate the total defrost time on a day ##
+- platform: history_stats
+  name: Airco - Defrost - Total time (daily)
+  entity_id: sensor.ac_woonkamer_operating_data_defrost
+  state: "on"
+  type: time
+  start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+  end: "{{ now().replace(hour=23, minute=59, second=59) }}"
+
+
+### AC slaapkamer ### 
+## Calculate the total airco running time on a day ##
+- platform: history_stats
+  name: Airco - Running time (daily)
+  entity_id: binary_sensor.ac_slaapkamer_activity_state
+  state: 'on'
+  type: time
+  start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+  end: "{{ now().replace(hour=23, minute=59, second=59) }}"
+
+##  Count the amount of defrost cycles on a day ##
+- platform: history_stats
+  name: Airco - Defrost - Amount (daily)
+  entity_id: sensor.ac_slaapkamer_operating_data_defrost
+  state: "on"
+  type: count
+  start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+  end: "{{ now().replace(hour=23, minute=59, second=59) }}"
+
+## Calculate the total defrost time on a day ##
+- platform: history_stats
+  name: Airco - Defrost - Total time (daily)
+  entity_id: sensor.ac_slaapkamer_operating_data_defrost
+  state: "on"
+  type: time
+  start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+  end: "{{ now().replace(hour=23, minute=59, second=59) }}"  
+
+## count number of doors open
+- platform: template
+  sensors:
+    deuren_open_count:
+      friendly_name: Deuren open count
+      value_template: "{{ expand('binary_sensor.deuren_open') | selectattr('state', 'eq', 'on') | list | count }}"

@@ -11,7 +11,6 @@ substitutions:
   slug: doorbell-sensor
   name: Doorbell sensor
   description: Detects vibration when the doorbell is ringing.
-  api_password: !secret esphome_doorbell_sensor_api_password
   ota_password: !secret esphome_doorbell_sensor_ota_password
   static_ip: !secret esphome_doorbell_sensor_static_ip
 

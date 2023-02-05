@@ -8,7 +8,6 @@ substitutions:
   slug: pc-stefan
   name: PC Stefan
   description: Monitors power used by Stefan's PC.
-  api_password: !secret esphome_pc_stefan_api_password
   ota_password: !secret esphome_pc_stefan_ota_password
   static_ip: !secret esphome_pc_stefan_static_ip
 

@@ -8,7 +8,6 @@ substitutions:
   slug: ceiling-fan
   name: Ceiling Fan
   description: Controls the ceiling fan in the living room.
-  api_password: !secret esphome_ceiling_fan_api_password
   ota_password: !secret esphome_ceiling_fan_ota_password
   static_ip: !secret esphome_ceiling_fan_static_ip
 

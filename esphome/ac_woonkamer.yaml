@@ -1,0 +1,16 @@
+---
+# Airco binnen unit woonkamer
+#
+# See: https://github.com/ginkage/MHI-AC-Ctrl-ESPHome 
+#
+substitutions:
+  label: ac
+  slug: ac-woonkamer
+  deviceid: ac_woonkamer
+  name: Airco woonkamer
+  description: Monitors and controls the mitsubishi AC in woonkamer.
+  ota_password: !secret esphome_woonkamer_ota_password
+  static_ip: !secret esphome_woonkamer_static_ip
+
+packages:
+  device: !include devices/mitsubishi_airco.yaml

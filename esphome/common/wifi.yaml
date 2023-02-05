@@ -9,18 +9,18 @@ substitutions:
   wifi_ssid: !secret wifi_ssid
   wifi_password: !secret wifi_password
   wifi_backup_ssid: !secret wifi_backup_ssid
-  wifi_backup_password: !secret wifi_backup_password  
+  wifi_backup_password: !secret wifi_backup_password
   wifi_ap_password: "esphome-${slug}"
-  gateway: !secret gateway 
+  gateway: !secret gateway
   subnet: !secret subnet
 
 wifi:
-  id: component_wifi  
+  id: component_wifi
   networks:
-  - ssid: "${wifi_ssid}"
-    password: "${wifi_password}"
-  - ssid: "${wifi_backup_ssid}"
-    password: "${wifi_backup_password}"    
+    - ssid: "${wifi_ssid}"
+      password: "${wifi_password}"
+    - ssid: "${wifi_backup_ssid}"
+      password: "${wifi_backup_password}"
   reboot_timeout: 10min
   ap:
     ssid: "${name}"
@@ -28,7 +28,7 @@ wifi:
   manual_ip:
     static_ip: ${static_ip}
     gateway: ${gateway}
-    subnet: ${subnet}    
+    subnet: ${subnet}
 
 sensor:
   - <<: !include ../sensors/wifi_signal_percentage.yaml

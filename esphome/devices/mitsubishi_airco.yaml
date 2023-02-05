@@ -1,11 +1,11 @@
 
 ---
 #
-# Device: Sonoff fan controller ifan02.
+# Device: Mitsubishi airco
 # 
-# General purpose fan controller for ceiling fans. 
+# Controller for mitsubishi airco indoor unit 
 #
-# https://esphome.io/cookbook/ifan02.html
+# 
 #
 
 packages:

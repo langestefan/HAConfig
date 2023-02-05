@@ -9,7 +9,6 @@ substitutions:
   slug: vindriktning-livingroom
   name: Vindriktning Livingroom
   description: Monitors airquality (PM2.5) in the livingroom.
-  api_password: !secret esphome_vindr_livingroom_api_password
   ota_password: !secret esphome_vindr_livingroom_ota_password
   static_ip: !secret esphome_vindr_livingroom_static_ip
 

@@ -8,7 +8,6 @@ substitutions:
   slug: attic-3d-printer
   name: Attic 3D printer
   description: Monitors power used by the ender-3 pro 3D printer in the attic.
-  api_password: !secret esphome_attic_3d_printer_api_password
   ota_password: !secret esphome_attic_3d_printer_ota_password
   static_ip: !secret esphome_attic_3d_printer_static_ip
 

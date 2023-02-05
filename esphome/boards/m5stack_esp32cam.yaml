@@ -1,0 +1,11 @@
+---
+# M5Stack camera
+#
+# Small, cheap ESP32 + 600*800 OV2640 camera board with USB-C
+#
+# https://shop.m5stack.com/products/esp32-camera
+#
+esphome:
+  <<: !include .esphome.yaml
+  platform: ESP32
+  board: esp32dev

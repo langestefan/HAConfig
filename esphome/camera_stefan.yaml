@@ -1,0 +1,15 @@
+---
+# ESP32 Camera
+#
+# ESP32 camera Stefan
+#
+substitutions:
+  label: none
+  slug: camera-stefan
+  name: Camera Stefan
+  description: ESP32 camera stefan
+  ota_password: !secret esphome_esp32cam_stefan_ota_password
+  static_ip: !secret esphome_esp32cam_stefan_static_ip
+
+packages:
+  device: !include devices/m5stack_esp32cam_device.yaml

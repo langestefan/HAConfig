@@ -8,7 +8,6 @@ substitutions:
   slug: ac-stefan
   name: AC Stefan
   description: Monitors power used by Stefan's AC.
-  api_password: !secret esphome_ac_stefan_api_password
   ota_password: !secret esphome_ac_stefan_ota_password
   static_ip: !secret esphome_ac_stefan_static_ip
 

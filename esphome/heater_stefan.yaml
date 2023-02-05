@@ -8,7 +8,6 @@ substitutions:
   slug: heater-stefan
   name: Heater Stefan
   description: Monitors power used by Stefan's heater.
-  api_password: !secret esphome_heater_stefan_api_password
   ota_password: !secret esphome_heater_stefan_ota_password
   static_ip: !secret esphome_heater_stefan_static_ip
 

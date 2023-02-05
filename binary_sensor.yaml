@@ -48,3 +48,19 @@
   name: Night
   after: sunset
   before: sunrise
+
+# AC woonkamer - shows if the airco is on or off, used to calculate daily running time
+- platform: template
+  sensors:
+    ac_woonkamer_activity_state:
+      friendly_name: "Airco woonkamer - Activity state"
+      value_template: >-
+        {{ states('sensor.ac_woonkamer_operating_data_mode') in ['auto', 'dry', 'cool', 'heat', 'fan_only'] }}
+
+# AC slaapkamer
+- platform: template
+  sensors:
+    ac_slaapkamer_activity_state:
+      friendly_name: "Airco slaapkamer - Activity state"
+      value_template: >-
+        {{ states('sensor.ac_slaapkamer_operating_data_mode') in ['auto', 'dry', 'cool', 'heat', 'fan_only'] }}        
